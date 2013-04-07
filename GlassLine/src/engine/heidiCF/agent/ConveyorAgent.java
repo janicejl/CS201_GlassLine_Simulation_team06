@@ -72,7 +72,6 @@ public class ConveyorAgent extends Agent implements Conveyor{
 
 	public void msgHereIsGlass(Glass g)	 //3 from previous CF
 	{	
-		
 		MyGlass newGlass = new MyGlass(g);
 		newGlass.status = GlassStatus.WaitingFront;
 		glasses.add(newGlass);

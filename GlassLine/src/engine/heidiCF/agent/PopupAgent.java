@@ -38,6 +38,7 @@ public class PopupAgent extends Agent implements Popup{
 	enum RobotStatus {Working,Empty};
 	
 	PopupStatus status = PopupStatus.Down;
+	TChannel myChannel;
 	class MyRobot{
 		//Robot robot;
 		RobotStatus status;
@@ -52,13 +53,14 @@ public class PopupAgent extends Agent implements Popup{
 	ConveyorFamily nextCF;
 	Conveyor conveyor;
 	Integer myIndex;
-	public PopupAgent(Integer index, Transducer t)//ArrayList<Robot> inputRobots
+	public PopupAgent(Integer index, Transducer t,TChannel channelType)//ArrayList<Robot> inputRobots
 	{		
 		super("popupAgent");
 		myIndex = index;
 		glasses = Collections.synchronizedList(new ArrayList<MyGlass>());
 		nextFamilyAvailable =true;
 		transducer = t;
+		myChannel = channelType;
 //		for(Robot r: inputRobots)
 //		{
 //			robots.add(new MyRobot(r));
@@ -69,7 +71,7 @@ public class PopupAgent extends Agent implements Popup{
 		t.register(this, TChannel.SENSOR);
 		t.register(this, TChannel.POPUP);
 		//need to listen to another work station
-		t.register(this, TChannel.DRILL);
+		t.register(this, myChannel);
 	}
 
 	public void msgHereIsGlass(Glass g) //8 from conveyor
@@ -82,13 +84,17 @@ public class PopupAgent extends Agent implements Popup{
 
 	public void msgGlassReady(Integer thisIndex)// 10a from machine, moveup to take the glass if 10b is received labter
 	{
-		
+		System.out.println("got msgGlass ready");
+		System.out.println(thisIndex);
+
 		for(MyGlass myGlass: glasses)
 		{
+			System.out.println(myGlass.robotIndex);
 			if(myGlass.status==GlassStatus.Delivering&&myGlass.robotIndex.equals(thisIndex))
 			{	
 
 				myGlass.status = GlassStatus.Ready;
+				System.out.println("got the ready glass");
 				break;
 			}
 		}	
@@ -98,7 +104,7 @@ public class PopupAgent extends Agent implements Popup{
 	public void msgNewSpaceAvailable()//10b from next family
 	{	
 		nextFamilyAvailable =true;
-
+		stateChanged();
 	}
 
 	public void msgComeDownAndLetGlassPass(Glass g)
@@ -106,6 +112,7 @@ public class PopupAgent extends Agent implements Popup{
 		MyGlass newGlass = new MyGlass(g);
 		newGlass.status = GlassStatus.WaitingForPass;
 		glasses.add(newGlass);
+		stateChanged();
 	}
 	public void setConveyor(Conveyor conveyor)
 	{
@@ -116,8 +123,10 @@ public class PopupAgent extends Agent implements Popup{
 	
 		MyGlass tempG = null;
 		MyGlass tempG1 =null;
+
 		if (nextFamilyAvailable)
 		{
+	
 			synchronized(glasses)
 			{	
 				for(MyGlass g :glasses)
@@ -127,16 +136,13 @@ public class PopupAgent extends Agent implements Popup{
 						tempG = g;
 						break;
 					}
-				}
-				
-				for(MyGlass g: glasses)
-				{
 					if(g.status == GlassStatus.Ready)
 					{
 						tempG1 = g;
 						break;
 					}
 				}
+
 			}
 			if(tempG!=null)
 			{
@@ -173,7 +179,6 @@ public class PopupAgent extends Agent implements Popup{
 					}
 				}
 			}
-		System.err.println("no action triggered in popup agent");
 		return false;
 	}
 	public void deliverGlass(MyGlass g)
@@ -204,14 +209,15 @@ public class PopupAgent extends Agent implements Popup{
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} // released by POPUP_GUI_MOVED_UP
-		transducer.fireEvent(TChannel.DRILL, TEvent.WORKSTATION_DO_LOAD_GLASS,robotArgs);
+		System.out.println("released by moved up");
+		transducer.fireEvent(myChannel, TEvent.WORKSTATION_DO_LOAD_GLASS,robotArgs);
 		try {
 			animationSem.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} // released by WORKSTATION_LOAD_FINISHED
 		//TODO
-		transducer.fireEvent(TChannel.DRILL, TEvent.WORKSTATION_DO_ACTION,robotArgs);
+		transducer.fireEvent(myChannel, TEvent.WORKSTATION_DO_ACTION,robotArgs);
 		//robots.get(g.robotIndex).robot.msgHereIsGlass(g.glass);
 		
 		stateChanged();
@@ -219,6 +225,7 @@ public class PopupAgent extends Agent implements Popup{
 	
 	public void getGlassFromMachine(MyGlass g)
 	{
+		System.out.println("~~~");
 		Integer[] popupArgs = new Integer[1];
 		popupArgs[0] = myIndex;
 		Integer[] robotArgs = new Integer[1];
@@ -231,7 +238,7 @@ public class PopupAgent extends Agent implements Popup{
 			e.printStackTrace();
 		}  // released by POPUP_GUI_MOVED_UP;
 		
-		transducer.fireEvent(TChannel.DRILL, TEvent.WORKSTATION_RELEASE_GLASS,robotArgs);
+		transducer.fireEvent(myChannel, TEvent.WORKSTATION_RELEASE_GLASS,robotArgs);
 		try {
 			animationSem.acquire();
 		} catch (InterruptedException e) {
@@ -313,7 +320,7 @@ public class PopupAgent extends Agent implements Popup{
 				}
 			}
 		}
-		else if (channel == TChannel.DRILL)
+		else if (channel == myChannel)
 		{
 			if (event == TEvent.WORKSTATION_LOAD_FINISHED)
 			{
@@ -324,6 +331,7 @@ public class PopupAgent extends Agent implements Popup{
 				animationSem.release();
 			}
 			else if (event ==TEvent.WORKSTATION_GUI_ACTION_FINISHED){	// we do not have machine agent so we use this eventFired
+				System.out.println("work station animation finished");
 				Integer tempIndex= (Integer)args[0];
 				msgGlassReady(tempIndex);
 			}

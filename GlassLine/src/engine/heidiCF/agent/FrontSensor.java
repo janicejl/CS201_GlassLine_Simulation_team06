@@ -49,8 +49,12 @@ public class FrontSensor extends Agent implements Sensor {
 	public void eventFired(TChannel channel, TEvent event, Object[] args) {
 		if(channel .equals(TChannel.SENSOR)&& event .equals(TEvent.SENSOR_GUI_RELEASED)&& args[0].equals(myIndex))
 		{
-			status = SensorStatus.Released;
-			stateChanged();
+			if(myIndex!=10)
+			{
+				status = SensorStatus.Released;
+				stateChanged();
+			}
+			
 		}
 		
 	}

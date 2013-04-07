@@ -1,6 +1,7 @@
 package engine.heidiCF.agent;
 
 
+import transducer.TChannel;
 import transducer.Transducer;
 import engine.heidiCF.interfaces.*;
 
@@ -15,25 +16,26 @@ public class ConveyorFamilyClass implements ConveyorFamily {
 	ConveyorFamily previousCF;
 	ConveyorFamily nextCF;
 	int myIndex;
-	public ConveyorFamilyClass(int index, Transducer t)
+	public ConveyorFamilyClass(int index, Transducer t,TChannel workStationType)
 	{
 		myIndex = index;
 		conveyor = new ConveyorAgent(index,t);
 
-		popup=new PopupAgent(index-5,t);
+		popup=new PopupAgent(index-5,t,workStationType);
 		conveyor.setPopup(popup);
 		popup.setConveyor(conveyor);
+		
 		frontSensor = new FrontSensor(index*2,t);
-
 		frontSensor.setIndex(2*index);
 		endSensor = new EndSensor(index*2+1,t);
-
-		frontSensor.setIndex(2*index+1);
+		endSensor.setIndex(2*index+1);
+		
 		conveyor.startThread();
 		popup.startThread(); 
 		endSensor.startThread();
 		frontSensor.startThread();
-
+		
+		endSensor.setConveyor(conveyor);
 	}
 
 	/* (non-Javadoc)
@@ -42,6 +44,7 @@ public class ConveyorFamilyClass implements ConveyorFamily {
 	public void setPreviousCF(ConveyorFamily prevCF)
 	{
 		previousCF = prevCF;
+		frontSensor.setPrevCF(prevCF);
 	}
 	
 	/* (non-Javadoc)
@@ -50,6 +53,8 @@ public class ConveyorFamilyClass implements ConveyorFamily {
 	public void setNextCF(ConveyorFamily nextCF)
 	{
 		this.nextCF = nextCF;
+		popup.setNextCF(nextCF);
+		
 	}
 	
 	/* (non-Javadoc)

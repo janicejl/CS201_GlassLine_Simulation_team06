@@ -1,5 +1,6 @@
 package engine.heidiCF.test;
 
+import transducer.TChannel;
 import transducer.Transducer;
 import engine.heidiCF.agent.*;
 import engine.heidiCF.test.Mocks.*;
@@ -19,7 +20,7 @@ public class PopupAgentTests extends TestCase{
 		t.startTransducer();
 //		robots.add(new MockRobot("robot0"));
 //		robots.add(new MockRobot("robot1"));
-		popup = new PopupAgent(0,t);
+		popup = new PopupAgent(0,t,TChannel.DRILL);
 		popup.setConveyor(conveyor);
 		
 		boolean[] recipe = new boolean[10];
@@ -68,7 +69,7 @@ public class PopupAgentTests extends TestCase{
 		t.startTransducer();
 //		robots.add(new MockRobot("robot0"));
 //		robots.add(new MockRobot("robot1"));
-		popup = new PopupAgent(0,t);
+		popup = new PopupAgent(0,t,TChannel.DRILL);
 		popup.setConveyor(conveyor);
 		
 		boolean[] recipe = new boolean[10];
@@ -113,7 +114,7 @@ public class PopupAgentTests extends TestCase{
 		animation.log.clear();
 		t.startTransducer();
 
-		popup = new PopupAgent(0,t);
+		popup = new PopupAgent(0,t,TChannel.DRILL);
 		popup.setConveyor(conveyor);
 		
 		boolean[] recipe = new boolean[10];
@@ -172,7 +173,7 @@ public class PopupAgentTests extends TestCase{
 		animation.log.clear();
 		t.startTransducer();
 
-		popup = new PopupAgent(0,t);
+		popup = new PopupAgent(0,t,TChannel.DRILL);
 		popup.setConveyor(conveyor);
 		
 		boolean[] recipe = new boolean[10];
@@ -225,7 +226,7 @@ public class PopupAgentTests extends TestCase{
 		t.startTransducer();
 //		robots.add(new MockRobot("robot0"));
 //		robots.add(new MockRobot("robot1"));
-		popup = new PopupAgent(0,t);
+		popup = new PopupAgent(0,t,TChannel.DRILL);
 		popup.setConveyor(conveyor);
 		
 		boolean[] recipe = new boolean[10];
@@ -249,7 +250,7 @@ public class PopupAgentTests extends TestCase{
 		t.startTransducer();
 //		robots.add(new MockRobot("robot0"));
 //		robots.add(new MockRobot("robot1"));
-		popup = new PopupAgent(0,t);
+		popup = new PopupAgent(0,t,TChannel.DRILL);
 		popup.setConveyor(conveyor);
 		popup.setNextCF(nextCF);
 
@@ -299,7 +300,7 @@ public class PopupAgentTests extends TestCase{
 		t.startTransducer();
 //		robots.add(new MockRobot("robot0"));
 //		robots.add(new MockRobot("robot1"));
-		popup = new PopupAgent(0,t);
+		popup = new PopupAgent(0,t,TChannel.DRILL);
 		popup.setConveyor(conveyor);
 		popup.setNextCF(nextCF);
 

@@ -16,4 +16,13 @@ public class Glass{
 		return (recipe.get(index));
 
 	}
+	public Glass()
+	{
+		 for(int i=0;i<14;i++)
+		 {
+			 recipe.put(i,false);
+		 }
+		 recipe.put(6, true);
+		 
+	}
 };
