@@ -84,17 +84,12 @@ public class PopupAgent extends Agent implements Popup{
 
 	public void msgGlassReady(Integer thisIndex)// 10a from machine, moveup to take the glass if 10b is received labter
 	{
-		System.out.println("got msgGlass ready");
-		System.out.println(thisIndex);
-
 		for(MyGlass myGlass: glasses)
 		{
-			System.out.println(myGlass.robotIndex);
 			if(myGlass.status==GlassStatus.Delivering&&myGlass.robotIndex.equals(thisIndex))
 			{	
 
 				myGlass.status = GlassStatus.Ready;
-				System.out.println("got the ready glass");
 				break;
 			}
 		}	
@@ -209,7 +204,6 @@ public class PopupAgent extends Agent implements Popup{
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} // released by POPUP_GUI_MOVED_UP
-		System.out.println("released by moved up");
 		transducer.fireEvent(myChannel, TEvent.WORKSTATION_DO_LOAD_GLASS,robotArgs);
 		try {
 			animationSem.acquire();
@@ -225,7 +219,6 @@ public class PopupAgent extends Agent implements Popup{
 	
 	public void getGlassFromMachine(MyGlass g)
 	{
-		System.out.println("~~~");
 		Integer[] popupArgs = new Integer[1];
 		popupArgs[0] = myIndex;
 		Integer[] robotArgs = new Integer[1];
@@ -331,7 +324,6 @@ public class PopupAgent extends Agent implements Popup{
 				animationSem.release();
 			}
 			else if (event ==TEvent.WORKSTATION_GUI_ACTION_FINISHED){	// we do not have machine agent so we use this eventFired
-				System.out.println("work station animation finished");
 				Integer tempIndex= (Integer)args[0];
 				msgGlassReady(tempIndex);
 			}
