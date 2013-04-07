@@ -91,6 +91,16 @@ public class MockAnimation implements TReceiver{
 			    }		
 			 }, 1000);
 		}
+		else if (channel.equals(TChannel.DRILL)&& event.equals(TEvent.WORKSTATION_DO_ACTION))
+		{
+			final Object[] temp = args;
+			log.add(new LoggedEvent("Animation got an instruction to the robot, the instruction is to let robot "+args[0]+" WORKSTATION_DO_ACTION"));
+			timer.schedule(new TimerTask(){
+			    public void run(){//this routine is like a message reception    		    	
+			    	transducer.fireEvent(TChannel.DRILL, TEvent.WORKSTATION_GUI_ACTION_FINISHED,temp);
+			    }		
+			 }, 500);
+		}
 		
 	}
 	

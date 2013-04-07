@@ -406,6 +406,7 @@ public class ConveyorAgentTests extends TestCase{
 	{
 		conveyor = new ConveyorAgent(0,t);// set its index to be 1
 		t.startTransducer();
+		final MockAnimation animation = new MockAnimation(t);
 		MockPopup popup = new MockPopup("MockPopup");
 		conveyor.setPopup(popup);
 		boolean[] recipe = new boolean[10];

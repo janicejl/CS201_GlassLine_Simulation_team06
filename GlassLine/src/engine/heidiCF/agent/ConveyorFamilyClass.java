@@ -3,31 +3,37 @@ package engine.heidiCF.agent;
 
 import transducer.Transducer;
 import engine.heidiCF.interfaces.*;
-import engine.heidiCF.test.Mocks.MockRobot;
+
 
 public class ConveyorFamilyClass implements ConveyorFamily {
-	Conveyor conveyor; 
-	Popup popup;
+	ConveyorAgent conveyor; 
+	PopupAgent popup;
 	FrontSensor frontSensor;
 	EndSensor endSensor;
 //	ArrayList<Robot> robots;
-	Robot robot0;
-	Robot robot1;
+
 	ConveyorFamily previousCF;
 	ConveyorFamily nextCF;
 	int myIndex;
-	ConveyorFamilyClass(int index, Transducer t)
+	public ConveyorFamilyClass(int index, Transducer t)
 	{
 		myIndex = index;
 		conveyor = new ConveyorAgent(index,t);
-//		robots = new ArrayList<Robot>();
-//		robots.add(new MockRobot("Robot1"));
-//		robots.add(new MockRobot("Robot2"));
-//		popup = new PopupAgent(index,t,robots);
-		robot0 = new MockRobot("Robot0");
-		robot1 = new MockRobot("Robot1");
+
+		popup=new PopupAgent(index-5,t);
+		conveyor.setPopup(popup);
+		popup.setConveyor(conveyor);
 		frontSensor = new FrontSensor(index*2,t);
+
+		frontSensor.setIndex(2*index);
 		endSensor = new EndSensor(index*2+1,t);
+
+		frontSensor.setIndex(2*index+1);
+		conveyor.startThread();
+		popup.startThread(); 
+		endSensor.startThread();
+		frontSensor.startThread();
+
 	}
 
 	/* (non-Javadoc)

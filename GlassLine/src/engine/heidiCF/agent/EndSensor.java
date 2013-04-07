@@ -14,6 +14,7 @@ public class EndSensor extends Agent implements Sensor{
 	SensorStatus status = SensorStatus.Empty;
 	public EndSensor(int index, Transducer t)
 	{
+		super("endSenosr");
 		myIndex = index;
 		transducer =t;
 		t.register(this, TChannel.SENSOR);

@@ -15,6 +15,7 @@ public class FrontSensor extends Agent implements Sensor {
 	
 	public FrontSensor(int index, Transducer t)
 	{
+		super("frontSenosr");
 		myIndex = index;
 		transducer =t;
 		t.register(this, TChannel.SENSOR);

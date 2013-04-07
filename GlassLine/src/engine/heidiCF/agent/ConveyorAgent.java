@@ -15,6 +15,7 @@ public class ConveyorAgent extends Agent implements Conveyor{
 	
 	public ConveyorAgent(int myIndex, Transducer t)
 	{
+		super("conveyor");
 		this.myIndex=myIndex;
 		endSensorEmpty =true;
 		glasses = Collections.synchronizedList(new ArrayList<MyGlass>());

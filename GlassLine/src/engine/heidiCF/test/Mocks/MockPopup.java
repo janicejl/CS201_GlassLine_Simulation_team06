@@ -18,11 +18,6 @@ public class MockPopup extends MockAgent implements Popup{
 	}
 
 
-	public void msgGlassReady(Glass g) {
-		
-	}
-
-
 	public void msgNewSpaceAvailable() {
 		
 	}
@@ -31,6 +26,12 @@ public class MockPopup extends MockAgent implements Popup{
 	public void msgComeDownAndLetGlassPass(Glass g) {
 		log.add(new LoggedEvent("the mock popup receives the glass from the conveyor and it does not need the machine"));
 		glasses.add(g);
+	}
+
+	@Override
+	public void msgGlassReady(Integer i) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

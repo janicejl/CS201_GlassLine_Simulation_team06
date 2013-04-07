@@ -12,8 +12,6 @@ public class PopupAgentTests extends TestCase{
 	PopupAgent popup;
 	MockConveyor conveyor = new MockConveyor("Conveyor");
 	MockAnimation animation = new MockAnimation(t);
-	MockRobot r0 = new MockRobot("robot0");
-	MockRobot r1 = new MockRobot("robot1");
 	MockNextCF nextCF= new MockNextCF();
 	
 	public void testMsgHereIsGlass_TwoAvailableMachines()
@@ -21,7 +19,7 @@ public class PopupAgentTests extends TestCase{
 		t.startTransducer();
 //		robots.add(new MockRobot("robot0"));
 //		robots.add(new MockRobot("robot1"));
-		popup = new PopupAgent(0,t,r0,r1);
+		popup = new PopupAgent(0,t);
 		popup.setConveyor(conveyor);
 		
 		boolean[] recipe = new boolean[10];
@@ -61,9 +59,7 @@ public class PopupAgentTests extends TestCase{
 		     		    	
 		    	assertTrue("The animation should get a message which asks the robot 0 to \"WORKSTATION_DO_LOAD_GLASS\", Event Log: "+ animation.log.toString(),animation.log.containsString("WORKSTATION_DO_LOAD_GLASS"));
 				assertTrue("The index of the target robot should be 0 ",animation.log.containsString("let robot 0"));
-		       		    	
-		    	assertTrue("The robot agent should get a message  \"msgHereIsGlass\", Event Log: "+ r0.log.toString(),r0.log.containsString("msgHereIsGlass"));
-		
+		       		    			
 	}
 	
 	public void testMsgHereIsGlass_OneAvailableMachine()
@@ -72,7 +68,7 @@ public class PopupAgentTests extends TestCase{
 		t.startTransducer();
 //		robots.add(new MockRobot("robot0"));
 //		robots.add(new MockRobot("robot1"));
-		popup = new PopupAgent(0,t,r0,r1);
+		popup = new PopupAgent(0,t);
 		popup.setConveyor(conveyor);
 		
 		boolean[] recipe = new boolean[10];
@@ -108,7 +104,6 @@ public class PopupAgentTests extends TestCase{
 				assertTrue("The index of the target popup should be 0 ",animation.log.containsString("let popup 0"));	    	
 		    	assertTrue("The animation should get a message which asks the robot 1 to \"WORKSTATION_DO_LOAD_GLASS\", Event Log: "+ animation.log.toString(),animation.log.containsString("WORKSTATION_DO_LOAD_GLASS"));
 				assertTrue("The index of the target robot should be 1 ",animation.log.containsString("let robot 1"));  		    	
-		    	assertTrue("The robot agent should get a message  \"msgHereIsGlass\", Event Log: "+ r1.log.toString(),r1.log.containsString("msgHereIsGlass"));
 		    	
 	}
 	
@@ -117,9 +112,8 @@ public class PopupAgentTests extends TestCase{
 	{
 		animation.log.clear();
 		t.startTransducer();
-//		robots.add(new MockRobot("robot0"));
-//		robots.add(new MockRobot("robot1"));
-		popup = new PopupAgent(0,t,r0,r1);
+
+		popup = new PopupAgent(0,t);
 		popup.setConveyor(conveyor);
 		
 		boolean[] recipe = new boolean[10];
@@ -139,23 +133,27 @@ public class PopupAgentTests extends TestCase{
 		assertEquals(
 				"The popup agent should have 1 glass in the list glasses.", 1,popup.glasses.size());
 
-		popup.pickAndExecuteAnAction();
 		animation.log.clear();
-		
-		
+		popup.pickAndExecuteAnAction();
 		popup.nextFamilyAvailable=true;
 		assertTrue("NextConveyorFamily should be Ready",popup.nextFamilyAvailable);
-		popup.msgGlassReady(g);
-		popup.pickAndExecuteAnAction();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//popup.msgGlassReady();
+		assertTrue("The animation should get a message which asks the WORKSTATION 0 to \" WORKSTATION_DO_ACTION\", Event Log: "+ animation.log.toString(),animation.log.containsString(" WORKSTATION_DO_ACTION"));
+		animation.log.clear();
 
-	     
+		popup.pickAndExecuteAnAction();
 			try {
 				Thread.sleep(3000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		    	
 		    	assertTrue("The animation should get a message which asks the popup 0 to \"POPUP_DO_MOVE_UP\", Event Log: "+ animation.log.toString(),animation.log.containsString("POPUP_DO_MOVE_UP"));
 				assertTrue("The index of the target popup should be 0 ",animation.log.containsString("let popup 0"));    		    	
 		    	assertTrue("The animation should get a message which asks the robot 0 to \"WORKSTATION_RELEASE_GLASS\", Event Log: "+ animation.log.toString(),animation.log.containsString("WORKSTATION_RELEASE_GLASS"));
@@ -173,9 +171,8 @@ public class PopupAgentTests extends TestCase{
 	{
 		animation.log.clear();
 		t.startTransducer();
-//		robots.add(new MockRobot("robot0"));
-//		robots.add(new MockRobot("robot1"));
-		popup = new PopupAgent(0,t,r0,r1);
+
+		popup = new PopupAgent(0,t);
 		popup.setConveyor(conveyor);
 		
 		boolean[] recipe = new boolean[10];
@@ -194,23 +191,28 @@ public class PopupAgentTests extends TestCase{
 		popup.msgHereIsGlass(g);
 		assertEquals(
 				"The popup agent should have 1 glass in the list glasses.", 1,popup.glasses.size());
-		
-		popup.pickAndExecuteAnAction();
+
 		animation.log.clear();
-		
-		
-		popup.nextFamilyAvailable=false;
-		assertTrue("NextConveyorFamily is NOT Ready",!popup.nextFamilyAvailable);
-		popup.msgGlassReady(g);
 		popup.pickAndExecuteAnAction();
-		
-		
+		popup.nextFamilyAvailable=false;
+		assertTrue("NextConveyorFamily should not be Ready",!popup.nextFamilyAvailable);
 		try {
-			Thread.sleep(1500);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}   		    	
+		}
+		//popup.msgGlassReady();
+		assertTrue("The animation should get a message which asks the WORKSTATION 0 to \" WORKSTATION_DO_ACTION\", Event Log: "+ animation.log.toString(),animation.log.containsString(" WORKSTATION_DO_ACTION"));
+		animation.log.clear();
+
+		popup.pickAndExecuteAnAction();
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		    	assertTrue("The animation should not get any message because the next conveyor family is not ready"+ animation.log.toString(),animation.log.size()==0);
 		  
 			
@@ -223,7 +225,7 @@ public class PopupAgentTests extends TestCase{
 		t.startTransducer();
 //		robots.add(new MockRobot("robot0"));
 //		robots.add(new MockRobot("robot1"));
-		popup = new PopupAgent(0,t,r0,r1);
+		popup = new PopupAgent(0,t);
 		popup.setConveyor(conveyor);
 		
 		boolean[] recipe = new boolean[10];
@@ -247,7 +249,7 @@ public class PopupAgentTests extends TestCase{
 		t.startTransducer();
 //		robots.add(new MockRobot("robot0"));
 //		robots.add(new MockRobot("robot1"));
-		popup = new PopupAgent(0,t,r0,r1);
+		popup = new PopupAgent(0,t);
 		popup.setConveyor(conveyor);
 		popup.setNextCF(nextCF);
 
@@ -297,7 +299,7 @@ public class PopupAgentTests extends TestCase{
 		t.startTransducer();
 //		robots.add(new MockRobot("robot0"));
 //		robots.add(new MockRobot("robot1"));
-		popup = new PopupAgent(0,t,r0,r1);
+		popup = new PopupAgent(0,t);
 		popup.setConveyor(conveyor);
 		popup.setNextCF(nextCF);
 

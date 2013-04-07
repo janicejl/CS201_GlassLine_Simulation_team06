@@ -6,10 +6,11 @@ public interface Popup {
 
 	public abstract void msgHereIsGlass(Glass g);
 
-	public abstract void msgGlassReady(Glass g);
+	public abstract void msgGlassReady(Integer i);
 
 	public abstract void msgNewSpaceAvailable();
 
 	public abstract void msgComeDownAndLetGlassPass(Glass g);
+
 
 }
