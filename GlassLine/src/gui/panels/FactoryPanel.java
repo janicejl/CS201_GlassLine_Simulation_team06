@@ -1,11 +1,17 @@
 
 package gui.panels;
 
+import engine.agent.shared.ConveyorFamily0;
+import engine.agent.shared.ConveyorFamily1;
+import engine.agent.shared.Glass;
+import engine.agent.shared.MachineAgent;
 import gui.drivers.FactoryFrame;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import transducer.TChannel;
+import transducer.TEvent;
 import transducer.Transducer;
 
 /**
@@ -82,7 +88,29 @@ public class FactoryPanel extends JPanel
 		// TODO initialize and start Agent threads here
 		// ===========================================================================
 
+		
+		//Initializing Agents
+		ConveyorFamily0 cf0 = new ConveyorFamily0(TChannel.CUTTER, transducer);
+		MachineAgent cutter = new MachineAgent(TChannel.CUTTER, transducer);
+		ConveyorFamily1 cf1 = new ConveyorFamily1(transducer);
+
+		//Linking all the agents
+		cf0.setMachine(cutter);
+		cutter.setConveyor(cf0.getConveyor());
+		cutter.setNextCF(cf1);
+		cf1.setMachine(cutter);
+
+
 		System.out.println("Back end initialization finished.");
+
+		//Starting agent threads inside cf groups. 
+		cf0.startThread();
+		cutter.startThread();
+		cf1.startThread();
+
+		//temporary starting the animation until the bin agent is created. 
+		cf0.msgHereIsGlass(new Glass(true, true, true));
+		transducer.fireEvent(TChannel.BIN, TEvent.BIN_CREATE_PART, null);
 	}
 
 	/**
