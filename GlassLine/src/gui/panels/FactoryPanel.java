@@ -91,13 +91,13 @@ public class FactoryPanel extends JPanel
 
 		
 		//Initializing Agents
-		ConveyorFamilyOnlineMachine cf0 = new ConveyorFamilyOnlineMachine(TChannel.CUTTER, transducer);
+		ConveyorFamilyOnlineMachine cutterCF = new ConveyorFamilyOnlineMachine(TChannel.CUTTER, transducer);
 		MachineAgent cutter = new MachineAgent(TChannel.CUTTER, transducer);
-		ConveyorFamily1 cf1 = new ConveyorFamily1(transducer);
+		ConveyorFamily1 cf1 = new ConveyorFamily1(transducer);	// with shuttle - need to be replaced. 
 
 		//Linking all the agents
-		cf0.setMachine(cutter);
-		cutter.setConveyor(cf0.getConveyor());
+		cutterCF.setMachine(cutter);
+		cutter.setConveyor(cutterCF.getConveyor());
 		cutter.setNextCF(cf1);
 		cf1.setMachine(cutter);
 
@@ -105,13 +105,13 @@ public class FactoryPanel extends JPanel
 		System.out.println("Back end initialization finished.");
 
 		//Starting agent threads inside cf groups. 
-		cf0.startThread();
+		cutterCF.startThread();
 		cutter.startThread();
 		cf1.startThread();
 
 		
 		//temporary starting the animation until the bin agent is created. 
-		cf0.msgHereIsGlass(new Glass(true, true, true));
+		cutterCF.msgHereIsGlass(new Glass(true, true, true));
 		transducer.fireEvent(TChannel.BIN, TEvent.BIN_CREATE_PART, null);
 		
 //		//initialization of the three popup (for test) I started the thread in my conveyor family--Heidi
