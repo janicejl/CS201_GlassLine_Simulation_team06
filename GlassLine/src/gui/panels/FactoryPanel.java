@@ -91,9 +91,21 @@ public class FactoryPanel extends JPanel
 
 		
 		//Initializing Agents
-		ConveyorFamilyOnlineMachine cutterCF = new ConveyorFamilyOnlineMachine(TChannel.CUTTER, transducer);
+		ConveyorFamilyOnlineMachine cutterCF = new ConveyorFamilyOnlineMachine(0, TChannel.CUTTER, transducer);
 		MachineAgent cutter = new MachineAgent(TChannel.CUTTER, transducer);
 		ConveyorFamily1 cf1 = new ConveyorFamily1(transducer);	// with shuttle - need to be replaced. 
+		ConveyorFamilyOnlineMachine breakoutCF = new ConveyorFamilyOnlineMachine(2, TChannel.BREAKOUT, transducer);
+		MachineAgent breakout = new MachineAgent(TChannel.BREAKOUT, transducer);
+		ConveyorFamilyOnlineMachine manualBreakoutCF = new ConveyorFamilyOnlineMachine(3, TChannel.MANUAL_BREAKOUT, transducer);
+		MachineAgent manualBreakout = new MachineAgent(TChannel.MANUAL_BREAKOUT, transducer);
+		ConveyorFamilyOnlineMachine washerCF = new ConveyorFamilyOnlineMachine(8, TChannel.WASHER, transducer);
+		MachineAgent washer = new MachineAgent(TChannel.WASHER, transducer);
+		ConveyorFamilyOnlineMachine painterCF = new ConveyorFamilyOnlineMachine(10, TChannel.PAINTER, transducer);
+		MachineAgent painter = new MachineAgent(TChannel.PAINTER, transducer);
+		ConveyorFamilyOnlineMachine uvCF = new ConveyorFamilyOnlineMachine(11, TChannel.UV_LAMP, transducer);
+		MachineAgent uv = new MachineAgent(TChannel.UV_LAMP, transducer);
+		ConveyorFamilyOnlineMachine ovenCF = new ConveyorFamilyOnlineMachine(13, TChannel.OVEN, transducer);
+		MachineAgent oven = new MachineAgent(TChannel.OVEN, transducer);
 
 		//Linking all the agents
 		cutterCF.setMachine(cutter);
@@ -101,13 +113,48 @@ public class FactoryPanel extends JPanel
 		cutter.setNextCF(cf1);
 		cf1.setMachine(cutter);
 
+		breakoutCF.setMachine(breakout);
+		breakout.setConveyor(breakoutCF.getConveyor());
+		breakout.setNextCF(manualBreakoutCF);
+		
+		manualBreakoutCF.setMachine(manualBreakout);
+		manualBreakout.setConveyor(manualBreakoutCF.getConveyor());
+//		manualBreakout.setNextCF(####);			//TODO have to add shuttle CF as nextCF
 
+		washerCF.setMachine(washer);
+		washer.setConveyor(washerCF.getConveyor());
+//		washer.setNextCF(####);			//TODO have to add shuttle CF as nextCF
+		
+		painterCF.setMachine(painter);
+		painter.setConveyor(painterCF.getConveyor());
+		painter.setNextCF(uvCF);
+		
+		uvCF.setMachine(uv);
+		uv.setConveyor(uvCF.getConveyor());
+//		uv.setNextCF(####);			//TODO have to add shuttle CF as nextCF
+		
+		ovenCF.setMachine(oven);
+		oven.setConveyor(uvCF.getConveyor());
+//		oven.setNextCF(####);			//TODO have to add truck CF as nextCF
+		
 		System.out.println("Back end initialization finished.");
 
 		//Starting agent threads inside cf groups. 
 		cutterCF.startThread();
 		cutter.startThread();
-		cf1.startThread();
+		cf1.startThread(); //with shuttle need to be replaced
+		breakoutCF.startThread();
+		breakout.startThread();
+		manualBreakoutCF.startThread();
+		manualBreakout.startThread();
+		washerCF.startThread();
+		washer.startThread();
+		painterCF.startThread();
+		painter.startThread();
+		uvCF.startThread();
+		uv.startThread();
+		ovenCF.startThread();
+		oven.startThread();
 
 		
 		//temporary starting the animation until the bin agent is created. 

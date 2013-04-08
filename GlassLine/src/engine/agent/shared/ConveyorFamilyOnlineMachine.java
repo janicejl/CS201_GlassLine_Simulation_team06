@@ -14,10 +14,10 @@ public class ConveyorFamilyOnlineMachine implements ConveyorFamily {
 	
 	ConveyorAgent conveyor;
 		
-	public ConveyorFamilyOnlineMachine (TChannel channel, Transducer transducer) {
+	public ConveyorFamilyOnlineMachine (int index, TChannel channel, Transducer transducer) {
 		this.name = channel.toString() + " CF";
 		
-		conveyor = new ConveyorAgent(channel.toString() + " Conveyor", transducer, 0);
+		conveyor = new ConveyorAgent(channel.toString() + " Conveyor", transducer, index);
 	}
 	
 	public void startThread() {
