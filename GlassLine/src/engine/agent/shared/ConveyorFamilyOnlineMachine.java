@@ -8,13 +8,13 @@ import engine.JaniceCF.interfaces.*;
 import engine.agent.shared.*;
 import engine.agent.shared.Interfaces.*;
 
-public class ConveyorFamily0 implements ConveyorFamily {
+public class ConveyorFamilyOnlineMachine implements ConveyorFamily {
 
 	String name;
 	
 	ConveyorAgent conveyor;
 		
-	public ConveyorFamily0 (TChannel channel, Transducer transducer) {
+	public ConveyorFamilyOnlineMachine (TChannel channel, Transducer transducer) {
 		this.name = channel.toString() + " CF";
 		
 		conveyor = new ConveyorAgent(channel.toString() + " Conveyor", transducer, 0);

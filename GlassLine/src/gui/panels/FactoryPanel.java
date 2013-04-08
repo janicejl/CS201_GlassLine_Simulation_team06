@@ -1,7 +1,7 @@
 
 package gui.panels;
 
-import engine.agent.shared.ConveyorFamily0;
+import engine.agent.shared.ConveyorFamilyOnlineMachine;
 import engine.agent.shared.ConveyorFamily1;
 import engine.agent.shared.Glass;
 import engine.agent.shared.MachineAgent;
@@ -91,7 +91,7 @@ public class FactoryPanel extends JPanel
 
 		
 		//Initializing Agents
-		ConveyorFamily0 cf0 = new ConveyorFamily0(TChannel.CUTTER, transducer);
+		ConveyorFamilyOnlineMachine cf0 = new ConveyorFamilyOnlineMachine(TChannel.CUTTER, transducer);
 		MachineAgent cutter = new MachineAgent(TChannel.CUTTER, transducer);
 		ConveyorFamily1 cf1 = new ConveyorFamily1(transducer);
 
