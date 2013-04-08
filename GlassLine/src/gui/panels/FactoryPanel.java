@@ -1,11 +1,11 @@
 
 package gui.panels;
 
+import engine.agent.shared.ConveyorFamilyOffline;
 import engine.agent.shared.ConveyorFamilyOnlineMachine;
 import engine.agent.shared.ConveyorFamily1;
 import engine.agent.shared.Glass;
 import engine.agent.shared.MachineAgent;
-import engine.heidiCF.agent.ConveyorFamilyClass;
 import gui.drivers.FactoryFrame;
 
 import javax.swing.BoxLayout;

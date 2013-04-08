@@ -1,13 +1,17 @@
-package engine.heidiCF.agent;
+package engine.agent.shared;
 
 
 import transducer.TChannel;
 import transducer.Transducer;
+import engine.heidiCF.agent.ConveyorAgent;
+import engine.heidiCF.agent.EndSensor;
+import engine.heidiCF.agent.FrontSensor;
+import engine.heidiCF.agent.PopupAgent;
 import engine.heidiCF.interfaces.*;
-import engine.agent.shared.Glass;
+import engine.agent.shared.Interfaces.*;
 
 
-public class ConveyorFamilyClass implements ConveyorFamily {
+public class ConveyorFamilyOffline implements ConveyorFamily {
 	ConveyorAgent conveyor; 
 	PopupAgent popup;
 	FrontSensor frontSensor;
@@ -17,7 +21,7 @@ public class ConveyorFamilyClass implements ConveyorFamily {
 	ConveyorFamily previousCF;
 	ConveyorFamily nextCF;
 	int myIndex;
-	public ConveyorFamilyClass(int index, Transducer t,TChannel workStationType)
+	public ConveyorFamilyOffline(int index, Transducer t,TChannel workStationType)
 	{
 		myIndex = index;
 		conveyor = new ConveyorAgent(index,t);
@@ -61,7 +65,7 @@ public class ConveyorFamilyClass implements ConveyorFamily {
 	/* (non-Javadoc)
 	 * @see engine.agent.ConveyorFamily#msgNewSpaceAvailable()
 	 */
-	public void msgNewSpaceAvailable()
+	public void msgSpaceAvailable()
 	{
 		popup.msgNewSpaceAvailable();
 	}

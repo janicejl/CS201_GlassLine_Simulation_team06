@@ -9,6 +9,7 @@ import engine.agent.shared.Glass;
 
 import engine.agent.Agent;
 import engine.heidiCF.interfaces.*;
+import engine.agent.shared.Interfaces.*;
 
 
 import transducer.TChannel;

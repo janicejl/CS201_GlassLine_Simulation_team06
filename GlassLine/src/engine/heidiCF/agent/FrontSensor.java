@@ -5,6 +5,7 @@ import transducer.TEvent;
 import transducer.Transducer;
 import engine.agent.Agent;
 import engine.heidiCF.interfaces.*;
+import engine.agent.shared.Interfaces.*;
 
 public class FrontSensor extends Agent implements Sensor {
 	
@@ -32,7 +33,7 @@ public class FrontSensor extends Agent implements Sensor {
 	
 	public void sensorReleased() {
 		status = SensorStatus.Empty;
-		prevCF.msgNewSpaceAvailable();
+		prevCF.msgSpaceAvailable();
 		stateChanged();
 	}
 
