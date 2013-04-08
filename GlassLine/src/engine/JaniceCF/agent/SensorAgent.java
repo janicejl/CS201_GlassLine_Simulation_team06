@@ -3,6 +3,7 @@ package engine.JaniceCF.agent;
 import transducer.*;
 import engine.JaniceCF.interfaces.*;
 import engine.agent.Agent;
+import engine.agent.shared.Interfaces.ConveyorFamily;
 import engine.agent.shared.Interfaces.Machine;
 
 public class SensorAgent extends Agent implements Sensor {

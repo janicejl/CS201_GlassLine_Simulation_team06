@@ -4,6 +4,7 @@ import transducer.*;
 import engine.JaniceCF.agent.*;
 import engine.JaniceCF.interfaces.*;
 import engine.agent.shared.Glass;
+import engine.agent.shared.Interfaces.ConveyorFamily;
 import engine.agent.shared.Interfaces.Machine;
 
 public class ConveyorFamily1 implements ConveyorFamily {

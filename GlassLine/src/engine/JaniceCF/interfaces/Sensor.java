@@ -1,5 +1,6 @@
 package engine.JaniceCF.interfaces;
 
+import engine.agent.shared.Interfaces.ConveyorFamily;
 import engine.agent.shared.Interfaces.Machine;
 
 public interface Sensor {
