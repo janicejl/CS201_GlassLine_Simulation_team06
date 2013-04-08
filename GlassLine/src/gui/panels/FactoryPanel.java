@@ -5,6 +5,7 @@ import engine.agent.shared.ConveyorFamily0;
 import engine.agent.shared.ConveyorFamily1;
 import engine.agent.shared.Glass;
 import engine.agent.shared.MachineAgent;
+import engine.heidiCF.agent.ConveyorFamilyClass;
 import gui.drivers.FactoryFrame;
 
 import javax.swing.BoxLayout;
@@ -108,9 +109,23 @@ public class FactoryPanel extends JPanel
 		cutter.startThread();
 		cf1.startThread();
 
+		
 		//temporary starting the animation until the bin agent is created. 
 		cf0.msgHereIsGlass(new Glass(true, true, true));
 		transducer.fireEvent(TChannel.BIN, TEvent.BIN_CREATE_PART, null);
+		
+//		//initialization of the three popup (for test) I started the thread in my conveyor family--Heidi
+//		ConveyorFamilyClass popup1 = new ConveyorFamilyClass(5,transducer,TChannel.DRILL);
+//		ConveyorFamilyClass popup2 = new ConveyorFamilyClass(6,transducer,TChannel.CROSS_SEAMER);
+//		ConveyorFamilyClass popup3 = new ConveyorFamilyClass(7,transducer,TChannel.GRINDER);
+//		
+//		popup1.setNextCF(popup2);
+//		popup2.setNextCF(popup3);
+//		popup2.setPreviousCF(popup1);
+//		popup3.setPreviousCF(popup2);
+//		Glass g = new Glass(false,true,false);
+//		popup1.msgHereIsGlass(g);
+		
 	}
 
 	/**

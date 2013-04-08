@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 import engine.agent.Agent;
 import engine.heidiCF.interfaces.*;
+import engine.agent.shared.Glass;
 
 import transducer.TChannel;
 import transducer.TEvent;

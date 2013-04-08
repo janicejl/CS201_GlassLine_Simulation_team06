@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Semaphore;
+import engine.agent.shared.Glass;
 
 import engine.agent.Agent;
 import engine.heidiCF.interfaces.*;

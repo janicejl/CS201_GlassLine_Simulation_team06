@@ -4,6 +4,7 @@ package engine.heidiCF.agent;
 import transducer.TChannel;
 import transducer.Transducer;
 import engine.heidiCF.interfaces.*;
+import engine.agent.shared.Glass;
 
 
 public class ConveyorFamilyClass implements ConveyorFamily {

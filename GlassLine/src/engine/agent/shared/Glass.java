@@ -19,6 +19,18 @@ public class Glass {
 		}
 	}
 	
+	public boolean ifNeedMachine(int popupIndex)
+	{
+		int tempIndex = popupIndex-5;
+		if(tempIndex==0)
+			return recipe.machine1;
+		if(tempIndex==1)
+			return recipe.machine2;
+		if(tempIndex==2)
+			return recipe.machine3;
+		return false;
+		
+	}
 	public Recipe getRecipe() {
 		return recipe;
 	}

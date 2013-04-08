@@ -1,6 +1,6 @@
 package engine.heidiCF.interfaces;
 
-import engine.heidiCF.agent.Glass;
+import engine.agent.shared.Glass;
 
 public interface Popup {
 
