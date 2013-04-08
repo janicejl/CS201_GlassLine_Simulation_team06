@@ -1,4 +1,4 @@
-package engine.JaniceCF.interfaces;
+package engine.agent.shared.Interfaces;
 
 import engine.agent.shared.Glass;
 

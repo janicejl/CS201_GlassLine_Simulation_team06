@@ -6,6 +6,7 @@ import transducer.*;
 import engine.JaniceCF.interfaces.*;
 import engine.agent.Agent;
 import engine.agent.shared.Glass;
+import engine.agent.shared.Interfaces.ConveyorFamily;
 import engine.agent.shared.Interfaces.Machine;
 
 public class PopupAgent extends Agent implements Popup {
