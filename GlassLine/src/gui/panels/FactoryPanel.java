@@ -1,11 +1,15 @@
 
 package gui.panels;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import engine.agent.shared.ConveyorFamilyOffline;
 import engine.agent.shared.ConveyorFamilyOnlineMachine;
 import engine.agent.shared.ConveyorFamily1;
 import engine.agent.shared.Glass;
 import engine.agent.shared.MachineAgent;
+import engine.ryanCF.agent.BinAgent;
 import gui.drivers.FactoryFrame;
 
 import javax.swing.BoxLayout;
@@ -91,6 +95,7 @@ public class FactoryPanel extends JPanel
 
 		
 		//Initializing Agents
+		BinAgent binAgent = new BinAgent(transducer);
 		ConveyorFamilyOnlineMachine cutterCF = new ConveyorFamilyOnlineMachine(0, TChannel.CUTTER, transducer);
 		MachineAgent cutter = new MachineAgent(TChannel.CUTTER, transducer);
 		ConveyorFamily1 cf1 = new ConveyorFamily1(transducer);	// with shuttle - need to be replaced. 
@@ -140,6 +145,7 @@ public class FactoryPanel extends JPanel
 		System.out.println("Back end initialization finished.");
 
 		//Starting agent threads inside cf groups. 
+		binAgent.startThread();
 		cutterCF.startThread();
 		cutter.startThread();
 		cf1.startThread(); //with shuttle need to be replaced
@@ -156,10 +162,9 @@ public class FactoryPanel extends JPanel
 		ovenCF.startThread();
 		oven.startThread();
 
-		
-		//temporary starting the animation until the bin agent is created. 
-		cutterCF.msgHereIsGlass(new Glass(true, true, true));
-		transducer.fireEvent(TChannel.BIN, TEvent.BIN_CREATE_PART, null);
+		List<Glass> tempGlassToProcess = new ArrayList<Glass>();
+		tempGlassToProcess.add(new Glass(false,false,false));
+		//temp creating list of parts before gui is implemented
 		
 //		//initialization of the three popup (for test) I started the thread in my conveyor family--Heidi
 //		ConveyorFamilyClass popup1 = new ConveyorFamilyClass(5,transducer,TChannel.DRILL);
