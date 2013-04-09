@@ -18,6 +18,7 @@ public class BinAgent extends Agent implements Bin{
 	Transducer t;
 	//ConveyorFamily0 
 	public BinAgent(Transducer t) {
+		this.name = "Bin Agent";
 		this.t = t;
 	}
 	public void msgProcessGlassOrder(List<Glass> glassList) {

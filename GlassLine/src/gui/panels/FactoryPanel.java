@@ -113,6 +113,8 @@ public class FactoryPanel extends JPanel
 		MachineAgent oven = new MachineAgent(TChannel.OVEN, transducer);
 
 		//Linking all the agents
+		binAgent.setConveyorFamilyOnlineMachine(cutterCF);
+		
 		cutterCF.setMachine(cutter);
 		cutter.setConveyor(cutterCF.getConveyor());
 		cutter.setNextCF(cf1);
@@ -164,6 +166,7 @@ public class FactoryPanel extends JPanel
 
 		List<Glass> tempGlassToProcess = new ArrayList<Glass>();
 		tempGlassToProcess.add(new Glass(false,false,false));
+		binAgent.msgProcessGlassOrder(tempGlassToProcess);
 		//temp creating list of parts before gui is implemented
 		
 //		//initialization of the three popup (for test) I started the thread in my conveyor family--Heidi
