@@ -154,6 +154,9 @@ public class ControlPanel extends JPanel implements TReceiver
 		this.add(logoPanel);
 
 		System.out.println("Control Panel created.");
+		
+		
+		
 	}
 
 	/**
@@ -168,7 +171,7 @@ public class ControlPanel extends JPanel implements TReceiver
 		this();
 
 		transducer = fTransducer;
-
+		transducer.register(this, TChannel.CONTROL_PANEL);
 		parent = fPanel;
 	}
 
@@ -194,6 +197,11 @@ public class ControlPanel extends JPanel implements TReceiver
 	 */
 	public synchronized void eventFired(TChannel channel, TEvent event, Object[] args)
 	{
+		if(channel == TChannel.CONTROL_PANEL) {
+			if(event == TEvent.START) {
+				parent.startFactory();
+			}
+		}
 		// TODO implement as needed
 	}
 

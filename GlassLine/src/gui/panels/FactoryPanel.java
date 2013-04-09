@@ -40,6 +40,7 @@ public class FactoryPanel extends JPanel
 	/** Allows the control panel to communicate with the back end and give commands */
 	private Transducer transducer;
 
+	BinAgent binAgent;
 	/**
 	 * Constructor links this panel to its frame
 	 */
@@ -95,7 +96,7 @@ public class FactoryPanel extends JPanel
 
 		
 		//Initializing Agents
-		BinAgent binAgent = new BinAgent(transducer);
+		binAgent = new BinAgent(transducer);
 		ConveyorFamilyOnlineMachine cutterCF = new ConveyorFamilyOnlineMachine(0, TChannel.CUTTER, transducer);
 		MachineAgent cutter = new MachineAgent(TChannel.CUTTER, transducer);
 		ConveyorFamily1 cf1 = new ConveyorFamily1(transducer);	// with shuttle - need to be replaced. 
@@ -164,9 +165,7 @@ public class FactoryPanel extends JPanel
 		ovenCF.startThread();
 		oven.startThread();
 
-		List<Glass> tempGlassToProcess = new ArrayList<Glass>();
-		tempGlassToProcess.add(new Glass(false,false,false));
-		binAgent.msgProcessGlassOrder(tempGlassToProcess);
+		
 		//temp creating list of parts before gui is implemented
 		
 //		//initialization of the three popup (for test) I started the thread in my conveyor family--Heidi
@@ -211,5 +210,14 @@ public class FactoryPanel extends JPanel
 	public DisplayPanel getDisplayPanel()
 	{
 		return dPanel;
+	}
+	
+	/**
+	 * Starts GlassLine post-initialization
+	 */
+	public void startFactory() {
+		List<Glass> tempGlassToProcess = new ArrayList<Glass>();
+		tempGlassToProcess.add(new Glass(false,false,false));
+		binAgent.msgProcessGlassOrder(tempGlassToProcess);
 	}
 }

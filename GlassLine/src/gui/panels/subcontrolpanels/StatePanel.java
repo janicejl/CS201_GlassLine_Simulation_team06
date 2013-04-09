@@ -1,6 +1,7 @@
 
 package gui.panels.subcontrolpanels;
 
+import engine.agent.shared.Glass;
 import gui.drivers.FactoryFrame;
 import gui.panels.ControlPanel;
 
@@ -11,6 +12,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -116,7 +119,7 @@ public class StatePanel extends JPanel
 		// set up buttons
 		startButton.addActionListener(new StartButtonListener());
 		stopButton.addActionListener(new StopButtonListener());
-		startButton.setEnabled(false);
+		startButton.setEnabled(true);
 		stopButton.setEnabled(false);
 
 		// setup sliders
@@ -254,7 +257,7 @@ public class StatePanel extends JPanel
 			else
 			{
 				parent.getTransducer().fireEvent(TChannel.CONTROL_PANEL, TEvent.START, null);
-
+				
 				startButton.setEnabled(false);
 				stopButton.setEnabled(true);
 			}
@@ -280,7 +283,7 @@ public class StatePanel extends JPanel
 			else
 			{
 				parent.getTransducer().fireEvent(TChannel.CONTROL_PANEL, TEvent.STOP, null);
-
+				
 				startButton.setEnabled(true);
 				stopButton.setEnabled(false);
 			}
