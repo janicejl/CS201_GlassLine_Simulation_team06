@@ -12,6 +12,8 @@ import engine.agent.shared.*;
 public class BinAgent extends Agent implements Bin{
 
 	List<Glass> glassInBin = new ArrayList<Glass>();
+	
+	ConveyorFamilyOnlineMachine cfom;
 	//ConveyorFamily0 
 	public void msgProcessGlassOrder(List<Glass> glassList) {
 		glassInBin.addAll(glassList);
@@ -30,11 +32,14 @@ public class BinAgent extends Agent implements Bin{
 	private void sendGlassToCF(Glass g) {
 		// TODO Auto-generated method stub
 		
+		
 	}
 	@Override
 	public void eventFired(TChannel channel, TEvent event, Object[] args) {
 		// TODO Auto-generated method stub
 		
 	}
-
+	public void setConveyorFamilyOnlineMachine(ConveyorFamilyOnlineMachine cfom) {
+		this.cfom = cfom;
+	}
 }
