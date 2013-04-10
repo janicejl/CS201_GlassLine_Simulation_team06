@@ -1,37 +1,19 @@
 package engine.agent.shared;
 
-public class Glass {
-	public Recipe recipe;
-	
-	public Glass(Boolean machine1, Boolean machine2, Boolean machine3) {
-		recipe = new Recipe(machine1, machine2, machine3);
-	}
-	
-	public class Recipe {
-		public boolean machine1;
-		public boolean machine2;
-		public boolean machine3;
-		
-		public Recipe(Boolean m1, Boolean m2, Boolean m3) {
-			machine1 = m1;
-			machine2 = m2;
-			machine3 = m3;
-		}
-	}
-	
-	public boolean ifNeedMachine(int popupIndex)
+import java.util.HashMap;
+
+public class Glass{
+	HashMap<Integer,Boolean> recipe  = new HashMap<Integer, Boolean>();
+	public Glass(boolean[] array)
 	{
-		int tempIndex = popupIndex-5;
-		if(tempIndex==0)
-			return recipe.machine1;
-		if(tempIndex==1)
-			return recipe.machine2;
-		if(tempIndex==2)
-			return recipe.machine3;
-		return false;
-		
+		 for(int i=0;i<array.length;i++)
+		 {
+			 recipe.put(i,array[i]);
+		 }
+	} 
+	public boolean ifNeedMachine(int index)
+	{
+		return (recipe.get(index));
+
 	}
-	public Recipe getRecipe() {
-		return recipe;
-	}
-}
+};

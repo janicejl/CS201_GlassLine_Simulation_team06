@@ -155,7 +155,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		
 		status = ConveyorStatus.Requesting;
 		
-		if (g.recipe.machine2 == true) {
+		if(g.ifNeedMachine(conveyorIndex)){ //if (g.recipe.machine2 == true) {
 			popup.msgIncomingNeedProcessing();
 			stateChanged();
 		} else {
