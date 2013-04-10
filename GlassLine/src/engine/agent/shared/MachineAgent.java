@@ -16,6 +16,8 @@ public class MachineAgent extends Agent implements Machine {
 	Popup popup;			//If it is Offline
 	ConveyorFamily nextCF;
 	
+	int index;
+	
 	public enum MachineState {Empty, NotProcessed, Processing, DoneProcessing}
 	MachineState status;
 	
@@ -24,12 +26,14 @@ public class MachineAgent extends Agent implements Machine {
 	Glass glass;
 	
 	
-	public MachineAgent(TChannel channel, Transducer transducer) {
+	public MachineAgent(TChannel channel, Transducer transducer, int index) {
 		super(channel.toString(), transducer);
 		
 		transducer.register(this, channel);
 		
 		this.channel = channel;
+		
+		this.index = index;
 		
 		glass = null;
 		conveyor = null;
@@ -98,8 +102,12 @@ public class MachineAgent extends Agent implements Machine {
 	//Actions
 	private void processGlass() {
 		print("Processing Glass");
-		status = MachineState.Processing;
-		transducer.fireEvent(channel, TEvent.WORKSTATION_DO_ACTION, null);
+		if (glass.ifNeedMachine(index)) {
+			status = MachineState.Processing;
+			transducer.fireEvent(channel, TEvent.WORKSTATION_DO_ACTION, null);
+		} else {
+			status = MachineState.DoneProcessing;
+		}
 		stateChanged();
 	}
 	

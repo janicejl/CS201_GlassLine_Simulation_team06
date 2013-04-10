@@ -98,20 +98,20 @@ public class FactoryPanel extends JPanel
 		//Initializing Agents
 		binAgent = new BinAgent(transducer);
 		ConveyorFamilyOnlineMachine cutterCF = new ConveyorFamilyOnlineMachine(0, TChannel.CUTTER, transducer);
-		MachineAgent cutter = new MachineAgent(TChannel.CUTTER, transducer);
+		MachineAgent cutter = new MachineAgent(TChannel.CUTTER, transducer, 0);
 		ConveyorFamily1 cf1 = new ConveyorFamily1(transducer);	// with shuttle - need to be replaced. 
 		ConveyorFamilyOnlineMachine breakoutCF = new ConveyorFamilyOnlineMachine(2, TChannel.BREAKOUT, transducer);
-		MachineAgent breakout = new MachineAgent(TChannel.BREAKOUT, transducer);
+		MachineAgent breakout = new MachineAgent(TChannel.BREAKOUT, transducer, 2);
 		ConveyorFamilyOnlineMachine manualBreakoutCF = new ConveyorFamilyOnlineMachine(3, TChannel.MANUAL_BREAKOUT, transducer);
-		MachineAgent manualBreakout = new MachineAgent(TChannel.MANUAL_BREAKOUT, transducer);
+		MachineAgent manualBreakout = new MachineAgent(TChannel.MANUAL_BREAKOUT, transducer, 3);
 		ConveyorFamilyOnlineMachine washerCF = new ConveyorFamilyOnlineMachine(8, TChannel.WASHER, transducer);
-		MachineAgent washer = new MachineAgent(TChannel.WASHER, transducer);
+		MachineAgent washer = new MachineAgent(TChannel.WASHER, transducer, 8);
 		ConveyorFamilyOnlineMachine painterCF = new ConveyorFamilyOnlineMachine(10, TChannel.PAINTER, transducer);
-		MachineAgent painter = new MachineAgent(TChannel.PAINTER, transducer);
+		MachineAgent painter = new MachineAgent(TChannel.PAINTER, transducer, 10);
 		ConveyorFamilyOnlineMachine uvCF = new ConveyorFamilyOnlineMachine(11, TChannel.UV_LAMP, transducer);
-		MachineAgent uv = new MachineAgent(TChannel.UV_LAMP, transducer);
+		MachineAgent uv = new MachineAgent(TChannel.UV_LAMP, transducer, 11);
 		ConveyorFamilyOnlineMachine ovenCF = new ConveyorFamilyOnlineMachine(13, TChannel.OVEN, transducer);
-		MachineAgent oven = new MachineAgent(TChannel.OVEN, transducer);
+		MachineAgent oven = new MachineAgent(TChannel.OVEN, transducer, 13);
 
 		//Linking all the agents
 		binAgent.setConveyorFamilyOnlineMachine(cutterCF);
@@ -179,6 +179,11 @@ public class FactoryPanel extends JPanel
 //		popup3.setPreviousCF(popup2);
 //		Glass g = new Glass(false,true,false);
 //		popup1.msgHereIsGlass(g);
+	
+		//Testing for JANICE - Machine agent processing being optional. 
+//		boolean[] g = {false,true,true,true,true,true,true,true,true,true,true,true,true,true};
+//		cutterCF.msgHereIsGlass(new Glass(g));
+//		transducer.fireEvent(TChannel.BIN, TEvent.BIN_CREATE_PART, null);
 		
 	}
 
