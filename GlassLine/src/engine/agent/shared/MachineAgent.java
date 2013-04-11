@@ -61,18 +61,18 @@ public class MachineAgent extends Agent implements Machine {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 	
-		if (status == MachineState.NotProcessed) {
-			processGlass();
-			return true;
-		}
-		
-		if (nextFree == true) {
-			if (status == MachineState.DoneProcessing) {
-				releaseGlass();
+		if (glass != null) {
+			if (status == MachineState.NotProcessed) {
+				processGlass();
 				return true;
 			}
+			if (nextFree == true) {
+				if (status == MachineState.DoneProcessing) {
+					releaseGlass();
+					return true;
+				}
+			}
 		}
-		
 		return false;
 	}
 
