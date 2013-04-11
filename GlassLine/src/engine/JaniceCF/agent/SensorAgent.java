@@ -27,7 +27,7 @@ public class SensorAgent extends Agent implements Sensor {
 		sensorIndex = index;
 		
 		previousCF = null;
-//		bin = null;
+		bin = null;
 		machine = null;
 	}
 

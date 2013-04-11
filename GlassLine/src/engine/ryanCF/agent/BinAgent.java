@@ -13,7 +13,7 @@ import engine.agent.shared.*;
 public class BinAgent extends Agent implements Bin{
 
 	List<Glass> glassInBin = new ArrayList<Glass>();
-	
+	boolean nextCFAvailable=true;
 	ConveyorFamilyOnlineMachine cfom;
 	Transducer t;
 	//ConveyorFamily0 
@@ -25,10 +25,11 @@ public class BinAgent extends Agent implements Bin{
 		glassInBin.addAll(glassList);
 		stateChanged();
 	}
+	
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
-		if(!glassInBin.isEmpty()) {
+		if(!glassInBin.isEmpty()&&nextCFAvailable) {
 			sendGlassToCF(glassInBin.remove(0));
 			return true;
 		}
@@ -48,4 +49,9 @@ public class BinAgent extends Agent implements Bin{
 	public void setConveyorFamilyOnlineMachine(ConveyorFamilyOnlineMachine cfom) {
 		this.cfom = cfom;
 	}
+	public void msgSpaceAvailable(){
+		nextCFAvailable=true;
+		stateChanged();
+	}
+
 }

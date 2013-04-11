@@ -226,6 +226,7 @@ public class FactoryPanel extends JPanel
 				recipe[i]=true;
 		}
 		tempGlassToProcess.add(new Glass(recipe));
+
 		binAgent.msgProcessGlassOrder(tempGlassToProcess);
 	}
 }

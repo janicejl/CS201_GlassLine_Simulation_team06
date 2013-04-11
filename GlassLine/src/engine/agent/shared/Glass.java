@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 public class Glass{
 	HashMap<Integer,Boolean> recipe  = new HashMap<Integer, Boolean>();
+	
 	public Glass(boolean[] array)
 	{
 		 for(int i=0;i<array.length;i++)
