@@ -31,7 +31,6 @@ public class ShuttleCon implements ConveyorFamily{
 		conveyor.setSecondSensor(secondSensor);
 		secondSensor.setConveyor(conveyor);
 		
-		
 	}
 	
 	@Override

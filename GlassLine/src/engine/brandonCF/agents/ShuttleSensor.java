@@ -110,9 +110,10 @@ public class ShuttleSensor extends Agent implements SensorInterface
 	public void eventFired(TChannel channel, TEvent event, Object[] args) {
 		if(channel == TChannel.SENSOR & event == TEvent.SENSOR_GUI_RELEASED)
 		{
-			if((int) args[0] == 1)
+			if((int) args[0] == number[0] *2+1)
 			{
 				status = Status.finished;
+				print("Finished:)");
 				stateChanged();
 			}
 		}

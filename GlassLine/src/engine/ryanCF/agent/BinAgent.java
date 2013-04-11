@@ -7,8 +7,9 @@ import transducer.TChannel;
 import transducer.TEvent;
 import transducer.Transducer;
 import engine.agent.Agent;
+import engine.agent.shared.ConveyorFamilyOnlineMachine;
+import engine.agent.shared.Glass;
 import engine.ryanCF.interfaces.Bin;
-import engine.agent.shared.*;
 
 public class BinAgent extends Agent implements Bin{
 
@@ -21,6 +22,7 @@ public class BinAgent extends Agent implements Bin{
 		this.name = "Bin Agent";
 		this.t = t;
 	}
+	@Override
 	public void msgProcessGlassOrder(List<Glass> glassList) {
 		glassInBin.addAll(glassList);
 		stateChanged();
@@ -36,8 +38,10 @@ public class BinAgent extends Agent implements Bin{
 		return false;
 	}
 
+	@Override
 	public void sendGlassToCF(Glass g) {
 		// TODO Auto-generated method stub
+		nextCFAvailable=false;
 		cfom.msgHereIsGlass(g);
 		t.fireEvent(TChannel.BIN, TEvent.BIN_CREATE_PART, null);
 	}
@@ -46,9 +50,11 @@ public class BinAgent extends Agent implements Bin{
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
 	public void setConveyorFamilyOnlineMachine(ConveyorFamilyOnlineMachine cfom) {
 		this.cfom = cfom;
 	}
+	@Override
 	public void msgSpaceAvailable(){
 		print ("Got msgSpaceAvailable(). ");
 		nextCFAvailable=true;
