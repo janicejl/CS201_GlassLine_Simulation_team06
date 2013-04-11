@@ -7,31 +7,32 @@ import transducer.TEvent;
 import transducer.Transducer;
 import engine.agent.Agent;
 import engine.agent.shared.Glass;
-import engine.agent.shared.Interfaces.Machine;
+import engine.agent.shared.MachineAgent;
+import engine.agent.shared.Interfaces.ConveyorFamily;
 import engine.brandonCF.interfaces.ConveyorFamilyInterface;
 import engine.brandonCF.interfaces.ConveyorInterface;
 import engine.brandonCF.interfaces.PopUpInterface;
 import engine.brandonCF.interfaces.SensorInterface;
 
-public class Sensor1Agent extends Agent implements SensorInterface
+public class ShuttleSensor extends Agent implements SensorInterface
 {
 	//Data:
 	Glass glass;
-	private ConveyorFamilyInterface previous;
+	private ConveyorFamily next;
 	private ConveyorInterface conveyor;
 	private enum Status {open, filled, finished, waiting};
 	private Status status;
 	private Semaphore canSend;
 	private Transducer trans;
 	private Integer[] number;
-	private Machine mac;
+	private MachineAgent nextMac;
 	
 	//Methods:
-	public Sensor1Agent(String name, Transducer t, int num)
+	public ShuttleSensor(String name, Transducer t, int num)
 	{
 		super(name, t);
 		t.register(this, TChannel.SENSOR);
-		trans = t;
+		trans =t;
 		status = Status.open;
 		canSend = new Semaphore(0, true);
 		number = new Integer[1];
@@ -45,7 +46,7 @@ public class Sensor1Agent extends Agent implements SensorInterface
 		this.glass = g;
 		status = Status.filled;
 		print("Received glass");
-		trans.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_START, number);
+		trans.fireEvent(TChannel.CONVEYOR,TEvent.CONVEYOR_DO_STOP, number);
 		stateChanged();
 	}
 	
@@ -67,7 +68,7 @@ public class Sensor1Agent extends Agent implements SensorInterface
 		}
 		if(status == Status.filled)
 		{
-			sensorDone();
+			sensorWait();
 			return true;
 		}
 		if(status == Status.open)
@@ -79,28 +80,27 @@ public class Sensor1Agent extends Agent implements SensorInterface
 	}
 	
 	//Actions
-	
-	private void sensorDone()
-	{
-		status = Status.finished;
-		stateChanged();
-	}
-	
 	private void sendFinishedGlass()
 	{
 		status = Status.open;
 		try{
 			canSend.acquire();
-			conveyor.msgHereIsGlass(glass);
+			next.msgHereIsGlass(glass);
 			glass = null;
 			print("Sent glass");
 			stateChanged();
 		} catch(Exception e){}
 	}
 	
+	private void sensorWait()
+	{
+		status = Status.waiting;
+		stateChanged();
+	}
+	
 	private void askForGlass()
 	{
-		mac.msgSpaceAvailable();
+		conveyor.msgSpaceOpen();
 		status = Status.waiting;
 		print("Asked for Glass");
 		stateChanged();
@@ -108,18 +108,20 @@ public class Sensor1Agent extends Agent implements SensorInterface
 
 	@Override
 	public void eventFired(TChannel channel, TEvent event, Object[] args) {
-	
+		if(channel == TChannel.SENSOR & event == TEvent.SENSOR_GUI_RELEASED)
+		{
+			if((int) args[0] == 1)
+			{
+				status = Status.finished;
+				stateChanged();
+			}
+		}
 	}
 	
 	@Override
-	public void setPreviousFamily(ConveyorFamilyInterface previous)
+	public void setPreviousFamily(ConveyorFamilyInterface previous)//for the shuttle sensor, this is actually the next conveyor family
 	{
-		this.previous = previous;
-	}
-	
-	public void setPreviousFamily(Machine previous)
-	{
-		this.mac = previous;
+		//this.next = previous;
 	}
 	
 	@Override
@@ -133,5 +135,14 @@ public class Sensor1Agent extends Agent implements SensorInterface
 		//Does nothing here
 		
 	}
+	
+	public void setNumber(int num)
+	{
+		number[0] = num;
+	}
 
+	public void setNextConveyor(ConveyorFamily con) {
+		
+		next = con;
+	}
 }

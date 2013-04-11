@@ -7,5 +7,6 @@ public interface ConveyorFamily {
 	public abstract void msgSpaceAvailable();
 	
 	public abstract void msgHereIsGlass(Glass g);
+
 	
 }
