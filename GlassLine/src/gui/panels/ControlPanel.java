@@ -79,6 +79,7 @@ public class ControlPanel extends JPanel implements TReceiver
 	 */
 	TracePanel tracePanel;
 
+	//test
 	public final static Dimension size = new Dimension(400, 880);
 
 	/**
@@ -94,8 +95,9 @@ public class ControlPanel extends JPanel implements TReceiver
 		this.setMaximumSize(size);
 		this.setPreferredSize(size);
 
-		this.setBackground(Color.black);
-		this.setForeground(Color.black);
+		//changed to gray
+		this.setBackground(Color.gray);
+		this.setForeground(Color.gray);
 
 		// construct subpanels
 		titlePanel = new TitlePanel(this);
@@ -113,14 +115,14 @@ public class ControlPanel extends JPanel implements TReceiver
 		JTabbedPane selectTabbedPanel = new JTabbedPane(JTabbedPane.TOP);
 		selectTabbedPanel.add("Glass Select", glassSelectPanel);
 		selectTabbedPanel.add("Non Norms", nonNormPanel);
-		selectTabbedPanel.setBackground(Color.black);
+		selectTabbedPanel.setBackground(Color.gray);
 		selectTabbedPanel.setForeground(Color.white);
 		selectTabbedPanel.setBorder(BorderFactory.createEmptyBorder());
 
 		JTabbedPane infoTabbedPanel = new JTabbedPane(JTabbedPane.TOP);
 		infoTabbedPanel.add("Glass Info", glassInfoPanel);
 		infoTabbedPanel.add("Agent Traces", tracePanel);
-		infoTabbedPanel.setBackground(Color.black);
+		infoTabbedPanel.setBackground(Color.gray);
 		infoTabbedPanel.setForeground(Color.white);
 		infoTabbedPanel.setBorder(BorderFactory.createEmptyBorder());
 
