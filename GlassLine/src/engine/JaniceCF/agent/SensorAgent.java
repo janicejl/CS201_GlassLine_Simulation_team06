@@ -5,11 +5,12 @@ import engine.JaniceCF.interfaces.*;
 import engine.agent.Agent;
 import engine.agent.shared.Interfaces.ConveyorFamily;
 import engine.agent.shared.Interfaces.Machine;
+import engine.ryanCF.interfaces.Bin;
 
 public class SensorAgent extends Agent implements Sensor {
 	
 	ConveyorFamily previousCF;
-	//Bin bin;
+	Bin bin;
 	Machine machine;
 	
 	Conveyor conveyor;
@@ -75,9 +76,10 @@ public class SensorAgent extends Agent implements Sensor {
 						}
 					
 					
-//						if (bin != null) {
-//							print("Released. Sending msgSpaceAvailable to bin. ");
-//						}
+						if (bin != null) {
+							print("Released. Sending msgSpaceAvailable to bin. ");
+							bin.msgSpaceAvailable();
+						}
 						if (machine != null) {
 							print("Released. Sending msgSpaceAvailable to machine. ");
 							machine.msgSpaceAvailable();
