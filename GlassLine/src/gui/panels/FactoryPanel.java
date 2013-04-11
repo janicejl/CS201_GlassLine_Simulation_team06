@@ -112,7 +112,10 @@ public class FactoryPanel extends JPanel
 		MachineAgent uv = new MachineAgent(TChannel.UV_LAMP, transducer, 11);
 		ConveyorFamilyOnlineMachine ovenCF = new ConveyorFamilyOnlineMachine(13, TChannel.OVEN, transducer);
 		MachineAgent oven = new MachineAgent(TChannel.OVEN, transducer, 13);
-
+		
+		ConveyorFamilyOffline popup1 = new ConveyorFamilyOffline(5,transducer,TChannel.DRILL);
+		ConveyorFamilyOffline popup2 = new ConveyorFamilyOffline(6,transducer,TChannel.CROSS_SEAMER);
+		ConveyorFamilyOffline popup3 = new ConveyorFamilyOffline(7,transducer,TChannel.GRINDER);
 		//Linking all the agents
 		binAgent.setConveyorFamilyOnlineMachine(cutterCF);
 		
@@ -145,6 +148,13 @@ public class FactoryPanel extends JPanel
 		oven.setConveyor(uvCF.getConveyor());
 //		oven.setNextCF(####);			//TODO have to add truck CF as nextCF
 		
+		//popup1.setPreviousCF();
+		popup1.setNextCF(popup2);
+		popup2.setPreviousCF(popup1);
+		popup2.setNextCF(popup3);
+		popup3.setPreviousCF(popup2);
+		//popup3.setNextCF();
+		
 		System.out.println("Back end initialization finished.");
 
 		//Starting agent threads inside cf groups. 
@@ -165,21 +175,6 @@ public class FactoryPanel extends JPanel
 		ovenCF.startThread();
 		oven.startThread();
 
-		
-		//temp creating list of parts before gui is implemented
-		
-//		//initialization of the three popup (for test) I started the thread in my conveyor family--Heidi
-//		ConveyorFamilyClass popup1 = new ConveyorFamilyClass(5,transducer,TChannel.DRILL);
-//		ConveyorFamilyClass popup2 = new ConveyorFamilyClass(6,transducer,TChannel.CROSS_SEAMER);
-//		ConveyorFamilyClass popup3 = new ConveyorFamilyClass(7,transducer,TChannel.GRINDER);
-//		
-//		popup1.setNextCF(popup2);
-//		popup2.setNextCF(popup3);
-//		popup2.setPreviousCF(popup1);
-//		popup3.setPreviousCF(popup2);
-//		Glass g = new Glass(false,true,false);
-//		popup1.msgHereIsGlass(g);
-	
 		//Testing for JANICE - Machine agent processing being optional. 
 //		boolean[] g = {false,true,true,true,true,true,true,true,true,true,true,true,true,true};
 //		cutterCF.msgHereIsGlass(new Glass(g));
