@@ -58,6 +58,7 @@ public class GlassSelectPanel extends JPanel
 			partPanel[i] = new JPanel();
 			partPanel[i].add(partLabels[i]);
 			partPanel[i].add(partCheckBoxes[i]);
+			partPanel[i].setBackground(new Color(238,238,238));
 		}
 		
 		checkBoxPanel.setLayout(new GridLayout(1,2));
