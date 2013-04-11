@@ -117,6 +117,7 @@ public class MachineAgent extends Agent implements Machine {
 		nextCF.msgHereIsGlass(glass);
 		nextFree = false;
 		glass = null;
+		status = MachineState.Empty;
 		stateChanged();
 	}
 	
