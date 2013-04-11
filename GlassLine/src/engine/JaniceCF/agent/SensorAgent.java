@@ -107,5 +107,9 @@ public class SensorAgent extends Agent implements Sensor {
 	public void setMachine(Machine m) {
 		machine = m;
 	}
+	
+	public void setBin(Bin b) {
+		bin = b;
+	}
 
 }

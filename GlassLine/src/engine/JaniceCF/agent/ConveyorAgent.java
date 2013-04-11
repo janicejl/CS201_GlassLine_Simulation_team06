@@ -8,6 +8,7 @@ import engine.agent.Agent;
 import engine.agent.shared.Glass;
 import engine.agent.shared.Interfaces.ConveyorFamily;
 import engine.agent.shared.Interfaces.Machine;
+import engine.ryanCF.interfaces.Bin;
 
 public class ConveyorAgent extends Agent implements Conveyor {
 	
@@ -103,7 +104,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 				Integer[] newArgs = new Integer[1];
 				if (((Integer)args[0] % 2) == 0) {
 					if (args[0].equals((conveyorIndex*2) + 1)) {
-						if (glassList.size() != 0) {
+						if (glassList.size() != 0 && nextFree == true) {
 							print("Released. Starting Conveyor. ");
 							newArgs[0] = (Integer) args[0] / 2;
 							//						newArgs[0] = (Integer) sensorIndex;
@@ -178,6 +179,10 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	
 	public void setPreviousCF(ConveyorFamily cf) {
 		begin.setPreviousCF(cf);
+	}
+	
+	public void setBin(Bin b) {
+		begin.setBin(b);
 	}
 
 }

@@ -120,6 +120,7 @@ public class FactoryPanel extends JPanel
 		binAgent.setConveyorFamilyOnlineMachine(cutterCF);
 		
 		cutterCF.setMachine(cutter);
+		cutterCF.setBin(binAgent);
 		cutter.setConveyor(cutterCF.getConveyor());
 		cutter.setNextCF(cf1);
 		cf1.setMachine(cutter);

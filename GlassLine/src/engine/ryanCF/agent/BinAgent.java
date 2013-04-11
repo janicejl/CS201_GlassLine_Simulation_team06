@@ -50,6 +50,7 @@ public class BinAgent extends Agent implements Bin{
 		this.cfom = cfom;
 	}
 	public void msgSpaceAvailable(){
+		print ("Got msgSpaceAvailable(). ");
 		nextCFAvailable=true;
 		stateChanged();
 	}

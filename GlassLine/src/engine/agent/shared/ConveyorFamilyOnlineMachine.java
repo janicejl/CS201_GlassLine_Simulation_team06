@@ -7,6 +7,7 @@ import engine.JaniceCF.agent.*;
 import engine.JaniceCF.interfaces.*;
 import engine.agent.shared.*;
 import engine.agent.shared.Interfaces.*;
+import engine.ryanCF.interfaces.Bin;
 
 public class ConveyorFamilyOnlineMachine implements ConveyorFamily {
 
@@ -33,6 +34,10 @@ public class ConveyorFamilyOnlineMachine implements ConveyorFamily {
 	public void msgHereIsGlass(Glass g) {
 		System.out.println(name + ": Forwarded msgHereIsGlass to Conveyor. ");
 		conveyor.msgHereIsGlass(g);
+	}
+	
+	public void setBin(Bin bin) {
+		conveyor.setBin(bin);
 	}
 	
 	public void setMachine(Machine m) {
