@@ -40,8 +40,16 @@ public class ConveyorFamilyOnlineMachine implements ConveyorFamily {
 		conveyor.setBin(bin);
 	}
 	
+	public void setPreviousMachine(Machine m) {
+		conveyor.setPreviousMachine(m);
+	}
+	
 	public void setMachine(Machine m) {
 		conveyor.setMachine(m);
+	}
+	
+	public void setPreviousCF(ConveyorFamily cf) {
+		conveyor.setPreviousCF(cf);
 	}
 	
 	public Conveyor getConveyor() {

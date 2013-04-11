@@ -130,10 +130,12 @@ public class FactoryPanel extends JPanel
 		shuttleConBL.msgSpaceAvailable();
 		shuttleConBL.startConveyorFamily();
 
+		breakoutCF.setPreviousCF(shuttleConBL);
 		breakoutCF.setMachine(breakout);
 		breakout.setConveyor(breakoutCF.getConveyor());
 		breakout.setNextCF(manualBreakoutCF);
 		
+		manualBreakoutCF.setPreviousMachine(breakout);
 		manualBreakoutCF.setMachine(manualBreakout);
 		manualBreakout.setConveyor(manualBreakoutCF.getConveyor());
 		manualBreakout.setNextCF(shuttleConTL);			//TODO have to add shuttle CF as nextCF
@@ -142,6 +144,7 @@ public class FactoryPanel extends JPanel
 		shuttleConTL.msgSpaceAvailable();
 		shuttleConTL.startConveyorFamily();
 
+		washerCF.setPreviousCF(popup3);
 		washerCF.setMachine(washer);
 		washer.setConveyor(washerCF.getConveyor());
 		washer.setNextCF(shuttleConTR);			//TODO have to add shuttle CF as nextCF
@@ -150,10 +153,12 @@ public class FactoryPanel extends JPanel
 		shuttleConTR.msgSpaceAvailable();
 		shuttleConTR.startConveyorFamily();
 		
+		painterCF.setPreviousCF(shuttleConTR);
 		painterCF.setMachine(painter);
 		painter.setConveyor(painterCF.getConveyor());
 		painter.setNextCF(uvCF);
 		
+		uvCF.setPreviousMachine(painter);
 		uvCF.setMachine(uv);
 		uv.setConveyor(uvCF.getConveyor());
 		uv.setNextCF(shuttleConBR);			//TODO have to add shuttle CF as nextCF
@@ -162,6 +167,7 @@ public class FactoryPanel extends JPanel
 		shuttleConBR.msgSpaceAvailable();
 		shuttleConBR.startConveyorFamily();
 		
+		ovenCF.setPreviousCF(shuttleConBR);
 		ovenCF.setMachine(oven);
 		oven.setConveyor(uvCF.getConveyor());
 //		oven.setNextCF(####);			//TODO have to add truck CF as nextCF
@@ -244,8 +250,9 @@ public class FactoryPanel extends JPanel
 				recipe[i]=true;
 		}
 		tempGlassToProcess.add(new Glass(recipe));
+		recipe[0] = false;
 		tempGlassToProcess.add(new Glass(recipe));
-		tempGlassToProcess.add(new Glass(recipe));
+		//tempGlassToProcess.add(new Glass(recipe));
 
 		binAgent.msgProcessGlassOrder(tempGlassToProcess);
 	}
