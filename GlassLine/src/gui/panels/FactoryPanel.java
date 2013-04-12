@@ -239,21 +239,13 @@ public class FactoryPanel extends JPanel
 	/**
 	 * Starts GlassLine post-initialization
 	 */
-	public void startFactory() {
+	public void startFactory(int quantity, boolean[] setting) {
 		List<Glass> tempGlassToProcess = new ArrayList<Glass>();
-		boolean[] recipe = new boolean[14];
-		for(int i=0;i<14;i++)
-		{
-			if(i==6)
-				recipe[i]=false; //so only CF 6 will not process the glass
-			else
-				recipe[i]=true;
+		for(int i = 0; i < quantity; i++) {
+			tempGlassToProcess.add(new Glass(setting));
 		}
-		tempGlassToProcess.add(new Glass(recipe));
-		recipe[0] = false;
-		tempGlassToProcess.add(new Glass(recipe));
+		
 		//tempGlassToProcess.add(new Glass(recipe));
-
 		binAgent.msgProcessGlassOrder(tempGlassToProcess);
 	}
 }

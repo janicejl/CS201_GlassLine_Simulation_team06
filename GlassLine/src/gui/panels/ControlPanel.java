@@ -81,6 +81,10 @@ public class ControlPanel extends JPanel implements TReceiver
 
 	//test
 	public final static Dimension size = new Dimension(400, 880);
+	
+	int quantity;
+	
+	boolean[] recipe;
 
 	/**
 	 * Creates a ControlPanel with no connections. Used only for testing
@@ -194,6 +198,10 @@ public class ControlPanel extends JPanel implements TReceiver
 		return parent;
 	}
 
+	public void setSetting(int quantity, boolean[] recipe) {
+		this.quantity = quantity;
+		this.recipe = recipe;
+	}
 	/**
 	 * Listens to events fired on the transducer, especially from Agents
 	 */
@@ -201,7 +209,10 @@ public class ControlPanel extends JPanel implements TReceiver
 	{
 		if(channel == TChannel.CONTROL_PANEL) {
 			if(event == TEvent.START) {
-				parent.startFactory();
+				System.out.println("Starting factory : " + quantity);
+				for(int i = 0; i < 15; i++)
+					System.out.println(recipe[i]);
+				parent.startFactory(quantity, recipe);
 			}
 		}
 		// TODO implement as needed
