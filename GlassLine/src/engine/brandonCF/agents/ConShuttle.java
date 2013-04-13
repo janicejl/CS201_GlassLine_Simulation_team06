@@ -32,7 +32,7 @@ public class ConShuttle extends Agent implements ConveyorFamily
 	private Integer[] number;
 	ConveyorFamily con;
 	Machine mac;
-	boolean canSend, notified, conMoving;
+	boolean canSend, notified, conMoving, released;
 	
 	public ConShuttle(String name, Transducer t, int num)
 	{
@@ -44,6 +44,7 @@ public class ConShuttle extends Agent implements ConveyorFamily
 		canSend = true;
 		notified = false;
 		conMoving = true;
+		released = false;
 		transducer.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_START, number);
 	}
 	
@@ -80,7 +81,7 @@ public class ConShuttle extends Agent implements ConveyorFamily
 				}
 			}
 
-			if(notified ==false & conMoving)//if i haven't notified & the conveyor is moving is not stopped
+			if(notified ==false & conMoving & released)//if i haven't notified & the conveyor is moving is not stopped
 			{
 				msgMac();
 				return true;
@@ -101,11 +102,11 @@ public class ConShuttle extends Agent implements ConveyorFamily
 		mac.msgSpaceAvailable();
 		print(name.toString() +" Space Open");
 		notified = true;
+		released = false;
 	}
 	
 	private void sendGlass(GlassPacket glassPacket) {
 			canSend = false;
-			print(glassPacket.g.toString());
 			con.msgHereIsGlass(glassPacket.g);//send the glass
 			glass.remove(glassPacket);//remove from list
 			if(conMoving!= true)
@@ -114,6 +115,13 @@ public class ConShuttle extends Agent implements ConveyorFamily
 				conMoving = true;
 			}
 			print(name.toString() +" sent glass");
+			print(""+notified);
+			print(""+released);
+			print(""+ glass.size());
+			if(notified ==false & conMoving & released || glass.size() == 0)//if i haven't notified & the conveyor is moving is not stopped
+			{
+				msgMac();
+			}
 			stateChanged();
 	}
 
@@ -122,6 +130,11 @@ public class ConShuttle extends Agent implements ConveyorFamily
 		// TODO Auto-generated method stub
 		if(channel == TChannel.SENSOR & event == TEvent.SENSOR_GUI_RELEASED)
 		{
+			if(args[0].equals(number[0] *2))//if second sensor
+			{
+				released = true;
+				stateChanged();
+			}
 			if(args[0].equals(number[0] *2+1))//if second sensor
 			{
 				glass.get(0).status = Status.send;
