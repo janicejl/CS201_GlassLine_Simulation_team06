@@ -45,6 +45,15 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		machine = null;
 	}
 	
+	public void msgGlassAtStart() {
+		if (status != ConveyorStatus.GlassAtEnd) {
+			Integer[] newArgs = new Integer[1];
+			newArgs[0] = (Integer) conveyorIndex;
+			transducer.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_START, newArgs);
+		}
+		stateChanged();
+	}
+	
 	public void msgGlassAtEnd() {
 		status = ConveyorStatus.GlassAtEnd;
 		stateChanged();
@@ -103,6 +112,10 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	@Override
 	public void eventFired(TChannel channel, TEvent event, Object[] args) {
 		if (channel == TChannel.SENSOR) {
+			if (event == TEvent.SENSOR_GUI_PRESSED) {
+				
+			}
+			
 			if (event == TEvent.SENSOR_GUI_RELEASED) {
 				Integer[] newArgs = new Integer[1];
 				if (((Integer)args[0] % 2) == 0) {
