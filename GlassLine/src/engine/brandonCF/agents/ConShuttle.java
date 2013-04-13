@@ -1,6 +1,7 @@
 package engine.brandonCF.agents;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import transducer.TChannel;
@@ -27,7 +28,7 @@ public class ConShuttle extends Agent implements ConveyorFamily
 		}
 	}
 
-	private List<GlassPacket> glass = new ArrayList<GlassPacket>();
+	private List<GlassPacket> glass = Collections.synchronizedList(new ArrayList<GlassPacket>());
 	private Integer[] number;
 	ConveyorFamily con;
 	Machine mac;
@@ -49,19 +50,23 @@ public class ConShuttle extends Agent implements ConveyorFamily
 	@Override
 	public void msgSpaceAvailable() {
 		// TODO Auto-generated method stub
+		if(canSend == true)
+		{
+			System.err.println("AHHHHHH");
+		}
 		canSend = true;
 	}
 
 	@Override
-	public synchronized void msgHereIsGlass(Glass g) {
+	public void msgHereIsGlass(Glass g) {
 		this.glass.add(new GlassPacket(g));
 		print(name.toString() +" received glass");
 		notified = false;
 		stateChanged();
 	}
-
+//scheduler
 	@Override
-	public synchronized boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
 		if(glass.size()>0)//if there are packets, try to do something
 		{
@@ -71,9 +76,10 @@ public class ConShuttle extends Agent implements ConveyorFamily
 					sendGlass(glass.get(0));
 					return true;
 				}
-				else
+				else//*/
 				{
 					stopConveyor();
+					return true;
 				}
 			}
 
@@ -103,6 +109,7 @@ public class ConShuttle extends Agent implements ConveyorFamily
 	
 	private void sendGlass(GlassPacket glassPacket) {
 			canSend = false;
+			print(glassPacket.g.toString());
 			con.msgHereIsGlass(glassPacket.g);//send the glass
 			glass.remove(glassPacket);//remove from list
 			if(conMoving!= true)
