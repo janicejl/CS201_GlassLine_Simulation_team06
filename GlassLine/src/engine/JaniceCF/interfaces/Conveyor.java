@@ -7,6 +7,8 @@ import engine.ryanCF.interfaces.Bin;
 
 public interface Conveyor {
 
+	public abstract void msgGlassAtStart();
+	
 	public abstract void msgGlassAtEnd();
 	
 	public abstract void msgSpaceAvailable();

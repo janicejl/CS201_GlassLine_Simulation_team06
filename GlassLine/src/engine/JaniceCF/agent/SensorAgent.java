@@ -51,8 +51,8 @@ public class SensorAgent extends Agent implements Sensor {
 						print("Pressed. Starting Conveyor. ");
 						newArgs[0] = (Integer)args[0] / 2;
 //						newArgs[0] = (Integer) sensorIndex;
-						transducer.fireEvent(TChannel.CONVEYOR,
-								TEvent.CONVEYOR_DO_START, newArgs);
+						//transducer.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_START, newArgs);
+						conveyor.msgGlassAtStart();
 					}
 				} else {
 					if (args[0].equals(sensorIndex)) {
