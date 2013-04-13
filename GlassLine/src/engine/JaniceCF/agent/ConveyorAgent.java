@@ -56,11 +56,11 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		if (nextFree != false) {
 			System.err.println(name + ": nextFree should not be true at this point. ");
 		}
-		if (glassList.size() != 0) {
-			status = ConveyorStatus.GlassAtEnd;
-		} else {
-			status = ConveyorStatus.Nothing;
-		}
+//		if (glassList.size() != 0) {
+//			status = ConveyorStatus.GlassAtEnd;
+//		} else {
+//			status = ConveyorStatus.Nothing;
+//		}
 		nextFree = true;
 		stateChanged();
 	}
