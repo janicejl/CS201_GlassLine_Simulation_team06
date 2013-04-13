@@ -48,9 +48,7 @@ public class TruckAgent extends Agent implements Truck{
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
-		if(!glassInTruck.isEmpty()) {
-			return true;
-		}
+		
 		return false;
 	}
 
@@ -58,10 +56,13 @@ public class TruckAgent extends Agent implements Truck{
 	public void eventFired(TChannel channel, TEvent event, Object[] args) {
 		// TODO Auto-generated method stub
 		if(channel == TChannel.TRUCK && event == TEvent.TRUCK_GUI_LOAD_FINISHED) {
+			print("Glass Load Complete. Truck to empty glass");
 			t.fireEvent(TChannel.TRUCK, TEvent.TRUCK_DO_EMPTY, null);
 		}
 		if(channel == TChannel.TRUCK && event == TEvent.TRUCK_GUI_EMPTY_FINISHED) {
+			print("Glass Empty Complete. Space Available");
 			prevConv.msgSpaceAvailable();
+			
 		}
 	}
 	
