@@ -4,6 +4,7 @@ import transducer.TChannel;
 import transducer.TEvent;
 import transducer.Transducer;
 import engine.agent.Agent;
+import engine.agent.shared.MachineAgent;
 import engine.agent.shared.Interfaces.ConveyorFamily;
 import engine.ryanCF.interfaces.*;
 
@@ -12,7 +13,7 @@ public class FrontSensorAgent extends Agent implements Sensor {
 	Transducer t;
 	Conveyor conveyor;
 
-	ConveyorFamily prevConv;
+	MachineAgent prevMachine;
 
 	int index;
 
@@ -35,14 +36,16 @@ public class FrontSensorAgent extends Agent implements Sensor {
 		// TODO Auto-generated method stub
 		if (channel == TChannel.SENSOR) {
 			if (event == TEvent.SENSOR_GUI_RELEASED) {
-				if(args[0].equals(index))
-					prevConv.msgSpaceAvailable();
+				if(args[0].equals(index)) {
+					System.out.println("hasdf");
+					prevMachine.msgSpaceAvailable();
+				}
 			}
 		}
 	}
 
-	public void setPreviousConveyor(ConveyorFamily conv) {
-		this.prevConv = conv;
+	public void setPreviousMachine(MachineAgent machine) {
+		this.prevMachine = machine;
 	}
 
 	public void msgSpaceAvailable() {

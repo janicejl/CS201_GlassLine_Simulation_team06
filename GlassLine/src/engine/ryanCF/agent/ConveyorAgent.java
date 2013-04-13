@@ -80,7 +80,6 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		g.state = GlassState.CONVEYOR;
 		Integer[] argument = new Integer[1];
 		argument[0] = index;
-		System.out.println("asdfsd");
 		t.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_START, argument);
 	}
 
@@ -102,6 +101,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	@Override
 	public void msgHereIsGlass(Glass g) {
 		// TODO Auto-generated method stub
+		print("Received msgHereIsGlass");
 		MyGlass myGlass = new MyGlass();
 		myGlass.g = g;
 		myGlass.state = GlassState.SENSOR1;
@@ -114,7 +114,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	@Override
 	public void msgSpaceAvailable() {
 		// TODO Auto-generated method stub
-		
+		print("Received msgSpaceAvailable");
 	}
 
 	public void setTruck(TruckAgent truck) {

@@ -10,7 +10,7 @@ public class ConveyorFamily14 implements ConveyorFamily{
 	ConveyorAgent conveyor;	
 	String name;
 	
-	ConveyorFamily prevCF;
+	MachineAgent prevMachine;
 	TruckAgent truck;
 	
 	public ConveyorFamily14(String name, Transducer t) {
@@ -28,13 +28,14 @@ public class ConveyorFamily14 implements ConveyorFamily{
 	@Override
 	public void msgHereIsGlass(Glass g) {
 		// TODO Auto-generated method stub
+		System.out.println("Received msgHereIsGlass");
 		conveyor.msgHereIsGlass(g);
 	}
 
-	public void setPreviousCF(ConveyorFamilyOnlineMachine prevCF) {
+	public void setPreviousMachine(MachineAgent prevMachine) {
 		// TODO Auto-generated method stub
-		this.prevCF = prevCF;
-		conveyor.getFrontSensor().setPreviousConveyor(prevCF);
+		this.prevMachine = prevMachine;
+		conveyor.getFrontSensor().setPreviousMachine(prevMachine);
 		//conveyor.setPreviousConveyor(prevCF);
 	}
 

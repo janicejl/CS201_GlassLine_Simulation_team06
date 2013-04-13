@@ -176,7 +176,7 @@ public class FactoryPanel extends JPanel
 		oven.setConveyor(ovenCF.getConveyor());
 		oven.setNextCF(cf14);			//TODO have to add truck CF as nextCF
 		
-		cf14.setPreviousCF(ovenCF);
+		cf14.setPreviousMachine(oven);
 		cf14.setTruck(truck);
 		
 		truck.setConveyorFamily(cf14);
