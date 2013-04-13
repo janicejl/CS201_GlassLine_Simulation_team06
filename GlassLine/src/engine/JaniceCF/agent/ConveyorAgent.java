@@ -1,6 +1,6 @@
 package engine.JaniceCF.agent;
 
-import java.util.ArrayList;
+import java.util.*;
 
 import transducer.*;
 import engine.JaniceCF.interfaces.*;
@@ -25,7 +25,8 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	Popup popup;
 	Machine machine;
 	
-	ArrayList<Glass> glassList = new ArrayList<Glass>();
+	//ArrayList<Glass> glassList = new ArrayList<Glass>();
+	List<Glass> glassList = Collections.synchronizedList(new ArrayList<Glass>());
 	
 	public ConveyorAgent(String name, Transducer transducer, int index) {
 		super(name, transducer);
@@ -67,7 +68,9 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	@Override
 	public void msgHereIsGlass(Glass g) {
 		print("Received msgHereIsGlass");
-		glassList.add(g);
+		synchronized (glassList) {
+			glassList.add(g);
+		} 
 		stateChanged();
 	}
 	
@@ -131,7 +134,9 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		nextFree = false;
 		Glass g = glassList.get(0);
 		popup.msgHereIsGlass(g);
-		glassList.remove(g);
+		synchronized (glassList) {
+			glassList.remove(g);
+		} 
 		status = ConveyorStatus.Nothing;
 		stateChanged();
 	}
@@ -145,7 +150,9 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		Glass g = glassList.get(0);
 		machine.msgHereIsGlass(g);
 		transducer.fireEvent(machine.getChannel(), TEvent.WORKSTATION_DO_LOAD_GLASS, null);
-		glassList.remove(g);
+		synchronized (glassList) {
+			glassList.remove(g);
+		} 
 		status = ConveyorStatus.Nothing;
 		stateChanged();		
 	}

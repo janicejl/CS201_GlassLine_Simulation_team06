@@ -72,6 +72,8 @@ public class MachineAgent extends Agent implements Machine {
 					return true;
 				}
 			}
+		} else {
+			System.err.println(name + ": Glass is NULL");
 		}
 		return false;
 	}
