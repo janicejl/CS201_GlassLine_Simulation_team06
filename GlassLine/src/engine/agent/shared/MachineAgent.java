@@ -72,7 +72,7 @@ public class MachineAgent extends Agent implements Machine {
 					return true;
 				}
 			}
-		} else {
+		} else if (glass == null && status != MachineState.Empty) {
 			System.err.println(name + ": Glass is NULL");
 		}
 		return false;
