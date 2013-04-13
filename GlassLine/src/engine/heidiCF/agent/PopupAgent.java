@@ -123,27 +123,7 @@ public class PopupAgent extends Agent implements Popup{
 
 		for(int i=0;i<robots.size();i++)
 		{
-			if(robots.get(i).status == RobotStatus.Empty)
-			{
-				synchronized(glasses)
-				{	for (MyGlass g:glasses)//there exists a MyGlass g in glasses such that g.status = GlassStatus.Pending
-					{	
-						if(g.status ==GlassStatus.Pending)
-						{	
-							tempG =g;
-							break;
-						}
-					}
-				}
-				if(tempG!=null)
-				{
-					tempG.robotIndex=i;
-					robots.get(i).status = RobotStatus.Working;
-					deliverGlass(tempG);
-					return true;
-				}
-			}
-		}
+
 		if (nextFamilyAvailable)
 		{
 	
@@ -177,6 +157,27 @@ public class PopupAgent extends Agent implements Popup{
 				getGlassFromMachine(tempG1);
 				return true;
 			}
+			if(robots.get(i).status == RobotStatus.Empty)
+			{
+				synchronized(glasses)
+				{	for (MyGlass g:glasses)//there exists a MyGlass g in glasses such that g.status = GlassStatus.Pending
+					{	
+						if(g.status ==GlassStatus.Pending)
+						{	
+							tempG =g;
+							break;
+						}
+					}
+				}
+				if(tempG!=null)
+				{
+					tempG.robotIndex=i;
+					robots.get(i).status = RobotStatus.Working;
+					deliverGlass(tempG);
+					return true;
+				}
+			}
+		}
 		}
 		
 
