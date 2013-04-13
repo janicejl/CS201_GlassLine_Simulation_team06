@@ -111,14 +111,13 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		if(channel == TChannel.SENSOR && event == TEvent.SENSOR_GUI_PRESSED) {
 			if(args[0].equals(index*2+1)) {
 				endPressed = true;
-				print("second hit");
+				print("End Sensor Hit");
 				//glassOnConveyor.get(0).state = GlassState.SENSOR2;
 				
 			}
 		}
 		if(channel == TChannel.SENSOR && event == TEvent.SENSOR_GUI_RELEASED) {
 			if(args[0].equals(index*2+1)) {
-				print("CHANGING ENDPRESSED TO FALSE, THUS ALLOWING BS");
 				endPressed = false;
 				stateChanged();
 			}
