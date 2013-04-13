@@ -156,13 +156,16 @@ public class PopupAgent extends Agent implements Popup{
 						tempG = g;
 						break;
 					}
+
+				}
+				for(MyGlass g :glasses)
+				{
 					if(g.status == GlassStatus.Ready)
 					{
 						tempG1 = g;
 						break;
 					}
 				}
-
 			}
 			if(tempG!=null)
 			{
