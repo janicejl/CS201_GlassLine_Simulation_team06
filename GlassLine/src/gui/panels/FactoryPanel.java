@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 
 import transducer.TChannel;
 import transducer.Transducer;
+import transducer.TransducerDebugMode;
 
 /**
  * The FactoryPanel is highest level panel in the actual kitting cell. The
@@ -51,6 +52,7 @@ public class FactoryPanel extends JPanel
 
 		// initialize transducer
 		transducer = new Transducer();
+		//transducer.setDebugMode(TransducerDebugMode.EVENTS_AND_ACTIONS);
 		transducer.startTransducer();
 
 		// use default layout

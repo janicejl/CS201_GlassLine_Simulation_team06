@@ -36,6 +36,7 @@ public class TruckAgent extends Agent implements Truck{
 	
 	@Override
 	public void msgHereIsGlass(Glass g) {
+		print("Received msgHereIsGlass");
 		MyGlass myGlass = new MyGlass();
 		myGlass.g = g;
 		myGlass.state = GlassState.ON_LINE;
@@ -48,7 +49,6 @@ public class TruckAgent extends Agent implements Truck{
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
 		if(!glassInTruck.isEmpty()) {
-			
 			return true;
 		}
 		return false;
@@ -57,8 +57,11 @@ public class TruckAgent extends Agent implements Truck{
 	@Override
 	public void eventFired(TChannel channel, TEvent event, Object[] args) {
 		// TODO Auto-generated method stub
-		if(channel == TChannel.TRUCK) {
-			
+		if(channel == TChannel.TRUCK && event == TEvent.TRUCK_GUI_LOAD_FINISHED) {
+			t.fireEvent(TChannel.TRUCK, TEvent.TRUCK_DO_EMPTY, null);
+		}
+		if(channel == TChannel.TRUCK && event == TEvent.TRUCK_GUI_EMPTY_FINISHED) {
+			prevConv.msgSpaceAvailable();
 		}
 	}
 	

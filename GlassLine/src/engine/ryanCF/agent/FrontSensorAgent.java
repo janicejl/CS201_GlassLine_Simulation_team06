@@ -37,9 +37,12 @@ public class FrontSensorAgent extends Agent implements Sensor {
 		if (channel == TChannel.SENSOR) {
 			if (event == TEvent.SENSOR_GUI_RELEASED) {
 				if(args[0].equals(index)) {
-					System.out.println("hasdf");
 					prevMachine.msgSpaceAvailable();
 				}
+			}
+			else if(event == TEvent.SENSOR_GUI_PRESSED) {
+				if(args[0].equals(index))
+					print("Front Sensor Pressed");
 			}
 		}
 	}
