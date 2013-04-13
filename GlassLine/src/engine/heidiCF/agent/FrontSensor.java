@@ -32,6 +32,7 @@ public class FrontSensor extends Agent implements Sensor {
 	}
 	
 	public void sensorReleased() {
+		//print("Sending to prevCF msgSpaceAvailable");
 		status = SensorStatus.Empty;
 		prevCF.msgSpaceAvailable();
 		stateChanged();
@@ -50,11 +51,11 @@ public class FrontSensor extends Agent implements Sensor {
 	public void eventFired(TChannel channel, TEvent event, Object[] args) {
 		if(channel .equals(TChannel.SENSOR)&& event .equals(TEvent.SENSOR_GUI_RELEASED)&& args[0].equals(myIndex))
 		{
-			if(myIndex!=10)
-			{
+			//if(myIndex!=10)		//commented out for integration. 
+			//{
 				status = SensorStatus.Released;
 				stateChanged();
-			}
+			//}
 			
 		}
 		
