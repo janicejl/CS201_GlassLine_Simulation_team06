@@ -50,10 +50,6 @@ public class ConShuttle extends Agent implements ConveyorFamily
 	@Override
 	public void msgSpaceAvailable() {
 		// TODO Auto-generated method stub
-		if(canSend == true)
-		{
-			System.err.println("AHHHHHH");
-		}
 		canSend = true;
 		stateChanged();
 	}
@@ -97,7 +93,7 @@ public class ConShuttle extends Agent implements ConveyorFamily
 	
 	private void stopConveyor() {
 		transducer.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_STOP, number);
-		conMoving = false;		
+		conMoving = false;
 	}
 
 	private void msgMac()
