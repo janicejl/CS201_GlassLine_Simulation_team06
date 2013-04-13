@@ -25,7 +25,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 
 	int index;
 
-	boolean truckAvailable = false;
+	boolean truckAvailable = true;
 	boolean endPressed = false;
 	
 	enum GlassState {
@@ -44,9 +44,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		
 		t.register(this, TChannel.SENSOR);
 		
-		front = new FrontSensorAgent(index*2, "Front Sensor " + index*2, t);
-		end = new EndSensorAgent(index*2+1, "End Sensor " + index*2+1, t);
-		end.setConveyor(this);
+		
 	}
 
 	@Override
@@ -60,31 +58,20 @@ public class ConveyorAgent extends Agent implements Conveyor {
 						startConveyor(g);
 						return true;
 					}
-					else if(g.state == GlassState.SENSOR2){
+					if(g.state == GlassState.SENSOR2){
 						if(truckAvailable) {
+							truckAvailable = false;
 							sendGlassToTruck(g);
-							return true;
-						}
-						else {
-							System.out.println(name + " : Truck not available");
-							Integer[] arg1 = new Integer[1];
-							arg1[0] = index;
-							t.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_STOP, arg1);
 							return true;
 						}
 					}
 				}
 			}
 		}
-		if(truckAvailable) {
-			truckAvailable = false;
-			turnOnConveyor();
-			return true;
-		}
 		return false;
 	}
 
-	private void turnOnConveyor() {
+	public void turnOnConveyor() {
 		// TODO Auto-generated method stub
 		print("Truck available. Turning on");
 		Integer[] arg1 = new Integer[1];
@@ -96,30 +83,39 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		// TODO Auto-generated method stub
 		print("Starting Conveyor");
 		g.state = GlassState.CONVEYOR;
-		Integer[] argument = new Integer[1];
-		argument[0] = index;
-		t.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_START, argument);
+		turnOnConveyor();
 	}
 
 	private void sendGlassToTruck(MyGlass g) {
+		print("SENDING GLASS TO TRUCK");
 		truck.msgHereIsGlass(g.g);
-		front.msgSpaceAvailable();
+		turnOnConveyor();
+		//front.msgSpaceAvailable();
 	}
 	@Override
 	public void eventFired(TChannel channel, TEvent event, Object[] args) {
 		// TODO Auto-generated method stub
 		if(channel == TChannel.SENSOR && event == TEvent.SENSOR_GUI_PRESSED) {
 			if(args[0].equals(index*2+1)) {
-				endPressed = true;
-				print("End Sensor Hit");
-				//glassOnConveyor.get(0).state = GlassState.SENSOR2;
+				synchronized(glassOnConveyor) {
+					endPressed = true;
+					print("End Sensor Hit");
+					Integer[] arg1 = new Integer[1];
+					arg1[0] = index;
+					t.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_STOP, arg1);
+					glassOnConveyor.get(0).state = GlassState.SENSOR2;
+					stateChanged();
+				}
 				
 			}
 		}
 		if(channel == TChannel.SENSOR && event == TEvent.SENSOR_GUI_RELEASED) {
 			if(args[0].equals(index*2+1)) {
-				endPressed = false;
-				stateChanged();
+				synchronized(glassOnConveyor) {
+					truck.msgHereIsGlass(glassOnConveyor.remove(0).g);
+					endPressed = false;
+					stateChanged();
+				}
 			}
 		}
 	}
@@ -163,6 +159,16 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		// TODO Auto-generated method stub
 		print("Must stop");
 		stateChanged();
+	}
+
+	public void setFrontSensor(FrontSensorAgent front2) {
+		// TODO Auto-generated method stub
+		this.front = front2;
+	}
+
+	public void setBackSensor(EndSensorAgent end) {
+		// TODO Auto-generated method stub
+		this.end = end;
 	}
 
 }

@@ -40,10 +40,6 @@ public class FrontSensorAgent extends Agent implements Sensor {
 					prevMachine.msgSpaceAvailable();
 				}
 			}
-			else if(event == TEvent.SENSOR_GUI_PRESSED) {
-				if(args[0].equals(index))
-					print("Front Sensor Pressed");
-			}
 		}
 	}
 
@@ -54,5 +50,11 @@ public class FrontSensorAgent extends Agent implements Sensor {
 	public void msgSpaceAvailable() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void setConveyor(Conveyor c) {
+		// TODO Auto-generated method stub
+		this.conveyor = c;
 	}
 }
