@@ -5,7 +5,7 @@ import engine.agent.shared.ConveyorFamilyOffline;
 import engine.agent.shared.ConveyorFamilyOnlineMachine;
 import engine.agent.shared.Glass;
 import engine.agent.shared.MachineAgent;
-import engine.brandonCF.agents.ShuttleCon;
+import engine.brandonCF.agents.ConShuttle;
 import engine.ryanCF.agent.BinAgent;
 import gui.drivers.FactoryFrame;
 
@@ -98,20 +98,20 @@ public class FactoryPanel extends JPanel
 		binAgent = new BinAgent(transducer);
 		ConveyorFamilyOnlineMachine cutterCF = new ConveyorFamilyOnlineMachine(0, TChannel.CUTTER, transducer);
 		MachineAgent cutter = new MachineAgent(TChannel.CUTTER, transducer, 0);
-		ShuttleCon shuttleConBL = new ShuttleCon("ShuttleConBL", transducer, 1); 
+		ConShuttle shuttleConBL = new ConShuttle("ShuttleConBL", transducer, 1); 
 		ConveyorFamilyOnlineMachine breakoutCF = new ConveyorFamilyOnlineMachine(2, TChannel.BREAKOUT, transducer);
 		MachineAgent breakout = new MachineAgent(TChannel.BREAKOUT, transducer, 2);
 		ConveyorFamilyOnlineMachine manualBreakoutCF = new ConveyorFamilyOnlineMachine(3, TChannel.MANUAL_BREAKOUT, transducer);
 		MachineAgent manualBreakout = new MachineAgent(TChannel.MANUAL_BREAKOUT, transducer, 3);
-		ShuttleCon shuttleConTL = new ShuttleCon("ShuttleConTL",transducer,4);
+		ConShuttle shuttleConTL = new ConShuttle("ShuttleConTL",transducer,4);
 		ConveyorFamilyOnlineMachine washerCF = new ConveyorFamilyOnlineMachine(8, TChannel.WASHER, transducer);
 		MachineAgent washer = new MachineAgent(TChannel.WASHER, transducer, 8);
-		ShuttleCon shuttleConTR = new ShuttleCon("ShuttleConTR",transducer, 9);
+		ConShuttle shuttleConTR = new ConShuttle("ShuttleConTR",transducer, 9);
 		ConveyorFamilyOnlineMachine painterCF = new ConveyorFamilyOnlineMachine(10, TChannel.PAINTER, transducer);
 		MachineAgent painter = new MachineAgent(TChannel.PAINTER, transducer, 10);
 		ConveyorFamilyOnlineMachine uvCF = new ConveyorFamilyOnlineMachine(11, TChannel.UV_LAMP, transducer);
 		MachineAgent uv = new MachineAgent(TChannel.UV_LAMP, transducer, 11);
-		ShuttleCon shuttleConBR = new ShuttleCon("ShuttleConBR",transducer, 12);
+		ConShuttle shuttleConBR = new ConShuttle("ShuttleConBR",transducer, 12);
 		ConveyorFamilyOnlineMachine ovenCF = new ConveyorFamilyOnlineMachine(13, TChannel.OVEN, transducer);
 		MachineAgent oven = new MachineAgent(TChannel.OVEN, transducer, 13);
 		
@@ -125,10 +125,9 @@ public class FactoryPanel extends JPanel
 		cutterCF.setBin(binAgent);
 		cutter.setConveyor(cutterCF.getConveyor());
 		cutter.setNextCF(shuttleConBL);
-		shuttleConBL.setPreviousMachine(cutter);
-		shuttleConBL.setNextConveyor(breakoutCF);
-		shuttleConBL.msgSpaceAvailable();
-		shuttleConBL.startConveyorFamily();
+		shuttleConBL.setMachine(cutter);
+		shuttleConBL.setConveyor(breakoutCF);
+		shuttleConBL.startThread();
 
 		breakoutCF.setPreviousCF(shuttleConBL);
 		breakoutCF.setMachine(breakout);
@@ -139,19 +138,17 @@ public class FactoryPanel extends JPanel
 		manualBreakoutCF.setMachine(manualBreakout);
 		manualBreakout.setConveyor(manualBreakoutCF.getConveyor());
 		manualBreakout.setNextCF(shuttleConTL);			//TODO have to add shuttle CF as nextCF
-		shuttleConTL.setPreviousMachine(manualBreakout);
-		shuttleConTL.setNextConveyor(washerCF);
-		shuttleConTL.msgSpaceAvailable();
-		shuttleConTL.startConveyorFamily();
+		shuttleConTL.setMachine(manualBreakout);
+		shuttleConTL.setConveyor(popup1);
+		shuttleConTL.startThread();
 
 		washerCF.setPreviousCF(popup3);
 		washerCF.setMachine(washer);
 		washer.setConveyor(washerCF.getConveyor());
 		washer.setNextCF(shuttleConTR);			//TODO have to add shuttle CF as nextCF
-		shuttleConTR.setPreviousMachine(washer);
-		shuttleConTR.setNextConveyor(painterCF);
-		shuttleConTR.msgSpaceAvailable();
-		shuttleConTR.startConveyorFamily();
+		shuttleConTR.setMachine(washer);
+		shuttleConTR.setConveyor(painterCF);
+		shuttleConTR.startThread();
 		
 		painterCF.setPreviousCF(shuttleConTR);
 		painterCF.setMachine(painter);
@@ -162,10 +159,9 @@ public class FactoryPanel extends JPanel
 		uvCF.setMachine(uv);
 		uv.setConveyor(uvCF.getConveyor());
 		uv.setNextCF(shuttleConBR);			//TODO have to add shuttle CF as nextCF
-		shuttleConBR.setPreviousMachine(uv);
-		shuttleConBR.setNextConveyor(ovenCF);
-		shuttleConBR.msgSpaceAvailable();
-		shuttleConBR.startConveyorFamily();
+		shuttleConBR.setMachine(uv);
+		shuttleConBR.setConveyor(ovenCF);
+		shuttleConBR.startThread();
 		
 		ovenCF.setPreviousCF(shuttleConBR);
 		ovenCF.setMachine(oven);

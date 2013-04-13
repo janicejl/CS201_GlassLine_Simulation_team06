@@ -26,6 +26,7 @@ public class ShuttleSensor extends Agent implements SensorInterface
 	private Transducer trans;
 	private Integer[] number;
 	private MachineAgent nextMac;
+	int glue = 0;
 	
 	//Methods:
 	public ShuttleSensor(String name, Transducer t, int num)
@@ -113,7 +114,7 @@ public class ShuttleSensor extends Agent implements SensorInterface
 			if(args[0].equals(number[0] *2+1))
 			{
 				status = Status.finished;
-				print("Finished:)");
+				print("Finished:)" + glue);
 				stateChanged();
 			}
 		}

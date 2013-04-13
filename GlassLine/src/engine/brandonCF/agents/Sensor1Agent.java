@@ -25,6 +25,7 @@ public class Sensor1Agent extends Agent implements SensorInterface
 	private Transducer trans;
 	private Integer[] number;
 	private Machine mac;
+	private int iglue = 0;
 	
 	//Methods:
 	public Sensor1Agent(String name, Transducer t, int num)
@@ -93,7 +94,8 @@ public class Sensor1Agent extends Agent implements SensorInterface
 			canSend.acquire();
 			conveyor.msgHereIsGlass(glass);
 			glass = null;
-			print("Sent glass");
+			print("Sent glass" +iglue);
+			iglue++;
 			stateChanged();
 		} catch(Exception e){}
 	}
@@ -102,13 +104,21 @@ public class Sensor1Agent extends Agent implements SensorInterface
 	{
 		mac.msgSpaceAvailable();
 		status = Status.waiting;
-		print("Asked for Glass");
+		print("Asked for Glass" + iglue);
 		stateChanged();
 	}
 
 	@Override
 	public void eventFired(TChannel channel, TEvent event, Object[] args) {
-	
+		if(channel == TChannel.SENSOR & event == TEvent.SENSOR_GUI_PRESSED)
+		{
+			if(args[0].equals(number[0] *2))
+			{
+				
+				print(""+iglue);
+				stateChanged();
+			}
+		}
 	}
 	
 	@Override
