@@ -9,13 +9,14 @@ import transducer.Transducer;
 import engine.agent.Agent;
 import engine.agent.shared.ConveyorFamilyOnlineMachine;
 import engine.agent.shared.Glass;
+import engine.agent.shared.Interfaces.ConveyorFamily;
 import engine.ryanCF.interfaces.Bin;
 
 public class BinAgent extends Agent implements Bin{
 
 	List<Glass> glassInBin = new ArrayList<Glass>();
 	boolean nextCFAvailable=true;
-	ConveyorFamilyOnlineMachine cfom;
+	ConveyorFamily cfom;
 	Transducer t;
 	//ConveyorFamily0 
 	public BinAgent(Transducer t) {
@@ -51,7 +52,7 @@ public class BinAgent extends Agent implements Bin{
 		
 	}
 	@Override
-	public void setNextCF(ConveyorFamilyOnlineMachine cfom) {
+	public void setNextCF(ConveyorFamily cfom) {
 		this.cfom = cfom;
 	}
 	@Override

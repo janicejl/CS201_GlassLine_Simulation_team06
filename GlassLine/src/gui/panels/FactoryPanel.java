@@ -173,7 +173,7 @@ public class FactoryPanel extends JPanel
 		
 		ovenCF.setPreviousCF(shuttleConBR);
 		ovenCF.setMachine(oven);
-		oven.setConveyor(uvCF.getConveyor());
+		oven.setConveyor(ovenCF.getConveyor());
 		oven.setNextCF(cf14);			//TODO have to add truck CF as nextCF
 		
 		cf14.setPreviousCF(ovenCF);
@@ -181,12 +181,12 @@ public class FactoryPanel extends JPanel
 		
 		truck.setConveyorFamily(cf14);
 		
-		//popup1.setPreviousCF();
+		popup1.setPreviousCF(shuttleConTL);
 		popup1.setNextCF(popup2);
 		popup2.setPreviousCF(popup1);
 		popup2.setNextCF(popup3);
 		popup3.setPreviousCF(popup2);
-		//popup3.setNextCF();
+		popup3.setNextCF(washerCF);
 		
 		System.out.println("Back end initialization finished.");
 
