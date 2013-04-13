@@ -51,7 +51,7 @@ public class BinAgent extends Agent implements Bin{
 		
 	}
 	@Override
-	public void setConveyorFamilyOnlineMachine(ConveyorFamilyOnlineMachine cfom) {
+	public void setNextCF(ConveyorFamilyOnlineMachine cfom) {
 		this.cfom = cfom;
 	}
 	@Override

@@ -8,6 +8,7 @@ import transducer.TChannel;
 import transducer.TEvent;
 import transducer.Transducer;
 import engine.agent.Agent;
+import engine.agent.shared.ConveyorFamilyOnlineMachine;
 import engine.agent.shared.Glass;
 import engine.ryanCF.interfaces.*;
 
@@ -41,6 +42,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		synchronized(glassOnConveyor) {
 			if(!glassOnConveyor.isEmpty()) {
 				for(MyGlass g : glassOnConveyor) {
+					//if there exists glass on conveyor such that it's on the first sensor, then start conveyor
 					if(g.state == GlassState.SENSOR1){
 						startConveyor(g);
 					}
@@ -79,7 +81,12 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	@Override
 	public void msgSpaceAvailable() {
 		// TODO Auto-generated method stub
-
+		
 	}
+
+	/*public void setPreviousConveyor(ConveyorFamilyOnlineMachine prevCF) {
+		// TODO Auto-generated method stub
+		sensor1.setPreviousConveyor(prevCF);
+	}*/
 
 }

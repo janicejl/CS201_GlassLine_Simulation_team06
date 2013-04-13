@@ -1,12 +1,14 @@
 
 package gui.panels;
 
+import engine.agent.shared.ConveyorFamily14;
 import engine.agent.shared.ConveyorFamilyOffline;
 import engine.agent.shared.ConveyorFamilyOnlineMachine;
 import engine.agent.shared.Glass;
 import engine.agent.shared.MachineAgent;
 import engine.brandonCF.agents.ConShuttle;
 import engine.ryanCF.agent.BinAgent;
+import engine.ryanCF.agent.TruckAgent;
 import gui.drivers.FactoryFrame;
 
 import java.util.ArrayList;
@@ -114,12 +116,15 @@ public class FactoryPanel extends JPanel
 		ConShuttle shuttleConBR = new ConShuttle("ShuttleConBR",transducer, 12);
 		ConveyorFamilyOnlineMachine ovenCF = new ConveyorFamilyOnlineMachine(13, TChannel.OVEN, transducer);
 		MachineAgent oven = new MachineAgent(TChannel.OVEN, transducer, 13);
+		ConveyorFamily14 cf14 = new ConveyorFamily14("CF14", transducer);
+		TruckAgent truck = new TruckAgent("Truck", transducer);
 		
 		ConveyorFamilyOffline popup1 = new ConveyorFamilyOffline(5,transducer,TChannel.DRILL);
 		ConveyorFamilyOffline popup2 = new ConveyorFamilyOffline(6,transducer,TChannel.CROSS_SEAMER);
 		ConveyorFamilyOffline popup3 = new ConveyorFamilyOffline(7,transducer,TChannel.GRINDER);
 		//Linking all the agents
-		binAgent.setConveyorFamilyOnlineMachine(cutterCF);
+		
+		binAgent.setNextCF(cutterCF);
 		
 		cutterCF.setMachine(cutter);
 		cutterCF.setBin(binAgent);
@@ -138,14 +143,16 @@ public class FactoryPanel extends JPanel
 		manualBreakoutCF.setMachine(manualBreakout);
 		manualBreakout.setConveyor(manualBreakoutCF.getConveyor());
 		manualBreakout.setNextCF(shuttleConTL);			//TODO have to add shuttle CF as nextCF
+		
 		shuttleConTL.setMachine(manualBreakout);
 		shuttleConTL.setConveyor(popup1);
 		shuttleConTL.startThread();
-
+		
 		washerCF.setPreviousCF(popup3);
 		washerCF.setMachine(washer);
 		washer.setConveyor(washerCF.getConveyor());
 		washer.setNextCF(shuttleConTR);			//TODO have to add shuttle CF as nextCF
+		
 		shuttleConTR.setMachine(washer);
 		shuttleConTR.setConveyor(painterCF);
 		shuttleConTR.startThread();
@@ -159,14 +166,20 @@ public class FactoryPanel extends JPanel
 		uvCF.setMachine(uv);
 		uv.setConveyor(uvCF.getConveyor());
 		uv.setNextCF(shuttleConBR);			//TODO have to add shuttle CF as nextCF
+		
 		shuttleConBR.setMachine(uv);
 		shuttleConBR.setConveyor(ovenCF);
-		shuttleConBR.startThread();
+		
 		
 		ovenCF.setPreviousCF(shuttleConBR);
 		ovenCF.setMachine(oven);
 		oven.setConveyor(uvCF.getConveyor());
-//		oven.setNextCF(####);			//TODO have to add truck CF as nextCF
+		oven.setNextCF(cf14);			//TODO have to add truck CF as nextCF
+		
+		cf14.setPreviousCF(ovenCF);
+		cf14.setTruck(truck);
+		
+		truck.setConveyorFamily(cf14);
 		
 		//popup1.setPreviousCF();
 		popup1.setNextCF(popup2);
@@ -192,8 +205,11 @@ public class FactoryPanel extends JPanel
 		painter.startThread();
 		uvCF.startThread();
 		uv.startThread();
+		shuttleConBR.startThread();
 		ovenCF.startThread();
 		oven.startThread();
+		cf14.startThread();
+		truck.startThread();
 
 		//Testing for JANICE - Machine agent processing being optional. 
 //		boolean[] g = {false,true,true,true,true,true,true,true,true,true,true,true,true,true};
