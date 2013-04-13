@@ -106,13 +106,13 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			if (event == TEvent.SENSOR_GUI_RELEASED) {
 				Integer[] newArgs = new Integer[1];
 				if (((Integer)args[0] % 2) == 0) {
-					if (args[0].equals((conveyorIndex*2) + 1)) {
+					if (args[0].equals((conveyorIndex*2) + 1)) {	//end sensor
 						if (glassList.size() != 0 && nextFree == true) {
-							print("Released. Starting Conveyor. ");
+							//print("Released. Starting Conveyor. ");
 							newArgs[0] = (Integer) args[0] / 2;
 							//						newArgs[0] = (Integer) sensorIndex;
 							//					conveyor.msgGlassAtEnd();
-							transducer.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_START, newArgs);
+							//transducer.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_START, newArgs);
 						} else {
 							print("Released. Nothing on Conveyor.");
 							status = ConveyorStatus.Nothing;
