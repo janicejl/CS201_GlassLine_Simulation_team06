@@ -57,6 +57,7 @@ public class GlassSelectPanel extends JPanel implements ActionListener
 		partLabels[1] = new JLabel("Conv 1");
 		partLabels[2] = new JLabel("Breakout");
 		partLabels[3] = new JLabel("Manual Breakout");
+		partLabels[3].setFont(new Font("Dialog",Font.BOLD, 11));
 		partLabels[4] = new JLabel("Conv 4");
 		partLabels[5] = new JLabel("Drill");
 		partLabels[6] = new JLabel("Cross Seamer");
