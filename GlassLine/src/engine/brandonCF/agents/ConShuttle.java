@@ -55,6 +55,7 @@ public class ConShuttle extends Agent implements ConveyorFamily
 			System.err.println("AHHHHHH");
 		}
 		canSend = true;
+		stateChanged();
 	}
 
 	@Override
@@ -79,7 +80,7 @@ public class ConShuttle extends Agent implements ConveyorFamily
 				else//*/
 				{
 					stopConveyor();
-					return true;
+					return false;
 				}
 			}
 
@@ -96,8 +97,7 @@ public class ConShuttle extends Agent implements ConveyorFamily
 	
 	private void stopConveyor() {
 		transducer.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_STOP, number);
-		conMoving = false;
-		stateChanged();		
+		conMoving = false;		
 	}
 
 	private void msgMac()
