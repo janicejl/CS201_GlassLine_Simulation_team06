@@ -1,15 +1,25 @@
 package engine.ryanCF.agent;
+
 import transducer.TChannel;
 import transducer.TEvent;
+import transducer.Transducer;
 import engine.agent.Agent;
 import engine.ryanCF.interfaces.*;
 
 public class EndSensorAgent extends Agent implements Sensor {
-	public enum Type { FRONT, BACK };
-	Type type;
-	
-	public EndSensorAgent() {
-		this.name = "RTConveyor Beginning Sensor";
+
+	Transducer t;
+	Conveyor conveyor;
+
+	int index;
+
+	public EndSensorAgent(int index, String name, Transducer t) {
+		this.index = index;
+		this.name = name;
+		this.t = t;
+
+		t.register(this, TChannel.SENSOR);
+
 	}
 
 	@Override
@@ -21,6 +31,6 @@ public class EndSensorAgent extends Agent implements Sensor {
 	@Override
 	public void eventFired(TChannel channel, TEvent event, Object[] args) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
