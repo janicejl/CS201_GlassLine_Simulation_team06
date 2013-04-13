@@ -2,8 +2,6 @@ package engine.ryanCF.interfaces;
 
 import engine.agent.shared.Glass;
 
-public interface Conveyor {
-
+public interface Truck {
 	public abstract void msgHereIsGlass(Glass g);
-
 }

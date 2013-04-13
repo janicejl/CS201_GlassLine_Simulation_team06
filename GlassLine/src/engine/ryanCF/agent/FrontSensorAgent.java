@@ -4,11 +4,11 @@ import transducer.TEvent;
 import engine.agent.Agent;
 import engine.ryanCF.interfaces.*;
 
-public class SensorAgent extends Agent implements Sensor {
+public class FrontSensorAgent extends Agent implements Sensor {
 	public enum Type { FRONT, BACK };
 	Type type;
 	
-	public SensorAgent() {
+	public FrontSensorAgent() {
 		this.name = "RTConveyor Beginning Sensor";
 	}
 
