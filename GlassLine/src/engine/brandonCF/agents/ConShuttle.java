@@ -51,6 +51,7 @@ public class ConShuttle extends Agent implements ConveyorFamily
 	@Override
 	public void msgSpaceAvailable() {
 		// TODO Auto-generated method stub
+		print("Next Open");
 		canSend = true;
 		stateChanged();
 	}
@@ -72,7 +73,7 @@ public class ConShuttle extends Agent implements ConveyorFamily
 			{
 				if(canSend){
 					sendGlass(glass.get(0));
-					return true;
+					//return true;
 				}
 				else//*/
 				{
@@ -109,7 +110,7 @@ public class ConShuttle extends Agent implements ConveyorFamily
 			canSend = false;
 			con.msgHereIsGlass(glassPacket.g);//send the glass
 			glass.remove(glassPacket);//remove from list
-			if(conMoving!= true)
+			//if(conMoving!= true)
 			{
 				transducer.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_START, number);
 				conMoving = true;
@@ -118,10 +119,7 @@ public class ConShuttle extends Agent implements ConveyorFamily
 			print(""+notified);
 			print(""+released);
 			print(""+ glass.size());
-			if(notified ==false & conMoving & released || glass.size() == 0)//if i haven't notified & the conveyor is moving is not stopped
-			{
-				msgMac();
-			}
+			
 			stateChanged();
 	}
 
