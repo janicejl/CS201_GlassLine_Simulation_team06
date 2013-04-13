@@ -35,12 +35,18 @@ public class FrontSensorAgent extends Agent implements Sensor {
 		// TODO Auto-generated method stub
 		if (channel == TChannel.SENSOR) {
 			if (event == TEvent.SENSOR_GUI_RELEASED) {
-				prevConv.msgSpaceAvailable();
+				if(args[0].equals(index))
+					prevConv.msgSpaceAvailable();
 			}
 		}
 	}
 
 	public void setPreviousConveyor(ConveyorFamily conv) {
 		this.prevConv = conv;
+	}
+
+	public void msgSpaceAvailable() {
+		// TODO Auto-generated method stub
+		
 	}
 }

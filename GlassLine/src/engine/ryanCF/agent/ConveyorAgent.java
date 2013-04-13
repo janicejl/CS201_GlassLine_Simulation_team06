@@ -14,6 +14,10 @@ import engine.ryanCF.interfaces.*;
 
 public class ConveyorAgent extends Agent implements Conveyor {
 
+	TruckAgent truck;
+	FrontSensorAgent front;
+	EndSensorAgent end;
+	
 	List<MyGlass> glassOnConveyor = Collections
 			.synchronizedList(new ArrayList<MyGlass>());
 
@@ -21,6 +25,8 @@ public class ConveyorAgent extends Agent implements Conveyor {
 
 	int index;
 
+	boolean truckAvailable = false;
+	
 	enum GlassState {
 		SENSOR1, CONVEYOR, SENSOR2
 	};
@@ -34,6 +40,9 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		this.index = index;
 		this.name = name;
 		this.t = t;
+		
+		front = new FrontSensorAgent(index*2, "Front Sensor " + index*2, t);
+		end = new EndSensorAgent(index*2+1, "End Sensor " + index*2+1, t);
 	}
 
 	@Override
@@ -45,6 +54,20 @@ public class ConveyorAgent extends Agent implements Conveyor {
 					//if there exists glass on conveyor such that it's on the first sensor, then start conveyor
 					if(g.state == GlassState.SENSOR1){
 						startConveyor(g);
+						return true;
+					}
+					else if(g.state == GlassState.SENSOR2){
+						if(truckAvailable) {
+							sendGlassToTruck(g);
+							return true;
+						}
+						else {
+							System.out.println(name + " : Truck not available");
+							Integer[] arg1 = new Integer[1];
+							arg1[0] = index;
+							t.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_STOP, arg1);
+						}
+						return true;
 					}
 				}
 			}
@@ -57,13 +80,23 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		g.state = GlassState.CONVEYOR;
 		Integer[] argument = new Integer[1];
 		argument[0] = index;
+		System.out.println("asdfsd");
 		t.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_START, argument);
 	}
 
+	private void sendGlassToTruck(MyGlass g) {
+		truck.msgHereIsGlass(g.g);
+		front.msgSpaceAvailable();
+	}
 	@Override
 	public void eventFired(TChannel channel, TEvent event, Object[] args) {
 		// TODO Auto-generated method stub
-		
+		if(channel == TChannel.SENSOR && event == TEvent.SENSOR_GUI_PRESSED) {
+			if(args[0].equals(index)) {
+				glassOnConveyor.get(0).state = GlassState.SENSOR2;
+				
+			}
+		}
 	}
 
 	@Override
@@ -84,6 +117,14 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		
 	}
 
+	public void setTruck(TruckAgent truck) {
+		// TODO Auto-generated method stub
+		this.truck = truck;
+	}
+
+	public FrontSensorAgent getFrontSensor() {
+		return this.front;
+	}
 	/*public void setPreviousConveyor(ConveyorFamilyOnlineMachine prevCF) {
 		// TODO Auto-generated method stub
 		sensor1.setPreviousConveyor(prevCF);

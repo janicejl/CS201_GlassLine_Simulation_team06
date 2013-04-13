@@ -16,6 +16,7 @@ public class ConveyorFamily14 implements ConveyorFamily{
 	public ConveyorFamily14(String name, Transducer t) {
 		this.name = name;
 		conveyor = new ConveyorAgent(14, "CF14 Conveyor", t);
+		conveyor.setTruck(truck);
 	}
 	
 	@Override
@@ -33,6 +34,7 @@ public class ConveyorFamily14 implements ConveyorFamily{
 	public void setPreviousCF(ConveyorFamilyOnlineMachine prevCF) {
 		// TODO Auto-generated method stub
 		this.prevCF = prevCF;
+		conveyor.getFrontSensor().setPreviousConveyor(prevCF);
 		//conveyor.setPreviousConveyor(prevCF);
 	}
 
