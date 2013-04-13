@@ -341,12 +341,12 @@ public class PopupAgent extends Agent implements Popup{
 				print("WORKSTATION_LOAD_FINISHED is released");
 
 			}
-			else if(event == TEvent.WORKSTATION_RELEASE_FINISHED)
-			{
-				animationSem.release();
-				print("WORKSTATION_LOAD_FINISHED is released");
-
-			}
+//			else if(event == TEvent.WORKSTATION_RELEASE_FINISHED)
+//			{
+//				animationSem.release();
+//				print("WORKSTATION_RELEASE_FINISHED is released");
+//
+//			}
 			else if (event ==TEvent.WORKSTATION_GUI_ACTION_FINISHED){	// we do not have machine agent so we use this eventFired
 				Integer tempIndex= (Integer)args[0];
 				msgGlassReady(tempIndex);
