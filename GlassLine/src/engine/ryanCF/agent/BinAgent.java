@@ -23,6 +23,8 @@ public class BinAgent extends Agent implements Bin{
 		this.name = "Bin Agent";
 		this.t = t;
 	}
+	
+	//****************MESSAGES*****************
 	@Override
 	public void msgProcessGlassOrder(List<Glass> glassList) {
 		glassInBin.addAll(glassList);
@@ -30,19 +32,28 @@ public class BinAgent extends Agent implements Bin{
 	}
 	
 	@Override
+	public void msgSpaceAvailable(){
+		print ("Got msgSpaceAvailable(). ");
+		nextCFAvailable=true;
+		stateChanged();
+	}
+	
+	//****************SCHEDULER*****************
+	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
 		if(!glassInBin.isEmpty()&&nextCFAvailable) {
+			nextCFAvailable=false;
 			sendGlassToCF(glassInBin.remove(0));
 			return true;
 		}
 		return false;
 	}
 
+	//*************ACTION**********************
 	@Override
 	public void sendGlassToCF(Glass g) {
 		// TODO Auto-generated method stub
-		nextCFAvailable=false;
 		cfom.msgHereIsGlass(g);
 		t.fireEvent(TChannel.BIN, TEvent.BIN_CREATE_PART, null);
 	}
@@ -55,11 +66,6 @@ public class BinAgent extends Agent implements Bin{
 	public void setNextCF(ConveyorFamily cfom) {
 		this.cfom = cfom;
 	}
-	@Override
-	public void msgSpaceAvailable(){
-		print ("Got msgSpaceAvailable(). ");
-		nextCFAvailable=true;
-		stateChanged();
-	}
+	
 
 }

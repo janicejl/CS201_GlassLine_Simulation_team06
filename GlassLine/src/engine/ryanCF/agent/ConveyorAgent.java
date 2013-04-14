@@ -47,6 +47,34 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		
 	}
 
+	//******************MESSAGING*********************
+	@Override
+	public void msgHereIsGlass(Glass g) {
+		// TODO Auto-generated method stub
+		print("Received msgHereIsGlass");
+		MyGlass myGlass = new MyGlass();
+		myGlass.g = g;
+		myGlass.state = GlassState.SENSOR1;
+		synchronized (glassOnConveyor) {
+			glassOnConveyor.add(myGlass);
+		}
+		stateChanged();
+	}
+
+	@Override
+	public void msgSpaceAvailable() {
+		// TODO Auto-generated method stub
+		print("Received msgSpaceAvailable");
+		truckAvailable = true;
+		stateChanged();
+	}
+	
+	@Override
+	public void msgEndSensorPressed() {
+		// TODO Auto-generated method stub
+	}
+	
+	//****************SCHEDULING*******************
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
@@ -71,6 +99,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		return false;
 	}
 
+	//***************ACTION************************
 	public void turnOnConveyor() {
 		// TODO Auto-generated method stub
 		print("Truck available. Turning on");
@@ -92,6 +121,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		turnOnConveyor();
 		//front.msgSpaceAvailable();
 	}
+	
 	@Override
 	public void eventFired(TChannel channel, TEvent event, Object[] args) {
 		// TODO Auto-generated method stub
@@ -120,27 +150,6 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		}
 	}
 
-	@Override
-	public void msgHereIsGlass(Glass g) {
-		// TODO Auto-generated method stub
-		print("Received msgHereIsGlass");
-		MyGlass myGlass = new MyGlass();
-		myGlass.g = g;
-		myGlass.state = GlassState.SENSOR1;
-		synchronized (glassOnConveyor) {
-			glassOnConveyor.add(myGlass);
-		}
-		stateChanged();
-	}
-
-	@Override
-	public void msgSpaceAvailable() {
-		// TODO Auto-generated method stub
-		print("Received msgSpaceAvailable");
-		truckAvailable = true;
-		stateChanged();
-	}
-
 	public void setTruck(TruckAgent truck) {
 		// TODO Auto-generated method stub
 		this.truck = truck;
@@ -148,17 +157,6 @@ public class ConveyorAgent extends Agent implements Conveyor {
 
 	public FrontSensorAgent getFrontSensor() {
 		return this.front;
-	}
-	/*public void setPreviousConveyor(ConveyorFamilyOnlineMachine prevCF) {
-		// TODO Auto-generated method stub
-		sensor1.setPreviousConveyor(prevCF);
-	}*/
-
-	@Override
-	public void msgEndSensorPressed() {
-		// TODO Auto-generated method stub
-		print("Must stop");
-		stateChanged();
 	}
 
 	public void setFrontSensor(FrontSensorAgent front2) {
@@ -170,5 +168,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		// TODO Auto-generated method stub
 		this.end = end;
 	}
+
+	
 
 }
