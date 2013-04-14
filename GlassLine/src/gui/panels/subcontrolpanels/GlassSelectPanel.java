@@ -71,47 +71,104 @@ public class GlassSelectPanel extends JPanel implements ActionListener
 		
 		//initialize labels
 		partLabels[0] = new JLabel("Cutter");
-		partLabels[1] = new JLabel("Conv 1");
 		partLabels[2] = new JLabel("Breakout");
 		partLabels[3] = new JLabel("Manual Breakout");
-		partLabels[3].setFont(new Font("Dialog",Font.BOLD, 11));
-		partLabels[4] = new JLabel("Conv 4");
+		partLabels[3].setHorizontalAlignment(SwingConstants.LEFT);
+		partLabels[3].setHorizontalTextPosition(SwingConstants.LEFT);
+		partLabels[3].setFont(new Font("Dialog",Font.PLAIN, 11));
 		partLabels[5] = new JLabel("Drill");
 		partLabels[6] = new JLabel("Cross Seamer");
 		partLabels[7] = new JLabel("Grinder");
 		partLabels[8] = new JLabel("Washer");
-		partLabels[9] = new JLabel("Conv 9");
 		partLabels[10] = new JLabel("Painter");
 		partLabels[11] = new JLabel("UV Light");
-		partLabels[12] = new JLabel("Conv 12");
 		partLabels[13] = new JLabel("Oven");
-		partLabels[14] = new JLabel("Truck");
 		
 		//initialize checkboxes and panel creation
-		for(int i = 0; i < 15; i++) {
-			partCheckBoxes[i] = new JCheckBox();
-			setting[i] = false;
-			partCheckBoxes[i].addActionListener(this);
-			partPanel[i] = new JPanel();
-			partPanel[i].add(partLabels[i]);
-			partPanel[i].add(partCheckBoxes[i]);
-			partPanel[i].setBackground(new Color(238,238,238));
-		}
+	
+		partCheckBoxes[0] = new JCheckBox();
+		partCheckBoxes[2] = new JCheckBox();
+		partCheckBoxes[3] = new JCheckBox();
+		partCheckBoxes[5] = new JCheckBox();
+		partCheckBoxes[6] = new JCheckBox();
+		partCheckBoxes[7] = new JCheckBox();
+		partCheckBoxes[8] = new JCheckBox();
+		partCheckBoxes[10] = new JCheckBox();
+		partCheckBoxes[11] = new JCheckBox();
+		partCheckBoxes[13] = new JCheckBox();
 		
-		partCheckBoxes[1].setSelected(true);
-		partCheckBoxes[1].setEnabled(false);
+		setting[0] = false;
+		setting[2] = false;
+		setting[3] = false;
+		setting[5] = false;
+		setting[6] = false;
+		setting[7] = false;
+		setting[8] = false;
+		setting[10] = false;
+		setting[11] = false;
+		setting[13] = false;
+		
+		partCheckBoxes[0].addActionListener(this);
+		partCheckBoxes[2].addActionListener(this);
+		partCheckBoxes[3].addActionListener(this);
+		partCheckBoxes[5].addActionListener(this);
+		partCheckBoxes[6].addActionListener(this);
+		partCheckBoxes[7].addActionListener(this);
+		partCheckBoxes[8].addActionListener(this);
+		partCheckBoxes[10].addActionListener(this);
+		partCheckBoxes[11].addActionListener(this);
+		partCheckBoxes[13].addActionListener(this);
+		
+		partPanel[0] = new JPanel();
+		partPanel[2] = new JPanel();
+		partPanel[3] = new JPanel();
+		partPanel[5] = new JPanel();
+		partPanel[6] = new JPanel();
+		partPanel[7] = new JPanel();
+		partPanel[8] = new JPanel();
+		partPanel[10] = new JPanel();
+		partPanel[11] = new JPanel();
+		partPanel[13] = new JPanel();
+		
+		partPanel[0].add(partLabels[0]);
+		partPanel[2].add(partLabels[2]);
+		partPanel[3].add(partLabels[3]);
+		partPanel[5].add(partLabels[5]);
+		partPanel[6].add(partLabels[6]);
+		partPanel[7].add(partLabels[7]);
+		partPanel[8].add(partLabels[8]);
+		partPanel[10].add(partLabels[10]);
+		partPanel[11].add(partLabels[11]);
+		partPanel[13].add(partLabels[13]);
+		
+		partPanel[0].add(partCheckBoxes[0]);
+		partPanel[2].add(partCheckBoxes[2]);
+		partPanel[3].add(partCheckBoxes[3]);
+		partPanel[5].add(partCheckBoxes[5]);
+		partPanel[6].add(partCheckBoxes[6]);
+		partPanel[7].add(partCheckBoxes[7]);
+		partPanel[8].add(partCheckBoxes[8]);
+		partPanel[10].add(partCheckBoxes[10]);
+		partPanel[11].add(partCheckBoxes[11]);
+		partPanel[13].add(partCheckBoxes[13]);
+		
+		partPanel[0].setBackground(new Color(238,238,238));
+		partPanel[2].setBackground(new Color(238,238,238));
+		partPanel[3].setBackground(new Color(238,238,238));
+		partPanel[5].setBackground(new Color(238,238,238));
+		partPanel[6].setBackground(new Color(238,238,238));
+		partPanel[7].setBackground(new Color(238,238,238));
+		partPanel[8].setBackground(new Color(238,238,238));
+		partPanel[10].setBackground(new Color(238,238,238));
+		partPanel[11].setBackground(new Color(238,238,238));
+		partPanel[13].setBackground(new Color(238,238,238));
+
+		
+		
 		setting[1] = true;
-		partCheckBoxes[4].setSelected(true);
-		partCheckBoxes[4].setEnabled(false);
 		setting[4] = true;
-		partCheckBoxes[9].setSelected(true);
-		partCheckBoxes[9].setEnabled(false);
 		setting[9] = true;
-		partCheckBoxes[12].setSelected(true);
-		partCheckBoxes[12].setEnabled(false);
 		setting[12] = true;
-		partCheckBoxes[14].setSelected(true);
-		partCheckBoxes[14].setEnabled(false);
 		//Layout for panel that contains the checkboxes as well as the 'Create new setting' panel.
 		checkBoxPanel.setLayout(new GridLayout(1,3));
 		
@@ -122,10 +179,17 @@ public class GlassSelectPanel extends JPanel implements ActionListener
 		//the middle panel contains the last 5 checkboxes
 		JPanel midPanel = new JPanel();
 		midPanel.setLayout(new BoxLayout(midPanel, BoxLayout.Y_AXIS));
-		for(int i = 0; i < 7; i++) {
-			leftPanel.add(partPanel[i]);
-			midPanel.add(partPanel[i+7]);
-		}
+		
+		leftPanel.add(partPanel[0]);
+		leftPanel.add(partPanel[2]);
+		leftPanel.add(partPanel[3]);
+		leftPanel.add(partPanel[5]);
+		leftPanel.add(partPanel[6]);
+		midPanel.add(partPanel[7]);
+		midPanel.add(partPanel[8]);
+		midPanel.add(partPanel[10]);
+		midPanel.add(partPanel[11]);
+		midPanel.add(partPanel[13]);
 		
 		//the right panel contains the setting name panel.
 		JPanel rightPanel = new JPanel();
@@ -233,9 +297,18 @@ public class GlassSelectPanel extends JPanel implements ActionListener
 						fis = new FileInputStream("configs/"+selected+".sav");
 						ois = new ObjectInputStream(fis);
 						thisLoad = (SaveConfiguration) ois.readObject();
-						for(int i = 0; i < 15; i++) {
-							partCheckBoxes[i].setSelected(thisLoad.getConfig()[i]);
-						}
+						
+						partCheckBoxes[0].setSelected(thisLoad.getConfig()[0]);
+						partCheckBoxes[2].setSelected(thisLoad.getConfig()[2]);
+						partCheckBoxes[3].setSelected(thisLoad.getConfig()[3]);
+						partCheckBoxes[5].setSelected(thisLoad.getConfig()[5]);
+						partCheckBoxes[6].setSelected(thisLoad.getConfig()[6]);
+						partCheckBoxes[7].setSelected(thisLoad.getConfig()[7]);
+						partCheckBoxes[8].setSelected(thisLoad.getConfig()[8]);
+						partCheckBoxes[10].setSelected(thisLoad.getConfig()[10]);
+						partCheckBoxes[11].setSelected(thisLoad.getConfig()[11]);
+						partCheckBoxes[13].setSelected(thisLoad.getConfig()[13]);
+					
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
