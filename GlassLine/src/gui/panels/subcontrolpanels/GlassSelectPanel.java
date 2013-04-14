@@ -4,11 +4,26 @@ package gui.panels.subcontrolpanels;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import gui.panels.ControlPanel;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+
+import shared.SaveConfiguration;
 
 /**
  * The GlassSelectPanel class contains buttons allowing the user to select what
@@ -21,7 +36,7 @@ public class GlassSelectPanel extends JPanel implements ActionListener
 	private ControlPanel parent;
 
 	GridBagConstraints gbc = new GridBagConstraints();
-	JComboBox settingSelect = new JComboBox();
+	JComboBox<String> settingSelect = new JComboBox();
 	JPanel settingPanel = new JPanel();
 	JPanel checkBoxPanel = new JPanel();
 	JPanel quantityPanel = new JPanel();
@@ -51,6 +66,8 @@ public class GlassSelectPanel extends JPanel implements ActionListener
 		
 		//initialize setting select combobox
 		settingSelect.addItem("Default");
+		loadConfigurations();
+		addSettingSelectListener();
 		
 		//initialize labels
 		partLabels[0] = new JLabel("Cutter");
@@ -128,6 +145,7 @@ public class GlassSelectPanel extends JPanel implements ActionListener
 		checkBoxPanel.add(midPanel);
 		checkBoxPanel.add(rightPanel);
 		acceptButton.addActionListener(this);
+		saveButton.addActionListener(this);
 		
 		quantityPanel.add(quantityLabel);
 		quantityPanel.add(quantityField);
@@ -154,6 +172,84 @@ public class GlassSelectPanel extends JPanel implements ActionListener
 		gbc.gridwidth = 2;
 		add(quantityPanel,gbc);
 	}
+	
+	private void saveConfiguration() {
+		// TODO Auto-generated method stub
+		SaveConfiguration save = new SaveConfiguration(setting);
+		save.setName(settingNameField.getText());
+		System.out.println("Creating new file: " + save.getName()+".sav");
+		File f = new File(save.getName() + ".sav");
+		try {
+			ObjectOutputStream oos  = new ObjectOutputStream(new FileOutputStream(f));
+			PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("configs/configuration_list.txt", true)));
+			pw.println(save.getName());
+			pw.close();
+			System.out.println("Writing line: " + save.getName());
+			
+			oos.writeObject(save);
+			oos.close();
+		}
+		catch(IOException ioex) {
+			
+		}
+		settingSelect.addItem(save.getName());
+	}
+	
+	private void loadConfigurations() {
+		// TODO Auto-generated method stub
+		System.out.println("Loading configuration: ");
+		try {
+			FileReader fr = new FileReader("configs/configuration_list.txt");
+			BufferedReader br = new BufferedReader(fr);
+			ArrayList<String> fileList = new ArrayList<String>();
+			String line;
+			while((line = br.readLine()) != null) {
+				fileList.add(line);
+			}
+			
+			for(int i = 0; i < fileList.size(); i++) {
+				System.out.println("Adding Item: " + fileList.get(i));
+				settingSelect.addItem(fileList.get(i));
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void addSettingSelectListener() {
+		// TODO Auto-generated method stub
+		settingSelect.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				JComboBox option = (JComboBox) ae.getSource();
+				
+				String selected = (String) option.getSelectedItem();
+				if(!selected.equals("Default")) {
+					FileInputStream fis;
+					ObjectInputStream ois;
+					SaveConfiguration thisLoad;
+					
+					try {
+						fis = new FileInputStream("configs/"+selected+".sav");
+						ois = new ObjectInputStream(fis);
+						thisLoad = (SaveConfiguration) ois.readObject();
+						for(int i = 0; i < 15; i++) {
+							partCheckBoxes[i].setSelected(thisLoad.getConfig()[i]);
+						}
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+				
+				
+			}
+		});
+	}
 
 	/**
 	 * Returns the parent panel
@@ -179,5 +275,11 @@ public class GlassSelectPanel extends JPanel implements ActionListener
 			getGuiParent().getStatePanel().startButton.setEnabled(true);
 			getGuiParent().setSetting(Integer.parseInt(quantityField.getText()),setting);
 		}
+		if(e.getSource() == saveButton) {
+			saveConfiguration();
+			
+		}
 	}
+
+	
 }
