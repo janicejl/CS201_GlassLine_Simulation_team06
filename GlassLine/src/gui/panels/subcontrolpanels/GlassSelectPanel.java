@@ -36,7 +36,7 @@ public class GlassSelectPanel extends JPanel implements ActionListener
 	private ControlPanel parent;
 
 	GridBagConstraints gbc = new GridBagConstraints();
-	JComboBox<String> settingSelect = new JComboBox();
+	JComboBox settingSelect = new JComboBox();
 	JPanel settingPanel = new JPanel();
 	JPanel checkBoxPanel = new JPanel();
 	JPanel quantityPanel = new JPanel();
