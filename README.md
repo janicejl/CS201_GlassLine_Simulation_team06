@@ -11,7 +11,7 @@ Run the Java Application from FactoryDriver.java
 ####Work Distribution 
 
 - Mingyu (Heido) Qiao: Conveyor Family with Offline Machines. 
-- Ryan Tani: Conveyor Family followed by Truck. Bin Agent. 
+- Ryan Tani: Conveyor Family followed by Truck. Bin Agent. All GUI Design and Code. 
 - Brandon Nahigian: Conveyor Family followed by another Conveyor Family
 - Janice Leung: Conveyor Family followed by Online Machine. Machine Agent. 
 
