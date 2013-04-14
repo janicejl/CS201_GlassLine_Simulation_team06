@@ -14,3 +14,7 @@ Run the Java Application from FactoryDriver.java
 - Ryan Tani: Conveyor Family followed by Truck. Bin Agent. 
 - Brandon Nahigian: Conveyor Family followed by another Conveyor Family
 - Janice Leung: Conveyor Family followed by Online Machine. Machine Agent. 
+
+####Design Document
+
+Our Design Document is in the Wiki section of github. (https://github.com/usc-csci201-spring2013/cs201GlassLine_Team06/wiki)
