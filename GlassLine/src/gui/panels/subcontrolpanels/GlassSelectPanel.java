@@ -308,6 +308,17 @@ public class GlassSelectPanel extends JPanel implements ActionListener
 						partCheckBoxes[10].setSelected(thisLoad.getConfig()[10]);
 						partCheckBoxes[11].setSelected(thisLoad.getConfig()[11]);
 						partCheckBoxes[13].setSelected(thisLoad.getConfig()[13]);
+						
+						setting[0] = thisLoad.getConfig()[0];
+						setting[2] = thisLoad.getConfig()[2];
+						setting[3] = thisLoad.getConfig()[3];
+						setting[5] = thisLoad.getConfig()[5];
+						setting[6] = thisLoad.getConfig()[6];
+						setting[7] = thisLoad.getConfig()[7];
+						setting[8] = thisLoad.getConfig()[8];
+						setting[10] = thisLoad.getConfig()[10];
+						setting[11] = thisLoad.getConfig()[11];
+						setting[13] = thisLoad.getConfig()[13];
 					
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
