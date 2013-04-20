@@ -5,6 +5,7 @@ import gui.panels.subcontrolpanels.GlassInfoPanel;
 import gui.panels.subcontrolpanels.GlassSelectPanel;
 import gui.panels.subcontrolpanels.LogoPanel;
 import gui.panels.subcontrolpanels.NonNormPanel;
+import gui.panels.subcontrolpanels.ShutDownPanel;
 import gui.panels.subcontrolpanels.StatePanel;
 import gui.panels.subcontrolpanels.TitlePanel;
 import gui.panels.subcontrolpanels.TracePanel;
@@ -68,6 +69,11 @@ public class ControlPanel extends JPanel implements TReceiver
 	 * The panel handling non-normative events
 	 */
 	NonNormPanel nonNormPanel;
+	
+	/*
+	 * The panel handling stopping conveyor family segments
+	 */
+	ShutDownPanel shutDownPanel;
 
 	/**
 	 * Panel holding logo
@@ -109,6 +115,7 @@ public class ControlPanel extends JPanel implements TReceiver
 		glassSelectPanel = new GlassSelectPanel(this);
 		glassInfoPanel = new GlassInfoPanel(this);
 		nonNormPanel = new NonNormPanel(this);
+		shutDownPanel = new ShutDownPanel(this);
 		tracePanel = new TracePanel(this, "Begin");
 		logoPanel = new LogoPanel(this);
 
@@ -119,6 +126,7 @@ public class ControlPanel extends JPanel implements TReceiver
 		JTabbedPane selectTabbedPanel = new JTabbedPane(JTabbedPane.TOP);
 		selectTabbedPanel.add("Glass Select", glassSelectPanel);
 		selectTabbedPanel.add("Non Norms", nonNormPanel);
+		selectTabbedPanel.add("Shut Down", shutDownPanel);
 		selectTabbedPanel.setBackground(Color.gray);
 		selectTabbedPanel.setForeground(Color.white);
 		selectTabbedPanel.setBorder(BorderFactory.createEmptyBorder());
