@@ -133,6 +133,14 @@ public class ConShuttle extends Agent implements ConveyorFamily
 				released = true;
 				stateChanged();
 			}
+//			if(args[0].equals(number[0] *2+1))//if second sensor
+//			{
+//				glass.get(0).status = Status.send;
+//				stateChanged();
+//			}
+		}
+		
+		if(channel == TChannel.SENSOR & event == TEvent.SENSOR_GUI_PRESSED) {
 			if(args[0].equals(number[0] *2+1))//if second sensor
 			{
 				glass.get(0).status = Status.send;

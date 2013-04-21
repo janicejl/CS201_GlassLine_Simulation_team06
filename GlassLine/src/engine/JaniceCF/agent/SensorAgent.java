@@ -48,19 +48,19 @@ public class SensorAgent extends Agent implements Sensor {
 				if ((sensorIndex % 2) == 0)
 				{
 					if (args[0].equals(sensorIndex)) {
-						print("Pressed. Starting Conveyor. ");
-						newArgs[0] = (Integer)args[0] / 2;
+//						print("Pressed. Starting Conveyor. ");
+//						newArgs[0] = (Integer)args[0] / 2;
 //						newArgs[0] = (Integer) sensorIndex;
 						//transducer.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_START, newArgs);
-						conveyor.msgGlassAtStart();
+//						conveyor.msgGlassAtStart();
 					}
 				} else {
 					if (args[0].equals(sensorIndex)) {
-						print("Pressed. Stoping Conveyor. ");
-						newArgs[0] = (Integer)args[0] / 2;
+//						print("Pressed. Stoping Conveyor. ");
+//						newArgs[0] = (Integer)args[0] / 2;
 //						newArgs[0] = (Integer) sensorIndex;
-						transducer.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_STOP, newArgs);
-						conveyor.msgGlassAtEnd();
+						//transducer.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_STOP, newArgs);
+//						conveyor.msgGlassAtEnd();
 					}
 				}
 			} else if (event == TEvent.SENSOR_GUI_RELEASED) {
@@ -74,7 +74,6 @@ public class SensorAgent extends Agent implements Sensor {
 							print("Released. Sending msgSpaceAvailable to previousCF. ");
 							previousCF.msgSpaceAvailable();
 						}
-					
 					
 						if (bin != null) {
 							print("Released. Sending msgSpaceAvailable to bin. ");
