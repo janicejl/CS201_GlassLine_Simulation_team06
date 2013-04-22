@@ -35,7 +35,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 
 	public ConveyorAgent(String name, Transducer transducer, int index, TChannel channel) {
 		super(name, transducer);
-
+ 
 		conveyorIndex = index;
 
 		machine = null;
@@ -150,7 +150,13 @@ public class ConveyorAgent extends Agent implements Conveyor {
 				if(status==ConveyorStatus.GlassAtEnd)
 					transducer.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_STOP, newArgs );
 				started=false;
+				stateChanged();
 				return;
+			}
+			if(event == TEvent.WORKSTATION_RELEASE_FINISHED)
+			{
+				if(status==ConveyorStatus.GlassAtEnd)
+					startConveyor();
 			}
 		}
 		
