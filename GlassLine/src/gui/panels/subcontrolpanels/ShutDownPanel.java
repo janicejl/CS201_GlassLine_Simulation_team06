@@ -2,45 +2,105 @@ package gui.panels.subcontrolpanels;
 
 import gui.panels.ControlPanel;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class ShutDownPanel extends JPanel implements ActionListener{
-	List<JButton> shutDownButtons = new ArrayList<JButton>();
+	List<JButton> cfShutDownButtons;
+	List<JButton> workstationShutDownButtons;
 	
 	ControlPanel parent;
+	JPanel conveyorShutDownPanel;
+	JPanel workstationShutDown;
 	
 	public ShutDownPanel(ControlPanel parent) {
+		//DECLARATIONS
 		this.parent = parent;
+		cfShutDownButtons = new ArrayList<JButton>();
+		workstationShutDownButtons = new ArrayList<JButton>();
+		conveyorShutDownPanel = new JPanel();
+		workstationShutDown = new JPanel();
 		
-		setLayout(new GridLayout(5,2));
+		//LAYOUTS
+		setLayout(new GridBagLayout());
+		setupConveyorShutDownPanel();
+		setupWorkstationShutDownPanel();
 		
-		for(int i = 0; i < 14; i++) {
-			shutDownButtons.add(new JButton("Shutdown " + (i+1)));
-			add(shutDownButtons.get(i));
-			shutDownButtons.get(i).addActionListener(this);
-		}
 		
+		
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.NORTHWEST;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.ipadx = 0;
+		gbc.ipady = 0;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		add(conveyorShutDownPanel, gbc);
+		gbc.gridx++;
+		add(workstationShutDown, gbc);
 		
 	}
+
+	private void setupConveyorShutDownPanel() {
+		// TODO Auto-generated method stub
+		conveyorShutDownPanel.setLayout(new GridBagLayout());
+		
+		GridBagConstraints gbc = new GridBagConstraints();
+		
+		//ADDING COMPONENTS TO CONVEYOR SHUTDOWN PANEL
+		gbc.gridx = 0;
+		gbc.gridwidth = 4;
+		conveyorShutDownPanel.add(new JLabel("Shutdown Conveyor Family"), gbc);
+		gbc.weightx = 5;
+		gbc.gridy++;
+		gbc.gridwidth = 1;
+		for(int i = 0; i < 14; i++) {
+			cfShutDownButtons.add(new JButton((""+(i+1))));
+			cfShutDownButtons.get(i).addActionListener(this);
+			if(i == 7)  { gbc.gridy = 0; gbc.gridx++; gbc.weightx = 1; }
+			gbc.gridy++;
+			conveyorShutDownPanel.add(cfShutDownButtons.get(i), gbc);
+		}
+	}
+	
+	private void setupWorkstationShutDownPanel() {
+		// TODO Auto-generated method stub
+		workstationShutDown.setLayout(new BoxLayout(workstationShutDown, BoxLayout.Y_AXIS));
+		
+		//ADDING COMPONENTS TO WORKSTATION SHUTDOWN PANEL
+		for(int i = 0; i < 3; i++) {
+			workstationShutDownButtons.add(new JButton("Workstation Shutdown " + (i+1)));
+			workstationShutDownButtons.get(i).addActionListener(this);
+			workstationShutDown.add(workstationShutDownButtons.get(i));
+		}
+	}
+
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		for(int i = 0; i < 14; i++) {
-			if(e.getSource() == shutDownButtons.get(i)) {
-				shutDown(i);
+			if(e.getSource() == cfShutDownButtons.get(i)) {
+				conveyorShutDown(i);
 			}
 		}
 	}
 	
-	public void shutDown(int i) {
+	public void conveyorShutDown(int i) {
 		//need to implement methods for shutdown here;
 		if(i == 0); //CF 1
 		else if(i == 1);//CF 2

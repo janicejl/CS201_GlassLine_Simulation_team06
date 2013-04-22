@@ -4,11 +4,13 @@ package gui.panels;
 import gui.panels.subcontrolpanels.GlassInfoPanel;
 import gui.panels.subcontrolpanels.GlassSelectPanel;
 import gui.panels.subcontrolpanels.LogoPanel;
-import gui.panels.subcontrolpanels.NonNormPanel;
+import gui.panels.subcontrolpanels.NonNormPanel_OLD;
 import gui.panels.subcontrolpanels.ShutDownPanel;
 import gui.panels.subcontrolpanels.StatePanel;
 import gui.panels.subcontrolpanels.TitlePanel;
 import gui.panels.subcontrolpanels.TracePanel;
+
+import gui.panels.nonnormpanels.*;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -68,6 +70,7 @@ public class ControlPanel extends JPanel implements TReceiver
 	/**
 	 * The panel handling non-normative events
 	 */
+	//NonNormPanel_OLD nonNormPanel;
 	NonNormPanel nonNormPanel;
 	
 	/*
@@ -126,7 +129,7 @@ public class ControlPanel extends JPanel implements TReceiver
 		JTabbedPane selectTabbedPanel = new JTabbedPane(JTabbedPane.TOP);
 		selectTabbedPanel.add("Glass Select", glassSelectPanel);
 		selectTabbedPanel.add("Non Norms", nonNormPanel);
-		selectTabbedPanel.add("Shut Down", shutDownPanel);
+		//selectTabbedPanel.add("Shut Down", shutDownPanel);
 		selectTabbedPanel.setBackground(Color.gray);
 		selectTabbedPanel.setForeground(Color.white);
 		selectTabbedPanel.setBorder(BorderFactory.createEmptyBorder());
@@ -168,8 +171,6 @@ public class ControlPanel extends JPanel implements TReceiver
 		this.add(logoPanel);
 
 		System.out.println("Control Panel created.");
-		
-		
 		
 	}
 
