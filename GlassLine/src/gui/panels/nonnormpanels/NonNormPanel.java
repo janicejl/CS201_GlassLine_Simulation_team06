@@ -2,6 +2,7 @@ package gui.panels.nonnormpanels;
 
 import gui.panels.ControlPanel;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -14,16 +15,21 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
+import transducer.Transducer;
+
 public class NonNormPanel extends JPanel implements ActionListener {
 
 	ControlPanel parent;
+	
+	Transducer transducer;
 	
 	JComboBox nonNormSelector;
 	
 	JPanel bottomPanel = new JPanel();
 	
-	public NonNormPanel(ControlPanel c) {
+	public NonNormPanel(ControlPanel c, Transducer t) {
 		parent = c;
+		this.setBackground(new Color(238,238,238));
 		
 		nonNormSelector = new JComboBox();
 		
@@ -72,7 +78,7 @@ public class NonNormPanel extends JPanel implements ActionListener {
 					conveyorSlider.setSnapToTicks(true);
 					
 					gbc.anchor = GridBagConstraints.NORTHWEST;
-					gbc.weightx = 5;
+					gbc.weightx = 0;
 					gbc.weighty = 5;
 					gbc.gridx = 0;
 					gbc.gridy = 0;
@@ -112,7 +118,7 @@ public class NonNormPanel extends JPanel implements ActionListener {
 					conveyorSlider.setPaintTicks(true);
 					
 					gbc.anchor = GridBagConstraints.NORTHWEST;
-					gbc.weightx = 5;
+					gbc.weightx = 0;
 					gbc.weighty = 5;
 					gbc.gridx = 0;
 					gbc.gridy = 0;
@@ -151,7 +157,7 @@ public class NonNormPanel extends JPanel implements ActionListener {
 					conveyorSlider.setPaintTicks(true);
 					
 					gbc.anchor = GridBagConstraints.NORTHWEST;
-					gbc.weightx = 5;
+					gbc.weightx = 0;
 					gbc.weighty = 5;
 					gbc.gridx = 0;
 					gbc.gridy = 0;
@@ -186,7 +192,7 @@ public class NonNormPanel extends JPanel implements ActionListener {
 					conveyorSlider.setPaintTicks(true);
 					
 					gbc.anchor = GridBagConstraints.NORTHWEST;
-					gbc.weightx = 5;
+					gbc.weightx = 0;
 					gbc.weighty = 5;
 					gbc.gridx = 0;
 					gbc.gridy = 0;
@@ -221,7 +227,7 @@ public class NonNormPanel extends JPanel implements ActionListener {
 					conveyorSlider.setPaintTicks(true);
 					
 					gbc.anchor = GridBagConstraints.NORTHWEST;
-					gbc.weightx = 5;
+					gbc.weightx = 0;
 					gbc.weighty = 5;
 					gbc.gridx = 0;
 					gbc.gridy = 0;
@@ -259,7 +265,7 @@ public class NonNormPanel extends JPanel implements ActionListener {
 					conveyorSlider.setPaintTicks(true);
 					
 					gbc.anchor = GridBagConstraints.NORTHWEST;
-					gbc.weightx = 5;
+					gbc.weightx = 0;
 					gbc.weighty = 5;
 					gbc.gridx = 0;
 					gbc.gridy = 0;
@@ -302,11 +308,11 @@ public class NonNormPanel extends JPanel implements ActionListener {
 					conveyorSlider.setPaintTicks(true);
 					
 					gbc.anchor = GridBagConstraints.NORTHWEST;
-					gbc.weightx = 5;
+					gbc.weightx = 0;
 					gbc.weighty = 5;
 					gbc.gridx = 0;
 					gbc.gridy = 0;
-					bottomPanel.add(new JLabel("Valid Offline Workstation Index Index:"));
+					bottomPanel.add(new JLabel("Valid Offline Workstation Index:"));
 					gbc.gridy++;
 					bottomPanel.add(conveyorSlider, gbc);
 					gbc.ipadx = 5;

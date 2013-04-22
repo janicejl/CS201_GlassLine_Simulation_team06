@@ -117,7 +117,7 @@ public class ControlPanel extends JPanel implements TReceiver
 		statePanel = new StatePanel(this);
 		glassSelectPanel = new GlassSelectPanel(this);
 		glassInfoPanel = new GlassInfoPanel(this);
-		nonNormPanel = new NonNormPanel(this);
+		nonNormPanel = new NonNormPanel(this, transducer);
 		shutDownPanel = new ShutDownPanel(this);
 		tracePanel = new TracePanel(this, "Begin");
 		logoPanel = new LogoPanel(this);
