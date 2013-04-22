@@ -328,6 +328,29 @@ public class GlassSelectPanel extends JPanel implements ActionListener
 						e.printStackTrace();
 					}
 				}
+				else {
+					partCheckBoxes[0].setSelected(false);
+					partCheckBoxes[2].setSelected(false);
+					partCheckBoxes[3].setSelected(false);
+					partCheckBoxes[5].setSelected(false);
+					partCheckBoxes[6].setSelected(false);
+					partCheckBoxes[7].setSelected(false);
+					partCheckBoxes[8].setSelected(false);
+					partCheckBoxes[10].setSelected(false);
+					partCheckBoxes[11].setSelected(false);
+					partCheckBoxes[13].setSelected(false);
+					
+					setting[0] = false;
+					setting[2] = false;
+					setting[3] = false;
+					setting[5] = false;
+					setting[6] = false;
+					setting[7] = false;
+					setting[8] = false;
+					setting[10] = false;
+					setting[11] = false;
+					setting[13] = false;
+				}
 				
 				
 				
