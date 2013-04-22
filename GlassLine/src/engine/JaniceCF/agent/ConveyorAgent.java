@@ -147,7 +147,8 @@ public class ConveyorAgent extends Agent implements Conveyor {
 				Integer[] newArgs = new Integer[1];
 				newArgs[0] = (Integer) conveyorIndex;
 				loading = false;
-				transducer.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_STOP, newArgs );
+				if(status==ConveyorStatus.GlassAtEnd)
+					transducer.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_STOP, newArgs );
 				started=false;
 				return;
 			}
