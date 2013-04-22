@@ -55,12 +55,15 @@ public class NonNormPanel extends JPanel implements ActionListener {
 		add(nonNormSelector, gbc);
 		gbc.gridy++;
 		add(bottomPanel, gbc);
+		bottomPanel.setBackground(new Color(238,238,238));
+		
 		nonNormActionListener();
 	}
 	
 	public void nonNormActionListener() {
 		nonNormSelector.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
+				
 				JComboBox option = (JComboBox) ae.getSource();
 				
 				String selected = (String) option.getSelectedItem();

@@ -17,10 +17,13 @@ import gui.test.GuiTestSM;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
@@ -59,7 +62,8 @@ public class DisplayPanel extends JLayeredPane {
 			BIN_LAYER = 1, GANTRY_LAYER = 8, PARTBOT_LAYER = 9, CEILING_LAYER = 10, DND_LAYER = 11,
 			
 			GROUND_LAYER = 0, CONVEYOR_LAYER = 2, SENSOR_LAYER = 7,MACHINE_LAYER = 12,POPUP_LAYER = 13,
-			PART_LAYER = 15, ROBOT_LAYER = 19, PART_POPUP_LAYER = 20, ONLINE_MACHINE_LAYER = 25, ROOF_LAYER = 100;
+			PART_LAYER = 15, ROBOT_LAYER = 19, PART_POPUP_LAYER = 20, ONLINE_MACHINE_LAYER = 25, ROOF_LAYER = 100,
+			GUI_LAYER = 101;
 	
 	/** The FactoryPanel linked to this panel */
 	private FactoryPanel parent;
@@ -204,6 +208,7 @@ public class DisplayPanel extends JLayeredPane {
 
 		createTruck(currentComponent.getX()-(int)(ImageIcons.getIconList("truck").get(0).getIconWidth()/2),currentComponent.getCenterY());
 		
+		//createGuiButtons();
 
 		/*
 			NOTE: You can observe the factory work on one piece of glass without agents by leaving the below line alone. Comment it out when you are ready to start working.
@@ -212,6 +217,20 @@ public class DisplayPanel extends JLayeredPane {
 //		test = new GuiTestSM(transducer);
 	}
 	
+/*	private void createGuiButtons() {
+		// TODO Auto-generated method stub
+		List<JButton> list = new ArrayList<JButton>();
+		for(int i = 0; i < 100; i++) {
+			JButton test = new JButton("Bubby");
+			System.out.println("button added");
+			test.setVisible(true);
+			test.setLocation(500+(i*2),500+(i*2));
+			list.add(test);
+			this.add(list.get(i), i);
+		}
+		
+	}
+*/
 	private void createPopUp(int x,int y)
 	{
 		GUIPopUp popUp = new GUIPopUp(this,transducer);
