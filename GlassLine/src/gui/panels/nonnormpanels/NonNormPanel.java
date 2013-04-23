@@ -80,11 +80,15 @@ public class NonNormPanel extends JPanel implements ActionListener {
           GridBagConstraints gbc = new GridBagConstraints();
           
           final JSlider conveyorSlider = new JSlider(0, 14);
-          JButton turnOffConveyor = new JButton("Turn off");
-          JButton turnOnConveyor = new JButton("Turn on");
+          final JButton turnOffConveyor = new JButton("Turn off");
+          final JButton turnOnConveyor = new JButton("Turn on");
           turnOffConveyor.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
               turnOffConveyor(conveyorSlider.getValue());
+              bottomPanel.remove(turnOffConveyor);
+              bottomPanel.add(turnOnConveyor);
+              repaint();
+              revalidate();
             }
 
           });
@@ -92,6 +96,10 @@ public class NonNormPanel extends JPanel implements ActionListener {
           turnOnConveyor.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
               turnOnConveyor(conveyorSlider.getValue());
+              bottomPanel.remove(turnOnConveyor);
+              bottomPanel.add(turnOffConveyor);
+              repaint();
+              revalidate();
             }
 
           });
@@ -131,9 +139,7 @@ public class NonNormPanel extends JPanel implements ActionListener {
           gbc.ipadx = 5;
           gbc.gridx++;
           gbc.gridy = 0;
-          bottomPanel.add(turnOffConveyor, gbc);
-          gbc.gridy++;
-          bottomPanel.add(turnOnConveyor, gbc);
+          bottomPanel.add(turnOffConveyor);
           repaint();
           revalidate();
           
