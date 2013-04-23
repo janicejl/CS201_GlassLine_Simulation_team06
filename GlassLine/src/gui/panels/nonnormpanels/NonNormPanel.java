@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
-import transducer.Transducer;
+import transducer.*;
 
 public class NonNormPanel extends JPanel implements ActionListener {
 
@@ -453,10 +453,14 @@ public class NonNormPanel extends JPanel implements ActionListener {
   }
 
   public void turnOffConveyor(int index) {
-    
+	  Integer[] newArgs = new Integer[1];
+	  newArgs[0] = (Integer) index;
+	  transducer.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_STOP, newArgs);
   }
   public void turnOnConveyor(int index) {
-    
+	  Integer[] newArgs = new Integer[1];
+	  newArgs[0] = (Integer) index;
+	  transducer.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_START, newArgs);
   }
   public void breakWorkstation(int index) {
     
