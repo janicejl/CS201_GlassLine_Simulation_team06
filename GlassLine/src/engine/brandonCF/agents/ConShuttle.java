@@ -32,7 +32,7 @@ public class ConShuttle extends Agent implements ConveyorFamily
 	private Integer[] number;
 	ConveyorFamily con;
 	Machine mac;
-	boolean canSend, notified, conMoving, released;
+	boolean canSend, notified, conMoving, released, overRide;
 	
 	public ConShuttle(String name, Transducer t, int num)
 	{
@@ -46,6 +46,7 @@ public class ConShuttle extends Agent implements ConveyorFamily
 		conMoving = true;
 		released = false;
 		transducer.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_START, number);
+		overRide = false;
 	}
 	
 	@Override
@@ -63,34 +64,49 @@ public class ConShuttle extends Agent implements ConveyorFamily
 		notified = false;
 		stateChanged();
 	}
+	
+	public void msgOverRideStop()
+	{
+		overRide = true;
+		stateChanged();
+	}
+	
+	public void msgOverRideStart()
+	{
+		overRide = false;
+		stateChanged();
+	}
 //scheduler
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
-		if(glass.size()>0)//if there are packets, try to do something
+		if(!overRide)
 		{
-			if(glass.get(0).status == Status.send)//if you can send
+			if(glass.size()>0)//if there are packets, try to do something
 			{
-				if(canSend){
-					sendGlass(glass.get(0));
-					//return true;
-				}
-				else//*/
+				if(glass.get(0).status == Status.send)//if you can send
 				{
-					stopConveyor();
-					return false;
+					if(canSend){
+						sendGlass(glass.get(0));
+						//return true;
+					}
+					else//*/
+					{
+						stopConveyor();
+						return false;
+					}
+				}
+	
+				if(notified ==false & conMoving & released)//if i haven't notified & the conveyor is moving is not stopped
+				{
+					msgMac();
+					return true;
 				}
 			}
-
-			if(notified ==false & conMoving & released)//if i haven't notified & the conveyor is moving is not stopped
+			else
 			{
 				msgMac();
-				return true;
 			}
-		}
-		else
-		{
-			msgMac();
 		}
 		
 		return false;
