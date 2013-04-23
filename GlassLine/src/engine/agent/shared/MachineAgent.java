@@ -3,7 +3,8 @@ package engine.agent.shared;
 import transducer.TChannel;
 import transducer.TEvent;
 import transducer.Transducer;
-import engine.JaniceCF.interfaces.*;
+import engine.JaniceCF.interfaces.Conveyor;
+import engine.JaniceCF.interfaces.Popup;
 import engine.agent.Agent;
 import engine.agent.shared.Interfaces.ConveyorFamily;
 import engine.agent.shared.Interfaces.Machine;
@@ -45,12 +46,14 @@ public class MachineAgent extends Agent implements Machine {
 		
 	
 	//Messages
+	@Override
 	public void msgSpaceAvailable() {
 		print("Received msgSpaceAvailable");
 		nextFree = true;
 		stateChanged();
 	}
 	
+	@Override
 	public void msgHereIsGlass(Glass g) {
 		print("Received msgHereIsGlass");
 		glass = g;
@@ -103,12 +106,13 @@ public class MachineAgent extends Agent implements Machine {
 	
 	//Actions
 	private void processGlass() {
-		print("Processing Glass");
 		if (glass.ifNeedMachine(index)) {
+			print("Processing Glass");
 			status = MachineState.Processing;
 			transducer.fireEvent(channel, TEvent.WORKSTATION_DO_ACTION, null);
 		} else {
 			status = MachineState.DoneProcessing;
+			print("Done Glass");
 		}
 		stateChanged();
 	}
@@ -125,18 +129,22 @@ public class MachineAgent extends Agent implements Machine {
 	
 	
 	
+	@Override
 	public void setConveyor(Conveyor c) {
 		conveyor = c;
 	}
 	
+	@Override
 	public void setPopup(Popup p) {
 		popup = p;
 	}
 	
+	@Override
 	public void setNextCF(ConveyorFamily cf) {
 		nextCF = cf;
 	}
 	
+	@Override
 	public TChannel getChannel() {
 		return channel;
 	}
