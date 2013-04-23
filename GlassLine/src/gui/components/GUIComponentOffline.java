@@ -38,6 +38,7 @@ public class GUIComponentOffline extends GuiAnimationComponent implements Action
 	 * Frame counter
 	 */
 	int counter = 0;
+	int roundCounter=0;
 
 	/**
 	 * List of icons for animations
@@ -55,7 +56,8 @@ public class GUIComponentOffline extends GuiAnimationComponent implements Action
 		initializeImages();
 
 	}
-
+	
+	float speedDown = 1;
 	/**
 	 * Method that initializes the imageicons for the specific machines
 	 * based on the MachineType enum
@@ -91,16 +93,24 @@ public class GUIComponentOffline extends GuiAnimationComponent implements Action
 	 */
 	public void doAnimate()
 	{
-		if (counter < imageicons.size())
+
+		if (roundCounter < speedDown)
 		{
 			setIcon(imageicons.get(counter));
-			counter++;
+			if(counter<imageicons.size()-1)
+				counter++;
+			else if (counter ==imageicons.size()-1)
+			{
+				counter = 0;
+				roundCounter++;
+			}
 		}
 		else
 		{
 
 			setIcon(imageicons.get(0));
 			counter = 0;
+			roundCounter=0;
 
 			Object[] args = new Object[1];
 			args[0] = index;
@@ -189,5 +199,20 @@ public class GUIComponentOffline extends GuiAnimationComponent implements Action
 			}
 
 		}
+		else if (event == TEvent.WORKSTATION_OFFLINE_CHANGE_SPEED)
+		{
+				if(channel == this.channel)
+				{
+					animationChangeSpeed(((Integer)args[0]).intValue());
+				}
+			
+		}
+		
+	}
+	public void animationChangeSpeed(int speed)
+	{
+		float speedup = speed;
+		speedDown = 10/speedup;
+		
 	}
 }

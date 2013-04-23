@@ -4,6 +4,7 @@ import gui.components.GUITruck;
 import gui.panels.ControlPanel;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -16,6 +17,8 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import transducer.*;
 
@@ -337,28 +340,45 @@ public class NonNormPanel extends JPanel implements ActionListener {
           revalidate();
         }
         else if(selected.equals("Offline Workstation Change Speed")) {
+        	/** The lowest value of the speed slider (corresponds to slow factory) */
+
           bottomPanel.removeAll();
           bottomPanel.setLayout(new GridBagLayout());
           GridBagConstraints gbc = new GridBagConstraints();
-          
-          JSlider conveyorSlider = new JSlider(0, 2);
-          JButton accept = new JButton("Accept");
-          accept.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-              
-            }
-          });
+
+      		final JSlider speedSlider = new JSlider(1,10,10);
+      	// setup sliders
+    		speedSlider.addChangeListener(new ChangeListener()
+    		{
+			public void stateChanged(ChangeEvent arg0) {
+				int newSpeed = speedSlider.getValue();
+					// get to the timer, set new speed
+					try
+					{
+						Object[] args = new Object[1];
+						args[0] = (Integer)speedSlider.getValue(); 
+						transducer.fireEvent(TChannel.DRILL,TEvent.WORKSTATION_OFFLINE_CHANGE_SPEED,args);
+						transducer.fireEvent(TChannel.CROSS_SEAMER,TEvent.WORKSTATION_OFFLINE_CHANGE_SPEED,args);
+						transducer.fireEvent(TChannel.GRINDER,TEvent.WORKSTATION_OFFLINE_CHANGE_SPEED,args);
+			
+					}
+					catch (NullPointerException npe)
+					{
+						System.out.println("No Timer connected!");
+					}
+					speedSlider.setToolTipText("" + newSpeed);
+				
+			}
+    		});
+    		speedSlider.setSnapToTicks(false);
+    		speedSlider.setPreferredSize(new Dimension(200, 20));
+    		speedSlider.setBackground(Color.black);
           
           Hashtable<Integer, JLabel> table = new Hashtable<Integer, JLabel>();
           table.put(0, new JLabel("0"));
           table.put(1, new JLabel("1"));
           table.put(2, new JLabel("2"));
           
-          conveyorSlider.setLabelTable(table);
-          conveyorSlider.setMajorTickSpacing(1);
-          conveyorSlider.setPaintLabels(true);
-          conveyorSlider.setSnapToTicks(true);
-          conveyorSlider.setPaintTicks(true);
           
           gbc.anchor = GridBagConstraints.NORTHWEST;
           gbc.weightx = 0;
@@ -367,10 +387,9 @@ public class NonNormPanel extends JPanel implements ActionListener {
           gbc.gridy = 0;
           bottomPanel.add(new JLabel("Valid Popup Index"));
           gbc.gridy++;
-          bottomPanel.add(conveyorSlider, gbc);
+          bottomPanel.add(speedSlider, gbc);
           gbc.ipadx = 5;
           gbc.gridx++;
-          bottomPanel.add(accept, gbc);
           
           repaint();
           revalidate();

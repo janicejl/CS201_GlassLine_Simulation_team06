@@ -94,7 +94,7 @@ public class PopupAgent extends Agent implements Popup{
 	{
 		for(MyGlass myGlass: glasses)
 		{
-			if(myGlass.status==GlassStatus.Delivering&&myGlass.robotIndex.equals(thisIndex))
+			if(myGlass.status==GlassStatus.Handling&&myGlass.robotIndex.equals(thisIndex))
 			{	
 
 				myGlass.status = GlassStatus.Ready;
@@ -126,7 +126,9 @@ public class PopupAgent extends Agent implements Popup{
 	
 		MyGlass tempG = null;
 		MyGlass tempG1 =null;
-
+		if(myIndex==0)
+			System.err.println("robotsStatus"+robots.get(0).status+" "+robots.get(1).status);
+		
 		if (animationStatus == AnimationStatus.PopupMovedDown)
 		{
 			popupActionPopupMovedDown();
@@ -190,6 +192,7 @@ public class PopupAgent extends Agent implements Popup{
 				getGlassFromMachine(tempG1);
 				return true;
 			}
+			
 			for(int i=0;i<robots.size();i++)
 			{
 				if(robots.get(i).status == RobotStatus.Empty)
@@ -221,7 +224,7 @@ public class PopupAgent extends Agent implements Popup{
 	}
 	public void deliverGlass(MyGlass g)
 	{
-		System.out.println("deliver the glass is called");
+		System.out.println("deliver the glass is called:" +myIndex+ " "+g.getRobotIndex());
 		g.status=GlassStatus.Delivering;
 		Integer[] popupArgs = new Integer[1];
 		popupArgs[0] = myIndex;
@@ -399,6 +402,7 @@ public class PopupAgent extends Agent implements Popup{
 				{
 					Integer[] robotArgs = new Integer[1];
 					robotArgs[0] = g.robotIndex;
+					System.out.println("releasing: !!"+myIndex+" "+robotArgs[0]);
 					transducer.fireEvent(myChannel, TEvent.WORKSTATION_DO_LOAD_GLASS, robotArgs);
 					animationStatus = AnimationStatus.WorkStationLoadingGlass;
 					stateChanged();
@@ -433,6 +437,7 @@ public class PopupAgent extends Agent implements Popup{
 						Integer[] robotArgs = new Integer[1];
 						robotArgs[0] = g.robotIndex;
 						transducer.fireEvent(myChannel, TEvent.WORKSTATION_DO_ACTION, robotArgs);
+						g.status = GlassStatus.Handling;
 						animationStatus = AnimationStatus.Nothing;
 						actionStatus = ActionStatus.Nothing;
 						stateChanged();
@@ -465,11 +470,12 @@ public class PopupAgent extends Agent implements Popup{
 			{
 				if(g.status==GlassStatus.Ready)
 				{
-					robots.get(g.robotIndex).status = RobotStatus.Empty;
 					print("popup"+myIndex+"popup released the glass");
 					glasses.remove(g);
 					animationStatus = AnimationStatus.Nothing;
 					actionStatus = ActionStatus.Nothing;
+					robots.get(g.robotIndex).status = RobotStatus.Empty;
+					print(""+myIndex+"machine "+ g.getRobotIndex()+" is set to empty!~~~~~");
 					nextCF.msgHereIsGlass(g.glass);
 					conveyor.msgPopupAvailable();
 					return;
