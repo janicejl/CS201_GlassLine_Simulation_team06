@@ -1,5 +1,6 @@
 package gui.panels.nonnormpanels;
 
+import gui.components.GUITruck;
 import gui.panels.ControlPanel;
 
 import java.awt.Color;
@@ -27,6 +28,8 @@ public class NonNormPanel extends JPanel implements ActionListener {
   JComboBox nonNormSelector;
   
   JPanel bottomPanel = new JPanel();
+  
+  GUITruck truck;
   
   public NonNormPanel(ControlPanel c, Transducer t) {
     parent = c;
@@ -420,6 +423,29 @@ public class NonNormPanel extends JPanel implements ActionListener {
           bottomPanel.removeAll();
           bottomPanel.setLayout(new GridBagLayout());
           GridBagConstraints gbc = new GridBagConstraints();
+          final JButton breakButton = new JButton("Break Truck");
+          final JButton fixButton = new JButton("Fix Truck");
+          bottomPanel.add(breakButton);
+          fixButton.addActionListener(new ActionListener() {
+         	 public void actionPerformed(ActionEvent ae) {
+         		 truck.fixTruck();
+         		 bottomPanel.remove(fixButton);
+         		 bottomPanel.add(breakButton);
+         		 repaint();
+         		 revalidate();
+         	 }
+           });
+          breakButton.addActionListener(new ActionListener() {
+        	 public void actionPerformed(ActionEvent ae) {
+        		 truck.breakTruck();
+        		 bottomPanel.remove(breakButton);
+        		 bottomPanel.add(fixButton);
+        		 repaint();
+        		 revalidate();
+        	 }
+          });
+          repaint();
+          revalidate();
         }
         else if(selected.equals("Glass Breaking Offline")) {
           bottomPanel.removeAll();
@@ -527,5 +553,10 @@ public class NonNormPanel extends JPanel implements ActionListener {
     }
     //TODO- FINISH
   }
+
+public void setTruck(GUITruck truck) {
+	// TODO Auto-generated method stub
+	this.truck = truck;
+}
 
 }

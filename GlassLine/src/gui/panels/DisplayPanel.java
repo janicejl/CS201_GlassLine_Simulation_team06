@@ -381,6 +381,7 @@ public class DisplayPanel extends JLayeredPane {
 		parent.getGuiParent().getTimer().addActionListener(truck);
 		truck.setTransducer(transducer);
 		currentComponent.addNextComponent(truck);
+		parent.getControlPanel().setGuiTruck(truck);
 	}
 	
 	private void createTransfer(int x,int y,ConveyorDirections direction)

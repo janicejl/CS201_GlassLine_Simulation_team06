@@ -1,6 +1,7 @@
 
 package gui.panels;
 
+import gui.components.GUITruck;
 import gui.panels.subcontrolpanels.GlassInfoPanel;
 import gui.panels.subcontrolpanels.GlassSelectPanel;
 import gui.panels.subcontrolpanels.LogoPanel;
@@ -300,5 +301,10 @@ public class ControlPanel extends JPanel implements TReceiver
 	public String toString()
 	{
 		return "Control Panel";
+	}
+
+	public void setGuiTruck(GUITruck truck) {
+		// TODO Auto-generated method stub
+		nonNormPanel.setTruck(truck);
 	}
 }

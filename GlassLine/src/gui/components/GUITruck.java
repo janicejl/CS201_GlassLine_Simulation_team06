@@ -25,6 +25,7 @@ public class GUITruck extends GuiComponent
 	private int MAX_TRUCK_SPEED =10;//added by monroe.
 	private int MIN_TRUCK_SPEED = 1;//added by monroe.
 
+	private boolean broken = false;
 	//added to allow multiple parts to be loaded and shown on the truck
 	List<MyGUIGlass> parts = Collections.synchronizedList( new ArrayList<MyGUIGlass>() );
 	
@@ -144,7 +145,7 @@ public class GUITruck extends GuiComponent
 		{
 			moveTruckOut();
 		}
-		if (state == TruckState.RETURNING)
+		if (state == TruckState.RETURNING && !broken)
 		{
 			moveTruckIn();
 		}
@@ -177,6 +178,14 @@ public class GUITruck extends GuiComponent
 		}
 	}
 
+	public void breakTruck() {
+		broken = true;
+	}
+
+	public void fixTruck() {
+		broken = false;
+	}
+	
 	@Override
 	public void addPart(GUIGlass part)
 	{
@@ -191,4 +200,5 @@ public class GUITruck extends GuiComponent
 			state = TruckState.LEAVING;
 		}
 	}
+
 }
