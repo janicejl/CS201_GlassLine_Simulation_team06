@@ -371,14 +371,10 @@ public class NonNormPanel extends JPanel implements ActionListener {
           bottomPanel.setLayout(new GridBagLayout());
           GridBagConstraints gbc = new GridBagConstraints();
           
-          JSlider conveyorSlider = new JSlider(0, 5);
-          JButton accept = new JButton("Accept");
-          accept.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-              
-            }
-          });
-          
+         final JSlider conveyorSlider = new JSlider(0, 5);
+          JButton disable = new JButton("Disable");
+          JButton enable = new JButton("Enable");
+         
           Hashtable<Integer, JLabel> table = new Hashtable<Integer, JLabel>();
           table.put(0, new JLabel("0"));
           table.put(1, new JLabel("1"));
@@ -387,6 +383,16 @@ public class NonNormPanel extends JPanel implements ActionListener {
           table.put(4, new JLabel("4"));
           table.put(5, new JLabel("5"));
           
+          disable.addActionListener(new ActionListener() {
+              public void actionPerformed(ActionEvent ae) {
+            	  disableWorkStation(conveyorSlider.getValue());
+              }
+            });
+            enable.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent ae) {
+                  enableWorkStation(conveyorSlider.getValue());
+                }
+              });
           conveyorSlider.setLabelTable(table);
           conveyorSlider.setMajorTickSpacing(1);
           conveyorSlider.setPaintLabels(true);
@@ -403,7 +409,9 @@ public class NonNormPanel extends JPanel implements ActionListener {
           bottomPanel.add(conveyorSlider, gbc);
           gbc.ipadx = 5;
           gbc.gridx++;
-          bottomPanel.add(accept, gbc);
+          bottomPanel.add(disable, gbc);
+          gbc.gridy++;
+          bottomPanel.add(enable, gbc);
           
           repaint();
           revalidate();
@@ -488,6 +496,18 @@ public class NonNormPanel extends JPanel implements ActionListener {
 	  Integer[] newArgs = new Integer[1];
 	  newArgs[0] = (Integer) (index);
 	  transducer.fireEvent(TChannel.POPUP, TEvent.POPUP_UNJAM, newArgs);
+  }
+  public void disableWorkStation(int index)
+  {
+	  Integer[] newArgs = new Integer[1];
+	  newArgs[0] = (Integer) (index);
+	  transducer.fireEvent(TChannel.POPUP, TEvent.WORKSTATION_DISABLE_OFFLINE, newArgs);
+  }
+  public void enableWorkStation(int index)
+  {
+	  Integer[] newArgs = new Integer[1];
+	  newArgs[0] = (Integer) (index);
+	  transducer.fireEvent(TChannel.POPUP, TEvent.WORKSTATION_ENABLE_OFFLINE, newArgs);
   }
   public void setTransducer(Transducer newTransducer) {
 	  this.transducer = newTransducer;

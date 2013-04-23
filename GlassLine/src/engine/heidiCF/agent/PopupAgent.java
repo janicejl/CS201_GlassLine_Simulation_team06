@@ -481,8 +481,31 @@ public class PopupAgent extends Agent implements Popup{
 		
 		if(channel == TChannel.POPUP)
 		{
+			if(event==TEvent.WORKSTATION_DISABLE_OFFLINE)
+			{
+				if((myIndex.intValue())==(((Integer)args[0]).intValue()/2))
+				{
+					int machineIndex = ((Integer)args[0]).intValue()-myIndex.intValue()*2;
+					robots.get(machineIndex).status=RobotStatus.Working;
+					stateChanged();
+				}
+			}
+			else if(event==TEvent.WORKSTATION_ENABLE_OFFLINE)
+			{
+				if((myIndex.intValue())==(((Integer)args[0]).intValue()/2))
+				{
+					int machineIndex = ((Integer)args[0]).intValue()-myIndex.intValue()*2;
+					if(robots.get(machineIndex).status==RobotStatus.Working)
+					{
+						robots.get(machineIndex).status=RobotStatus.Empty;
+						stateChanged();
+					}
+					
+
+				}
+			}
 			
-			if(args[0]==myIndex)
+			else if(args[0]==myIndex)
 			{
 				System.err.println(event+" "+args[0]+" "+myIndex);
 				if(event == TEvent.POPUP_GUI_MOVED_DOWN)
