@@ -443,13 +443,28 @@ public class PopupAgent extends Agent implements Popup{
 	}
 	public void popupActionPopupReleaseFinished()
 	{
-		if(actionStatus == ActionStatus.getGlassFromMachine)
+		if (actionStatus == ActionStatus.passGlass)
+		{
+			for(MyGlass g: glasses)
+			{
+				if(g.status==GlassStatus.WaitingForPass)
+				{
+					
+					print("popup"+myIndex+"popup released the glass");
+					glasses.remove(g);
+					animationStatus = AnimationStatus.Nothing;
+					actionStatus = ActionStatus.Nothing;
+					nextCF.msgHereIsGlass(g.glass);
+					return;
+				}
+			}
+		}
+		else if(actionStatus == ActionStatus.getGlassFromMachine)
 		{
 			for(MyGlass g: glasses)
 			{
 				if(g.status==GlassStatus.Ready)
 				{
-					
 					robots.get(g.robotIndex).status = RobotStatus.Empty;
 					print("popup"+myIndex+"popup released the glass");
 					glasses.remove(g);
@@ -457,24 +472,7 @@ public class PopupAgent extends Agent implements Popup{
 					actionStatus = ActionStatus.Nothing;
 					nextCF.msgHereIsGlass(g.glass);
 					conveyor.msgPopupAvailable();
-					break;
-				}
-			}
-		}
-		else if (actionStatus == ActionStatus.passGlass)
-		{
-			for(MyGlass g: glasses)
-			{
-				if(g.status==GlassStatus.Ready)
-				{
-					
-					robots.get(g.robotIndex).status = RobotStatus.Empty;
-					print("popup"+myIndex+"popup released the glass");
-					glasses.remove(g);
-					animationStatus = AnimationStatus.Nothing;
-					actionStatus = ActionStatus.Nothing;
-					nextCF.msgHereIsGlass(g.glass);
-					break;
+					return;
 				}
 			}
 		}
