@@ -184,10 +184,12 @@ public class ControlPanel extends JPanel implements TReceiver
 	public ControlPanel(FactoryPanel fPanel, Transducer fTransducer)
 	{
 		this();
-
+		
 		transducer = fTransducer;
 		transducer.register(this, TChannel.CONTROL_PANEL);
 		parent = fPanel;
+		
+		nonNormPanel.setTransducer(transducer);
 	}
 
 	/**
@@ -235,6 +237,7 @@ public class ControlPanel extends JPanel implements TReceiver
 	public void setTransducer(Transducer newTransducer)
 	{
 		// TODO set the transducer, then register with all the necessary channels
+		this.transducer = newTransducer;
 	}
 
 	/**

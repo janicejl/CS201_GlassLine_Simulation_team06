@@ -464,6 +464,9 @@ public class NonNormPanel extends JPanel implements ActionListener {
   public void fixWorkstation(int index) {
     
   }
+  public void setTransducer(Transducer newTransducer) {
+	  this.transducer = newTransducer;
+  }
   @Override
   public void actionPerformed(ActionEvent ae) {
     // TODO Auto-generated method stub
