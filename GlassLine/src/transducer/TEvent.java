@@ -46,4 +46,8 @@ public enum TEvent
 	BIN_CREATE_PART,
 	BIN_PART_CREATED,
 	
+	//V2
+	POPUP_JAM,
+	POPUP_UNJAM,
+	
 }

@@ -7,6 +7,9 @@ public interface Conveyor {
 	public abstract int getMyIndex();
 
 	public abstract void msgHereIsGlass(Glass g);
+	
+	public abstract void msgIamJammed();
+	public abstract void msgIamUnJammed();
 
 	public abstract void msgGlassArrivedAtEnd();
 

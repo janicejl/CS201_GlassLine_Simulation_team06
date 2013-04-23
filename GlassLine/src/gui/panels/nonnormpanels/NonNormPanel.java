@@ -285,13 +285,20 @@ public class NonNormPanel extends JPanel implements ActionListener {
           bottomPanel.setLayout(new GridBagLayout());
           GridBagConstraints gbc = new GridBagConstraints();
           
-          JSlider conveyorSlider = new JSlider(0, 2);
-          JButton accept = new JButton("Accept");
-          accept.addActionListener(new ActionListener() {
+          final JSlider conveyorSlider = new JSlider(0, 2);
+          JButton jamPopup = new JButton("jam");
+          JButton unjamPopup = new JButton("unjam");
+          
+          jamPopup.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-              
+            	jamPopup(conveyorSlider.getValue());
             }
           });
+          unjamPopup.addActionListener(new ActionListener() {
+              public void actionPerformed(ActionEvent ae) {
+              	unJamPopup(conveyorSlider.getValue());
+              }
+            });
           
           Hashtable<Integer, JLabel> table = new Hashtable<Integer, JLabel>();
           table.put(0, new JLabel("0"));
@@ -314,8 +321,9 @@ public class NonNormPanel extends JPanel implements ActionListener {
           bottomPanel.add(conveyorSlider, gbc);
           gbc.ipadx = 5;
           gbc.gridx++;
-          bottomPanel.add(accept, gbc);
-          
+          bottomPanel.add(jamPopup, gbc);
+          gbc.gridy++;
+          bottomPanel.add(unjamPopup, gbc);
           repaint();
           revalidate();
         }
@@ -454,12 +462,12 @@ public class NonNormPanel extends JPanel implements ActionListener {
 
   public void turnOffConveyor(int index) {
 	  Integer[] newArgs = new Integer[1];
-	  newArgs[0] = (Integer) index;
+	  newArgs[0] = (Integer) (index);
 	  transducer.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_STOP, newArgs);
   }
   public void turnOnConveyor(int index) {
 	  Integer[] newArgs = new Integer[1];
-	  newArgs[0] = (Integer) index;
+	  newArgs[0] = (Integer) (index);
 	  transducer.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_START, newArgs);
   }
   public void breakWorkstation(int index) {
@@ -467,6 +475,19 @@ public class NonNormPanel extends JPanel implements ActionListener {
   }
   public void fixWorkstation(int index) {
     
+  }
+  public void jamPopup(int index)
+  {
+	  Integer[] newArgs = new Integer[1];
+	  newArgs[0] = (Integer) (index);
+
+	 transducer.fireEvent(TChannel.POPUP, TEvent.POPUP_JAM, newArgs);
+  }
+  public void unJamPopup(int index)
+  {
+	  Integer[] newArgs = new Integer[1];
+	  newArgs[0] = (Integer) (index);
+	  transducer.fireEvent(TChannel.POPUP, TEvent.POPUP_UNJAM, newArgs);
   }
   public void setTransducer(Transducer newTransducer) {
 	  this.transducer = newTransducer;

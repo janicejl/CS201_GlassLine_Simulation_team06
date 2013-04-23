@@ -25,9 +25,10 @@ public class ConveyorAgent extends Agent implements Conveyor{
 		t.register(this, TChannel.SENSOR);
 		t.register(this, TChannel.POPUP);
 	}
-	Semaphore animationSem = new Semaphore(0,true);
+
 	int myIndex;
-	
+	enum JamStatus {jammed, fixed, nothing};
+	JamStatus jamStatus = JamStatus.nothing;
 	class MyGlass{
 		Glass glass; 
 		GlassStatus  status;
@@ -129,6 +130,22 @@ public class ConveyorAgent extends Agent implements Conveyor{
 		MyGlass tempG = null;
 		MyGlass tempG1 = null;
 		
+		if(jamStatus== JamStatus.jammed)
+		{
+			if (status == ConveyorStatus.Running)
+			{
+				stopConveyor();
+				return true;
+			}			
+		}
+		else if (jamStatus == JamStatus.fixed)
+		{
+			if(endSensorEmpty)
+				startConveyor();
+			jamStatus = JamStatus.nothing;
+			return true;
+		}
+		
 		if(status==ConveyorStatus.Running && glasses.size()==0)
 		{	
 			status = ConveyorStatus.NeedToStop;
@@ -228,6 +245,15 @@ public class ConveyorAgent extends Agent implements Conveyor{
 		status = ConveyorStatus.Stop;
 		stateChanged();
 	}
+	
+	public void startConveyor(){
+		//ASK transdusor to start the conveyor
+		Integer[] args = new Integer[1];
+		args[0] = myIndex;
+		transducer.fireEvent(TChannel.CONVEYOR,TEvent.CONVEYOR_DO_START,args);
+		status = ConveyorStatus.Stop;
+		stateChanged();
+	}
 	public void passPartThroughPopup(MyGlass g)
 	{
 		g.status = GlassStatus.Delivering;
@@ -246,6 +272,21 @@ public class ConveyorAgent extends Agent implements Conveyor{
 	public int getMyIndex() {
 	
 		return myIndex;
+	}
+
+
+	@Override
+	public void msgIamJammed() {
+		jamStatus=JamStatus.jammed;
+		stateChanged();
+		
+	}
+
+
+	@Override
+	public void msgIamUnJammed() {
+		jamStatus = JamStatus.fixed;
+		stateChanged();
 	}
 
 }

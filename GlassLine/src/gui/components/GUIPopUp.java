@@ -6,6 +6,7 @@ import gui.panels.FactoryPanel;
 
 import java.awt.event.ActionEvent;
 import java.io.Serializable;
+import java.util.concurrent.Semaphore;
 
 import javax.swing.ImageIcon;
 
@@ -63,6 +64,8 @@ public class GUIPopUp extends GuiComponent implements Serializable
 	PopUpHeightState heightState = PopUpHeightState.DOWN;
 	
 	Integer index;
+	boolean popupJam=false;
+	Semaphore sem = new Semaphore(0,true);
 
 	/**
 	 * Constructor for GUIPopUp
@@ -149,37 +152,41 @@ public class GUIPopUp extends GuiComponent implements Serializable
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		if(loadState == PopUpLoadState.LOADING)
+		if(!popupJam)
 		{
-			movePartIn();
-		}
-		else if (heightState == PopUpHeightState.RISING)
-		{
-			popUpAnimation();
-		}
-		else if (heightState == PopUpHeightState.DROPPING)
-		{
-			popDownAnimation();
-		}
-		else if (loadState == PopUpLoadState.RELEASING)
-		{
-			movePartOut();
-			if (!part.getBounds().intersects(getBounds()))
+			if(loadState == PopUpLoadState.LOADING)
+				
 			{
-				nextComponent.addPart(part);
-				part = null;
-				loadState = PopUpLoadState.EMPTY;
-				Object[] args = new Object[1];
-				args[0] = index;
-				transducer.fireEvent(TChannel.POPUP, TEvent.POPUP_GUI_RELEASE_FINISHED, args);
+				movePartIn();
 			}
-		}
-		if(heightState == PopUpHeightState.UP&&loadState == PopUpLoadState.FULL)
-		{
-			if (!part.getBounds().intersects(getBounds()))
+			else if (heightState == PopUpHeightState.RISING)
 			{
-				part = null;
-				loadState = PopUpLoadState.EMPTY;
+				popUpAnimation();
+			}
+			else if (heightState == PopUpHeightState.DROPPING)
+			{
+				popDownAnimation();
+			}
+			else if (loadState == PopUpLoadState.RELEASING)
+			{
+				movePartOut();
+				if (!part.getBounds().intersects(getBounds()))
+				{
+					nextComponent.addPart(part);
+					part = null;
+					loadState = PopUpLoadState.EMPTY;
+					Object[] args = new Object[1];
+					args[0] = index;
+					transducer.fireEvent(TChannel.POPUP, TEvent.POPUP_GUI_RELEASE_FINISHED, args);
+				}
+			}
+			if(heightState == PopUpHeightState.UP&&loadState == PopUpLoadState.FULL)
+			{
+				if (!part.getBounds().intersects(getBounds()))
+				{
+					part = null;
+					loadState = PopUpLoadState.EMPTY;
+				}
 			}
 		}
 		
@@ -222,7 +229,16 @@ public class GUIPopUp extends GuiComponent implements Serializable
 	@Override
 	public void eventFired(TChannel channel, TEvent event, Object[] args)
 	{
-		if(channel == TChannel.POPUP && event == TEvent.POPUP_DO_MOVE_UP && ((Integer)args[0])==index)
+		if (event ==TEvent.POPUP_JAM&&((Integer)args[0])==index)
+		{
+			popupJam=true;
+			
+		}
+		else if (event ==TEvent.POPUP_UNJAM&&((Integer)args[0])==index)
+		{
+			popupJam=false;
+		}
+		else if(channel == TChannel.POPUP && event == TEvent.POPUP_DO_MOVE_UP && ((Integer)args[0])==index)
 		{
 			heightState = PopUpHeightState.RISING;
 			return;
@@ -241,5 +257,6 @@ public class GUIPopUp extends GuiComponent implements Serializable
 		{
 			pairedMachines[((Integer)args[0])].addPart(part);
 		}
+
 	}
 }
