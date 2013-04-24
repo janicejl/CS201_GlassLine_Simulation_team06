@@ -35,6 +35,11 @@ public class ConveyorFamilyOnlineMachine implements ConveyorFamily {
 		System.out.println(name + ": Forwarded msgHereIsGlass to Conveyor. ");
 		conveyor.msgHereIsGlass(g);
 	}
+
+//	public void msgMachineDisabled() {
+//		System.out.println(name + ": Forwarded msgMachineDisabled to Conveyor. ");
+//		conveyor.msgMachineDisabled();
+//	}
 	
 	public void setBin(Bin bin) {
 		conveyor.setBin(bin);

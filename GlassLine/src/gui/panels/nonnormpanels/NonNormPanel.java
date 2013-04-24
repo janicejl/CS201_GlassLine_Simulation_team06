@@ -530,10 +530,42 @@ public class NonNormPanel extends JPanel implements ActionListener {
 	  transducer.fireEvent(TChannel.CONVEYOR, TEvent.CONVEYOR_DO_START, newArgs);
   }
   public void breakWorkstation(int index) {
-    
+	  if (index == 0) {
+		  transducer.fireEvent(TChannel.CUTTER, TEvent.WORKSTATION_DISABLE_ONLINE, null);
+	  } else if (index == 2) {
+		  transducer.fireEvent(TChannel.BREAKOUT, TEvent.WORKSTATION_DISABLE_ONLINE, null);
+	  } else if (index == 3) {
+		  transducer.fireEvent(TChannel.MANUAL_BREAKOUT, TEvent.WORKSTATION_DISABLE_ONLINE, null);
+	  } else if (index == 8) {
+		  transducer.fireEvent(TChannel.WASHER, TEvent.WORKSTATION_DISABLE_ONLINE, null);
+	  } else if (index == 10) {
+		  transducer.fireEvent(TChannel.PAINTER, TEvent.WORKSTATION_DISABLE_ONLINE, null);
+	  } else if (index == 11) {
+		  transducer.fireEvent(TChannel.UV_LAMP, TEvent.WORKSTATION_DISABLE_ONLINE, null);
+	  } else if (index == 13) {
+		  transducer.fireEvent(TChannel.OVEN, TEvent.WORKSTATION_DISABLE_ONLINE, null);
+	  } else {
+		  System.err.println("Passing invalid index in breakWorkstation(int index)");
+	  }
   }
   public void fixWorkstation(int index) {
-    
+	  if (index == 0) {
+		  transducer.fireEvent(TChannel.CUTTER, TEvent.WORKSTATION_ENABLE_ONLINE, null);
+	  } else if (index == 2) {
+		  transducer.fireEvent(TChannel.BREAKOUT, TEvent.WORKSTATION_ENABLE_ONLINE, null);
+	  } else if (index == 3) {
+		  transducer.fireEvent(TChannel.MANUAL_BREAKOUT, TEvent.WORKSTATION_ENABLE_ONLINE, null);
+	  } else if (index == 8) {
+		  transducer.fireEvent(TChannel.WASHER, TEvent.WORKSTATION_ENABLE_ONLINE, null);
+	  } else if (index == 10) {
+		  transducer.fireEvent(TChannel.PAINTER, TEvent.WORKSTATION_ENABLE_ONLINE, null);
+	  } else if (index == 11) {
+		  transducer.fireEvent(TChannel.UV_LAMP, TEvent.WORKSTATION_ENABLE_ONLINE, null);
+	  } else if (index == 13) {
+		  transducer.fireEvent(TChannel.OVEN, TEvent.WORKSTATION_ENABLE_ONLINE, null);
+	  } else {
+		  System.err.println("Passing invalid index in fixWorkstation(int index)");
+	  }
   }
   public void jamPopup(int index)
   {

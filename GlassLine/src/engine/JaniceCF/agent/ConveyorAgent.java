@@ -69,6 +69,12 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		} 
 		stateChanged();
 	}
+	
+	@Override
+	public void msgMachineDisabled() {
+		nextFree = false;
+		stateChanged();
+	}
 
 
 	//Scheduler

@@ -15,6 +15,9 @@ public interface Conveyor {
 	
 	public abstract void msgHereIsGlass(Glass g);
 	
+	//FOR V2
+	public abstract void msgMachineDisabled();
+	
 	public abstract void setPreviousCF(ConveyorFamily cf);
 	public abstract void setMachine(Machine m);
 	//public abstract void setPopup(Popup p);

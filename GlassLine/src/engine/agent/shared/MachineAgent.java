@@ -24,6 +24,8 @@ public class MachineAgent extends Agent implements Machine {
 	
 	boolean nextFree;
 	
+	boolean isBroken;
+	
 	Glass glass;
 	
 	
@@ -97,6 +99,20 @@ public class MachineAgent extends Agent implements Machine {
 			
 			if (event == TEvent.WORKSTATION_RELEASE_FINISHED) {
 				status = MachineState.Empty;
+				conveyor.msgSpaceAvailable();
+				stateChanged();
+			}
+			
+			
+			//FOR V2
+			if (event == TEvent.WORKSTATION_DISABLE_ONLINE) {
+				isBroken = true;
+				conveyor.msgMachineDisabled();
+				stateChanged();
+			}
+			
+			if (event == TEvent.WORKSTATION_ENABLE_ONLINE) {
+				isBroken = false;
 				conveyor.msgSpaceAvailable();
 				stateChanged();
 			}
