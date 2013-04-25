@@ -233,6 +233,7 @@ public class NonNormPanel extends JPanel implements ActionListener {
 					bottomPanel.add(new JLabel("Workstations"),gbc);
 					
 					JPanel checkBoxPanel = new JPanel();
+					checkBoxPanel.setBackground(new Color(238,238,238));
 					checkBoxPanel.setLayout(new GridBagLayout());
 					GridBagConstraints gbc2 = new GridBagConstraints();
 
