@@ -195,30 +195,37 @@ public class NonNormPanel extends JPanel implements ActionListener {
 					
 					
 					JPanel panel0 = new JPanel();
+					panel0.setBackground(new Color(238,238,238));
 					panel0.add(new JLabel("0"));
 					panel0.add(workstation.get(0));
 					
 					JPanel panel1 = new JPanel();
+					panel1.setBackground(new Color(238,238,238));
 					panel1.add(new JLabel("2"));
 					panel1.add(workstation.get(1));
 					
 					JPanel panel2 = new JPanel();
+					panel2.setBackground(new Color(238,238,238));
 					panel2.add(new JLabel("3"));
 					panel2.add(workstation.get(2));
 					
 					JPanel panel3 = new JPanel();
+					panel3.setBackground(new Color(238,238,238));
 					panel3.add(new JLabel("8"));
 					panel3.add(workstation.get(3));
 					
 					JPanel panel4 = new JPanel();
+					panel4.setBackground(new Color(238,238,238));
 					panel4.add(new JLabel("10"));
 					panel4.add(workstation.get(4));
 					
 					JPanel panel5 = new JPanel();
+					panel5.setBackground(new Color(238,238,238));
 					panel5.add(new JLabel("11"));
 					panel5.add(workstation.get(5));
 					
 					JPanel panel6 = new JPanel();
+					panel6.setBackground(new Color(238,238,238));
 					panel6.add(new JLabel("13"));
 					panel6.add(workstation.get(6));
 				
