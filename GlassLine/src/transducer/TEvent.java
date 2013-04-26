@@ -56,4 +56,8 @@ public enum TEvent
 	//v2 online workstation
 	WORKSTATION_DISABLE_ONLINE,
 	WORKSTATION_ENABLE_ONLINE,
+	
+	//v2 jam conveyors
+	CONVEYOR_BREAK,
+	CONVEYOR_FIX,
 }

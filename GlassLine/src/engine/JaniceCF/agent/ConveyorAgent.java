@@ -27,8 +27,9 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	ConveyorFamily previousCF;
 	Machine previousMachine;
 
-	Boolean nextFree;
-	Boolean loading = false;
+	boolean broken = false;
+	boolean nextFree;
+	boolean loading = false;
 	boolean started =false;
 
 	List<Glass> glassList = Collections.synchronizedList(new ArrayList<Glass>());
@@ -81,11 +82,15 @@ public class ConveyorAgent extends Agent implements Conveyor {
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
-		if(loading==false&&nextFree==true&&status==ConveyorStatus.Nothing&&!started)
+		if(loading==false
+				&& nextFree == true
+				&& status == ConveyorStatus.Nothing
+				&& started == false
+				&& broken == false)
 			startConveyor();
 			
 		if (status == ConveyorStatus.GlassAtEnd)  {
-			if (nextFree == true) {
+			if (nextFree == true && broken == false) {
 				passToMachine();
 				return true;
 			}
@@ -102,7 +107,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		if (channel == TChannel.SENSOR) {
 			if (event == TEvent.SENSOR_GUI_PRESSED) {
 				if (args[0].equals(conveyorIndex*2)) {	//Front Sensor
-					if (status != ConveyorStatus.GlassAtEnd) {
+					if (status != ConveyorStatus.GlassAtEnd && broken == false) {
 						Integer[] newArgs = new Integer[1];
 						newArgs[0] = (Integer) conveyorIndex;
 						started=true;
@@ -144,6 +149,22 @@ public class ConveyorAgent extends Agent implements Conveyor {
 				}
 			}
 		}
+		
+		if (channel == TChannel.CONVEYOR) {
+			if (event == TEvent.CONVEYOR_BREAK) {
+				if (args[0].equals(conveyorIndex)) {
+					broken = true;
+					stateChanged();
+					return;
+				}
+			} else if (event == TEvent.CONVEYOR_FIX) {
+				if (args[0].equals(conveyorIndex)) {
+					broken = false;
+					stateChanged();
+					return;
+				}
+			}
+		}
 
 
 		//Workstation
@@ -161,7 +182,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			}
 			if(event == TEvent.WORKSTATION_RELEASE_FINISHED)
 			{
-				if(status==ConveyorStatus.GlassAtEnd)
+				if(status==ConveyorStatus.GlassAtEnd && broken == false)
 					startConveyor();
 			}
 		}
