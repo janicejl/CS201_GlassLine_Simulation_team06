@@ -99,14 +99,12 @@ public class NonNormPanel extends JPanel implements ActionListener {
 						public void stateChanged(ChangeEvent e) {
 							JSlider source = (JSlider)e.getSource();
 							if(conveyorOn.get((int)source.getValue())) {
-								System.out.println("buh");
 								bottomPanel.remove(turnOnConveyor);
 								bottomPanel.add(turnOffConveyor);
 								repaint();
 								revalidate();
 							}
 							else {
-								System.out.println("cuh");
 								bottomPanel.remove(turnOffConveyor);
 								bottomPanel.add(turnOnConveyor);
 								repaint();
