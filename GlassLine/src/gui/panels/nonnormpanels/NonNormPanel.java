@@ -55,7 +55,6 @@ public class NonNormPanel extends JPanel implements ActionListener {
 		nonNormSelector.addItem("Offline Workstation Change Speed");
 		nonNormSelector.addItem("Disable/Enable Offline Workstation");
 		nonNormSelector.addItem("Truck Breaks Down/Fixed");
-		nonNormSelector.addItem("Glass Breaking Offline");
 		nonNormSelector.addItem("Offline Workstation Broken");
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -557,50 +556,7 @@ public class NonNormPanel extends JPanel implements ActionListener {
 					});
 					repaint();
 					revalidate();
-				} else if (selected.equals("Glass Breaking Offline")) {
-					bottomPanel.removeAll();
-					bottomPanel.setLayout(new GridBagLayout());
-					GridBagConstraints gbc = new GridBagConstraints();
-
-					JSlider conveyorSlider = new JSlider(0, 5);
-					JButton accept = new JButton("Accept");
-					accept.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent ae) {
-
-						}
-					});
-
-					Hashtable<Integer, JLabel> table = new Hashtable<Integer, JLabel>();
-					table.put(0, new JLabel("0"));
-					table.put(1, new JLabel("1"));
-					table.put(2, new JLabel("2"));
-					table.put(3, new JLabel("3"));
-					table.put(4, new JLabel("4"));
-					table.put(5, new JLabel("5"));
-
-					conveyorSlider.setLabelTable(table);
-					conveyorSlider.setMajorTickSpacing(1);
-					conveyorSlider.setPaintLabels(true);
-					conveyorSlider.setSnapToTicks(true);
-					conveyorSlider.setPaintTicks(true);
-
-					gbc.anchor = GridBagConstraints.NORTHWEST;
-					gbc.weightx = 0;
-					gbc.weighty = 5;
-					gbc.gridx = 0;
-					gbc.gridy = 0;
-					bottomPanel.add(new JLabel(
-							"Valid Offline Workstation Index:"));
-					gbc.gridy++;
-					bottomPanel.add(conveyorSlider, gbc);
-					gbc.ipadx = 5;
-					gbc.gridx++;
-					bottomPanel.add(accept, gbc);
-
-					repaint();
-					revalidate();
 				}
-
 			}
 		});
 	}

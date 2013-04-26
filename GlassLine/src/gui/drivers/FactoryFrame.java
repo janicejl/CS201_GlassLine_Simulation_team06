@@ -98,7 +98,9 @@ public class FactoryFrame extends JFrame
 	{
 		guiTimer.setDelay(timestep);
 	}
-
+	public int getTimerDelay(){
+		return guiTimer.getDelay();
+	}
 	/**
 	 * Switches to the factory running panel, keeps same display panel
 	 */
