@@ -58,4 +58,12 @@ public class ConveyorFamily14 implements ConveyorFamily{
 		end.startThread();
 		front.startThread();
 	}
+	
+	public void breakConveyor() {
+		conveyor.breakConveyor();
+	}
+	
+	public void fixConveyor() {
+		conveyor.fixConveyor();
+	}
 }

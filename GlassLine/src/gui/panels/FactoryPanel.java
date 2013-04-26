@@ -43,6 +43,8 @@ public class FactoryPanel extends JPanel
 	private Transducer transducer;
 
 	BinAgent binAgent;
+	
+	TruckAgent truck;
 	/**
 	 * Constructor links this panel to its frame
 	 */
@@ -119,7 +121,7 @@ public class FactoryPanel extends JPanel
 		ConveyorFamilyOnlineMachine ovenCF = new ConveyorFamilyOnlineMachine(13, TChannel.OVEN, transducer);
 		MachineAgent oven = new MachineAgent(TChannel.OVEN, transducer, 13);
 		ConveyorFamily14 cf14 = new ConveyorFamily14("CF14", transducer);
-		TruckAgent truck = new TruckAgent("Truck", transducer);
+		truck = new TruckAgent("Truck", transducer);
 		
 		ConveyorFamilyOffline popup1 = new ConveyorFamilyOffline(parent,5,transducer,TChannel.DRILL);
 		ConveyorFamilyOffline popup2 = new ConveyorFamilyOffline(parent,6,transducer,TChannel.CROSS_SEAMER);
@@ -260,6 +262,7 @@ public class FactoryPanel extends JPanel
 		}
 		
 		//tempGlassToProcess.add(new Glass(recipe));
+		truck.newOrder(quantity);
 		binAgent.msgProcessGlassOrder(tempGlassToProcess);
 	}
 }

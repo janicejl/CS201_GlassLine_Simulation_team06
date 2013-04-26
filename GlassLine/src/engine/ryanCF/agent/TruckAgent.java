@@ -24,6 +24,8 @@ public class TruckAgent extends Agent implements Truck{
 	int maxSize = 3; //default
 	
 	int currentSize = 0;
+	int currentServed = 0;
+	List<Integer> orders = new ArrayList<Integer>();
 	
 	enum GlassState { ON_TRUCK, ON_LINE };
 	
@@ -62,13 +64,20 @@ public class TruckAgent extends Agent implements Truck{
 		if(channel == TChannel.TRUCK && event == TEvent.TRUCK_GUI_LOAD_FINISHED) {
 			print("Glass Load Complete. Truck to empty glass");
 			currentSize++;
-			if(currentSize == maxSize)
-				t.fireEvent(TChannel.TRUCK, TEvent.TRUCK_DO_EMPTY, null);
-			else prevConv.msgSpaceAvailable();
+			currentServed++;
+			if(!orders.isEmpty()) {
+				if(currentSize == maxSize || currentServed == orders.get(0))
+					t.fireEvent(TChannel.TRUCK, TEvent.TRUCK_DO_EMPTY, null);
+				else prevConv.msgSpaceAvailable();
+			}
 		}
 		if(channel == TChannel.TRUCK && event == TEvent.TRUCK_GUI_EMPTY_FINISHED) {
 			print("Glass Empty Complete. Space Available");
 			currentSize = 0;
+			if(currentServed == orders.get(0)) {
+				currentServed = 0;
+				orders.remove(0);
+			}
 			prevConv.msgSpaceAvailable();
 			
 		}
@@ -76,5 +85,8 @@ public class TruckAgent extends Agent implements Truck{
 	
 	public void setConveyorFamily(ConveyorFamily conv) {
 		prevConv = conv;
+	}
+	public void newOrder(int i) {
+		orders.add(new Integer(i));
 	}
 }
