@@ -92,6 +92,7 @@ public class GUIBreakout extends GuiAnimationComponent
 	public void addPart(GUIGlass part)
 	{
 		this.guiPart = part;
+		guiPart.setIcon(new ImageIcon("imageicons/glassImage_BREAKOUT.png"));
 		animationState = AnimationState.MOVING;
 	}
 

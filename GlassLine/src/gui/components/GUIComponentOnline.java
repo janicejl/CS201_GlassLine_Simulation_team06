@@ -33,6 +33,7 @@ public class GUIComponentOnline extends GuiAnimationComponent implements ActionL
 
 	int imageCounter = 0;
 
+	ImageIcon myIcon;
 	/**
 	 * Image for Fire truck
 	 */
@@ -117,30 +118,35 @@ public class GUIComponentOnline extends GuiAnimationComponent implements ActionL
 		if (type == MachineType.CUTTER)
 		{
 			imageicons = (ArrayList<ImageIcon>)ImageIcons.getIconList("cutter");
+			myIcon = new ImageIcon("imageicons/glassImage_CUTTER.png");
 			channel = TChannel.CUTTER;
 			transducer.register(this, TChannel.CUTTER);
 		}
 		else if (type == MachineType.OVEN)
 		{
 			imageicons = (ArrayList<ImageIcon>)ImageIcons.getIconList("oven");
+			myIcon = new ImageIcon("imageicons/glassImage_OVEN.png");
 			channel = TChannel.OVEN;
 			transducer.register(this, TChannel.OVEN);
 		}
 		else if (type == MachineType.UV_LAMP)
 		{
 			imageicons = (ArrayList<ImageIcon>)ImageIcons.getIconList("uvLamp");
+			myIcon = new ImageIcon("imageicons/glassImage_UVLAMP.png");
 			channel = TChannel.UV_LAMP;
 			transducer.register(this, TChannel.UV_LAMP);
 		}
 		else if (type == MachineType.WASHER)
 		{
 			imageicons = (ArrayList<ImageIcon>)ImageIcons.getIconList("washer");
+			myIcon = new ImageIcon("imageicons/glassImage_WASHER.png");
 			channel = TChannel.WASHER;
 			transducer.register(this, TChannel.WASHER);
 		}
 		else if (type == MachineType.PAINT)
 		{
 			imageicons = (ArrayList<ImageIcon>)ImageIcons.getIconList("paint");
+			myIcon = new ImageIcon("imageicons/glassImage_PAINT.png");
 			channel = TChannel.PAINTER;
 			transducer.register(this, TChannel.PAINTER);
 		}
@@ -241,6 +247,7 @@ public class GUIComponentOnline extends GuiAnimationComponent implements ActionL
 	public void addPart(GUIGlass part)
 	{
 		this.guiPart = part;
+		guiPart.setIcon(myIcon);
 		animationState = AnimationState.MOVING;
 	}
 

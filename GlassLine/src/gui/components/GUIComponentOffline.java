@@ -41,6 +41,7 @@ public class GUIComponentOffline extends GuiAnimationComponent implements Action
 	int counter = 0;
 	int roundCounter=0;
 
+	ImageIcon myIcon;
 	/**
 	 * List of icons for animations
 	 */
@@ -68,6 +69,7 @@ public class GUIComponentOffline extends GuiAnimationComponent implements Action
 		if (type == MachineType.CROSS_SEAMER)
 		{
 			imageicons = (ArrayList<ImageIcon>)ImageIcons.getIconList("crossSeamer");
+			myIcon = new ImageIcon("imageicons/glassImage_CROSSSEAMER.png");
 			channel = TChannel.CROSS_SEAMER;
 			transducer.register(this, TChannel.CROSS_SEAMER);
 		}
@@ -75,6 +77,7 @@ public class GUIComponentOffline extends GuiAnimationComponent implements Action
 		else if (type == MachineType.DRILL)
 		{
 			imageicons = (ArrayList<ImageIcon>)ImageIcons.getIconList("drill");
+			myIcon = new ImageIcon("imageicons/glassImage_DRILL.png");
 			channel = TChannel.DRILL;
 			transducer.register(this, TChannel.DRILL);
 
@@ -82,6 +85,7 @@ public class GUIComponentOffline extends GuiAnimationComponent implements Action
 		else if (type == MachineType.GRINDER)
 		{
 			imageicons = (ArrayList<ImageIcon>)ImageIcons.getIconList("grinder");
+			myIcon = new ImageIcon("imageicons/glassImage_GRINDER.png");
 			channel = TChannel.GRINDER;
 			transducer.register(this, TChannel.GRINDER);
 		}
@@ -141,6 +145,7 @@ public class GUIComponentOffline extends GuiAnimationComponent implements Action
 	public void addPart(GUIGlass part)
 	{
 		this.part = part;
+		part.setIcon(myIcon);
 	}
 
 	public void setIndex(Integer index)
