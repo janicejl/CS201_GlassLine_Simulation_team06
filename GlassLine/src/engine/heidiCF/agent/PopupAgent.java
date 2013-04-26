@@ -37,7 +37,7 @@ public class PopupAgent extends Agent implements Popup{
 	
 	enum GlassStatus {Pending, Delivering, Handling, Ready,WaitingForPass};
 	public enum PopupStatus {Falling, Up, Down, Rising};
-	enum RobotStatus {Working,Empty};
+	enum RobotStatus {Working,Empty,Fixing};
 	enum AnimationStatus{Nothing,StartingConveyor, PopUpGuiLoadFinished,PopUpMovingUp,PopUpMovedUp,WorkStationLoadingGlass,WorkStationLoadFinished,WorkStationAnimating,WorkStationReleasingGlass,PopupMovingDown,PopupMovedDown,PopupReleasingGlass,PopupReleaseFinished};
 	enum ActionStatus{Nothing,deliverGlass,passGlass,getGlassFromMachine};
 	AnimationStatus animationStatus = AnimationStatus.Nothing;
@@ -216,6 +216,14 @@ public class PopupAgent extends Agent implements Popup{
 						return true;
 					}
 				}
+			}
+		}
+		for(int i=0;i<robots.size();i++)
+		{
+			if(robots.get(i).status == RobotStatus.Fixing)
+			{
+				fixRobot(i);
+				return true;
 			}
 		}
 		
@@ -483,6 +491,22 @@ public class PopupAgent extends Agent implements Popup{
 			}
 		}
 	}
+	
+	public void fixRobot(int i)
+	{
+			for(MyGlass g: glasses)
+			{
+				if(g.robotIndex==i && g.status==GlassStatus.Handling)
+				{
+					glasses.remove(g);
+					robots.get(i).status = RobotStatus.Empty;
+					conveyor.msgPopupAvailable();
+					stateChanged();
+					break;
+				}
+					
+			}
+	}
 	public void eventFired(TChannel channel, TEvent event, Object[] args) {
 		
 		if(channel == TChannel.POPUP)
@@ -660,6 +684,11 @@ public class PopupAgent extends Agent implements Popup{
 			else if (event ==TEvent.WORKSTATION_GUI_ACTION_FINISHED){	// we do not have machine agent so we use this eventFired
 				Integer tempIndex= (Integer)args[0];
 				msgGlassReady(tempIndex);
+			}
+			else if (event ==TEvent.ROMOVE_GLASS_OFFLINE){
+				
+				int tempIndex= ((Integer) (args[0])).intValue();
+				robots.get(tempIndex).status = RobotStatus.Fixing;
 			}
 		}
 		

@@ -50,7 +50,7 @@ public class NonNormPanel extends JPanel implements ActionListener {
 		nonNormSelector.addItem("Select Non-Norm: ");
 		nonNormSelector.addItem("Stop/Start Conveyor (0-14)");
 		nonNormSelector.addItem("Inline Workstation Break/Restart");
-		nonNormSelector.addItem("Workstation Broken/Fixed");
+		nonNormSelector.addItem("Glass Broken on Offline Machine");
 		nonNormSelector.addItem("Popup Jam/Unjam");
 		nonNormSelector.addItem("Offline Workstation Change Speed");
 		nonNormSelector.addItem("Disable/Enable Offline Workstation");
@@ -266,27 +266,32 @@ public class NonNormPanel extends JPanel implements ActionListener {
 					
 					repaint();
 					revalidate();
-				} else if (selected.equals("Workstation Broken/Fixed")) {
+				} else if (selected.equals("Glass Broken on Offline Machine")) {
 					bottomPanel.removeAll();
 					bottomPanel.setLayout(new GridBagLayout());
 					GridBagConstraints gbc = new GridBagConstraints();
 
-					JSlider conveyorSlider = new JSlider(0, 6);
-					JButton accept = new JButton("Accept");
+					final JSlider conveyorSlider = new JSlider(0, 6);
+					JButton accept = new JButton("Broke");
 					accept.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent ae) {
-
+							breakGlassOffline(conveyorSlider.getValue());
+						}
+					});
+					JButton fix = new JButton("Fix");
+					fix.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent ae) {
+							fixGlassOffline(conveyorSlider.getValue());
 						}
 					});
 
 					Hashtable<Integer, JLabel> table = new Hashtable<Integer, JLabel>();
 					table.put(0, new JLabel("0"));
-					table.put(1, new JLabel("2"));
-					table.put(2, new JLabel("3"));
-					table.put(3, new JLabel("8"));
-					table.put(4, new JLabel("10"));
-					table.put(5, new JLabel("11"));
-					table.put(6, new JLabel("13"));
+					table.put(1, new JLabel("1"));
+					table.put(2, new JLabel("2"));
+					table.put(3, new JLabel("3"));
+					table.put(4, new JLabel("4"));
+					table.put(5, new JLabel("5"));
 
 					conveyorSlider.setLabelTable(table);
 					conveyorSlider.setMajorTickSpacing(1);
@@ -306,6 +311,8 @@ public class NonNormPanel extends JPanel implements ActionListener {
 					gbc.ipadx = 5;
 					gbc.gridx++;
 					bottomPanel.add(accept, gbc);
+					gbc.gridy++;
+					bottomPanel.add(fix,gbc);
 
 					repaint();
 					revalidate();
@@ -641,7 +648,36 @@ public class NonNormPanel extends JPanel implements ActionListener {
 		transducer.fireEvent(TChannel.POPUP, TEvent.WORKSTATION_ENABLE_OFFLINE,
 				newArgs);
 	}
-
+	
+	public void breakGlassOffline(int i)
+	{
+		Integer[] newArgs = new Integer[1];
+		if(i==0||i==2||i==4)
+			newArgs[0] = (Integer) 0;
+		else
+			newArgs[0] = (Integer) 1;
+		if(i==0||i==1)
+			transducer.fireEvent(TChannel.DRILL,TEvent.GLASS_BREAK_OFFLINE,newArgs);
+		else if (i==2||i==3)
+			transducer.fireEvent(TChannel.CROSS_SEAMER,TEvent.GLASS_BREAK_OFFLINE,newArgs);
+		else if (i==4||i==5)
+			transducer.fireEvent(TChannel.GRINDER,TEvent.GLASS_BREAK_OFFLINE,newArgs);
+	}
+	public void fixGlassOffline(int i)
+	{
+		Integer[] newArgs = new Integer[1];
+		if(i==0||i==2||i==4)
+			newArgs[0] = (Integer) 0;
+		else
+			newArgs[0] = (Integer) 1;
+		if(i==0||i==1)
+			transducer.fireEvent(TChannel.DRILL,TEvent.ROMOVE_GLASS_OFFLINE,newArgs);
+		else if (i==2||i==3)
+			transducer.fireEvent(TChannel.CROSS_SEAMER,TEvent.ROMOVE_GLASS_OFFLINE,newArgs);
+		else if (i==4||i==5)
+			transducer.fireEvent(TChannel.GRINDER,TEvent.ROMOVE_GLASS_OFFLINE,newArgs);
+	}
+	
 	public void setTransducer(Transducer newTransducer) {
 		this.transducer = newTransducer;
 	}
