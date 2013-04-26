@@ -56,7 +56,7 @@ public class NonNormPanel extends JPanel implements ActionListener {
 		nonNormSelector.addItem("Disable/Enable Offline Workstation");
 		nonNormSelector.addItem("Truck Breaks Down/Fixed");
 		nonNormSelector.addItem("Glass Breaking Offline");
-
+		nonNormSelector.addItem("Offline Workstation Broken");
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 
@@ -316,7 +316,59 @@ public class NonNormPanel extends JPanel implements ActionListener {
 
 					repaint();
 					revalidate();
-				} else if (selected.equals("Popup Jam/Unjam")) {
+				}
+				 else if (selected.equals("Offline Workstation Broken")) {
+						bottomPanel.removeAll();
+						bottomPanel.setLayout(new GridBagLayout());
+						GridBagConstraints gbc = new GridBagConstraints();
+
+						final JSlider conveyorSlider = new JSlider(0, 6);
+						JButton accept = new JButton("Broke");
+						accept.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent ae) {
+								breakOfflineWorkStation(conveyorSlider.getValue());
+							}
+						});
+						JButton fix = new JButton("Fix");
+						fix.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent ae) {
+								fixOfflineWorkStation(conveyorSlider.getValue());
+							}
+						});
+
+						Hashtable<Integer, JLabel> table = new Hashtable<Integer, JLabel>();
+						table.put(0, new JLabel("0"));
+						table.put(1, new JLabel("1"));
+						table.put(2, new JLabel("2"));
+						table.put(3, new JLabel("3"));
+						table.put(4, new JLabel("4"));
+						table.put(5, new JLabel("5"));
+
+						conveyorSlider.setLabelTable(table);
+						conveyorSlider.setMajorTickSpacing(1);
+						conveyorSlider.setPaintLabels(true);
+						conveyorSlider.setSnapToTicks(true);
+						conveyorSlider.setPaintTicks(true);
+
+						gbc.anchor = GridBagConstraints.NORTHWEST;
+						gbc.weightx = 0;
+						gbc.weighty = 5;
+						gbc.gridx = 0;
+						gbc.gridy = 0;
+						bottomPanel.add(new JLabel(
+								"Valid Workstation Conveyor Numbers:"));
+						gbc.gridy++;
+						bottomPanel.add(conveyorSlider, gbc);
+						gbc.ipadx = 5;
+						gbc.gridx++;
+						bottomPanel.add(accept, gbc);
+						gbc.gridy++;
+						bottomPanel.add(fix,gbc);
+
+						repaint();
+						revalidate();
+					}
+				else if (selected.equals("Popup Jam/Unjam")) {
 					bottomPanel.removeAll();
 					bottomPanel.setLayout(new GridBagLayout());
 					GridBagConstraints gbc = new GridBagConstraints();
@@ -477,7 +529,8 @@ public class NonNormPanel extends JPanel implements ActionListener {
 
 					repaint();
 					revalidate();
-				} else if (selected.equals("Truck Breaks Down/Fixed")) {
+				} 
+				else if (selected.equals("Truck Breaks Down/Fixed")) {
 					bottomPanel.removeAll();
 					bottomPanel.setLayout(new GridBagLayout());
 					GridBagConstraints gbc = new GridBagConstraints();
@@ -678,6 +731,34 @@ public class NonNormPanel extends JPanel implements ActionListener {
 			transducer.fireEvent(TChannel.GRINDER,TEvent.ROMOVE_GLASS_OFFLINE,newArgs);
 	}
 	
+	public void breakOfflineWorkStation(int i)
+	{
+		Integer[] newArgs = new Integer[1];
+		if(i==0||i==2||i==4)
+			newArgs[0] = (Integer) 0;
+		else
+			newArgs[0] = (Integer) 1;
+		if(i==0||i==1)
+			transducer.fireEvent(TChannel.DRILL,TEvent.WORKSTATION_BROKEN,newArgs);
+		else if (i==2||i==3)
+			transducer.fireEvent(TChannel.CROSS_SEAMER,TEvent.WORKSTATION_BROKEN,newArgs);
+		else if (i==4||i==5)
+			transducer.fireEvent(TChannel.GRINDER,TEvent.WORKSTATION_BROKEN,newArgs);
+	}
+	
+	public void fixOfflineWorkStation(int i){
+		Integer[] newArgs = new Integer[1];
+		if(i==0||i==2||i==4)
+			newArgs[0] = (Integer) 0;
+		else
+			newArgs[0] = (Integer) 1;
+		if(i==0||i==1)
+			transducer.fireEvent(TChannel.DRILL,TEvent.WORKSTATION_FIXED,newArgs);
+		else if (i==2||i==3)
+			transducer.fireEvent(TChannel.CROSS_SEAMER,TEvent.WORKSTATION_FIXED,newArgs);
+		else if (i==4||i==5)
+			transducer.fireEvent(TChannel.GRINDER,TEvent.WORKSTATION_FIXED,newArgs);
+	}
 	public void setTransducer(Transducer newTransducer) {
 		this.transducer = newTransducer;
 	}
