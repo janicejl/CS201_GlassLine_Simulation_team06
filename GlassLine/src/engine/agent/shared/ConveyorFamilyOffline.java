@@ -9,6 +9,7 @@ import engine.heidiCF.agent.FrontSensor;
 import engine.heidiCF.agent.PopupAgent;
 import engine.heidiCF.interfaces.*;
 import engine.agent.shared.Interfaces.*;
+import gui.drivers.FactoryFrame;
 
 
 public class ConveyorFamilyOffline implements ConveyorFamily {
@@ -21,12 +22,12 @@ public class ConveyorFamilyOffline implements ConveyorFamily {
 	ConveyorFamily previousCF;
 	ConveyorFamily nextCF;
 	int myIndex;
-	public ConveyorFamilyOffline(int index, Transducer t,TChannel workStationType)
+	public ConveyorFamilyOffline(FactoryFrame ff, int index, Transducer t,TChannel workStationType)
 	{
 		myIndex = index;
 		conveyor = new ConveyorAgent(index,t);
 
-		popup=new PopupAgent(index-5,t,workStationType);
+		popup=new PopupAgent(ff, index-5,t,workStationType);
 		conveyor.setPopup(popup);
 		popup.setConveyor(conveyor);
 		

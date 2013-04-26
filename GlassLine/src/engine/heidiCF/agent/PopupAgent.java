@@ -4,12 +4,15 @@ package engine.heidiCF.agent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 import engine.agent.shared.Glass;
 
 import engine.agent.Agent;
 import engine.heidiCF.interfaces.*;
 import engine.agent.shared.Interfaces.*;
+import gui.drivers.FactoryFrame;
 
 
 import transducer.TChannel;
@@ -43,16 +46,20 @@ public class PopupAgent extends Agent implements Popup{
 	AnimationStatus animationStatus = AnimationStatus.Nothing;
 	ActionStatus actionStatus = ActionStatus.Nothing;
 	PopupStatus status = PopupStatus.Down;
-	
+	Timer timer = new Timer();
+	int expectationTime=0;
+	int speedDown = 1;
+	FactoryFrame factoryFrame;
 	TChannel myChannel;
 	//v2
 	boolean popupJam = false;
 	class MyRobot{
 		//Robot robot;
 		RobotStatus status;
+		long startTime = 0;
 		public MyRobot()
 		{
-			//this.robot  = r;
+			//this.robot  = r;	
 			status = RobotStatus.Empty;
 		}
 
@@ -61,14 +68,21 @@ public class PopupAgent extends Agent implements Popup{
 	ConveyorFamily nextCF;
 	Conveyor conveyor;
 	Integer myIndex;
-	public PopupAgent(Integer index, Transducer t,TChannel channelType)//ArrayList<Robot> inputRobots
+	public PopupAgent(FactoryFrame ff,Integer index, Transducer t,TChannel channelType)//ArrayList<Robot> inputRobots
 	{		
 		super("popupAgent");
+		factoryFrame =ff;
 		myIndex = index;
 		glasses = Collections.synchronizedList(new ArrayList<MyGlass>());
 		nextFamilyAvailable =true;
 		transducer = t;
 		myChannel = channelType;
+		if(myChannel == TChannel.DRILL)
+			expectationTime = 29;
+		else if (myChannel == TChannel.CROSS_SEAMER)
+			expectationTime = 13;
+		else if (myChannel == TChannel.GRINDER)
+			expectationTime = 32;
 //		for(Robot r: inputRobots)
 //		{
 //			robots.add(new MyRobot(r));
@@ -124,11 +138,26 @@ public class PopupAgent extends Agent implements Popup{
 
 	public boolean pickAndExecuteAnAction() {
 	
+		
 		MyGlass tempG = null;
 		MyGlass tempG1 =null;
-		if(myIndex==0)
-			System.err.println("robotsStatus"+robots.get(0).status+" "+robots.get(1).status);
 		
+		synchronized(robots){
+			for(int i=0;i<robots.size();i++)
+			{
+				if(robots.get(i).startTime!=0)
+				{
+					float duration = System.currentTimeMillis()-robots.get(i).startTime;
+					System.out.println(duration+":::"+speedDown*expectationTime*factoryFrame.getTimerDelay()*40);
+					if(duration>speedDown*expectationTime*factoryFrame.getTimerDelay()*40)
+					{
+						System.err.println("Detected a broken machine: "+myChannel+" index: "+i);
+						robots.get(i).startTime =0;
+						//System.exit(0);
+					}
+				}
+			}
+		}
 		if (animationStatus == AnimationStatus.PopupMovedDown)
 		{
 			popupActionPopupMovedDown();
@@ -438,13 +467,16 @@ public class PopupAgent extends Agent implements Popup{
 	{
 		 if(actionStatus == ActionStatus.deliverGlass) // done with deliverGlass
 		 {
-			 for(MyGlass g: glasses)
+			 synchronized(glasses)
+			 {
+				 for(MyGlass g: glasses)
 				{
 					if(g.status ==GlassStatus.Delivering)
 					{
 						Integer[] robotArgs = new Integer[1];
 						robotArgs[0] = g.robotIndex;
 						transducer.fireEvent(myChannel, TEvent.WORKSTATION_DO_ACTION, robotArgs);
+						robots.get(g.robotIndex).startTime = System.currentTimeMillis();
 						g.status = GlassStatus.Handling;
 						animationStatus = AnimationStatus.Nothing;
 						actionStatus = ActionStatus.Nothing;
@@ -452,8 +484,10 @@ public class PopupAgent extends Agent implements Popup{
 						break;
 					}
 				}
+			 }
 		 }
 	}
+
 	public void popupActionPopupReleaseFinished()
 	{
 		if (actionStatus == ActionStatus.passGlass)
@@ -537,7 +571,6 @@ public class PopupAgent extends Agent implements Popup{
 			
 			else if(args[0]==myIndex)
 			{
-				System.err.println(event+" "+args[0]+" "+myIndex);
 				if(event == TEvent.POPUP_GUI_MOVED_DOWN)
 				{
 					if(!popupJam)
@@ -642,7 +675,6 @@ public class PopupAgent extends Agent implements Popup{
 				else if (event ==TEvent.POPUP_JAM)
 				{
 					if(!popupJam){
-						System.err.println("popup "+myIndex+" is jammed");
 						popupJam=true;
 						conveyor.msgIamJammed();
 					}
@@ -683,12 +715,28 @@ public class PopupAgent extends Agent implements Popup{
 
 			else if (event ==TEvent.WORKSTATION_GUI_ACTION_FINISHED){	// we do not have machine agent so we use this eventFired
 				Integer tempIndex= (Integer)args[0];
+				int intIndex = tempIndex.intValue();
+				robots.get(intIndex).startTime=0;			
 				msgGlassReady(tempIndex);
 			}
 			else if (event ==TEvent.ROMOVE_GLASS_OFFLINE){
 				
 				int tempIndex= ((Integer) (args[0])).intValue();
 				robots.get(tempIndex).status = RobotStatus.Fixing;
+			}
+			else if (event ==TEvent.WORKSTATION_FIXED){
+				
+				int tempIndex= ((Integer) (args[0])).intValue();
+				robots.get(tempIndex).status = RobotStatus.Fixing;
+			}
+			else if (event == TEvent.WORKSTATION_OFFLINE_CHANGE_SPEED)
+			{
+				if(channel == myChannel)
+				{
+					int speedup = ((Integer)(args[0])).intValue();
+					speedDown = 10/speedup;
+				}
+				
 			}
 		}
 		

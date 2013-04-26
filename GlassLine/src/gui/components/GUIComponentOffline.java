@@ -33,7 +33,8 @@ public class GUIComponentOffline extends GuiAnimationComponent implements Action
 	Integer popUpIndex;
 
 	TChannel channel;
-	boolean broken=false;
+	boolean glassBroken=false;
+	boolean machineBroken =false;
 	/**
 	 * Frame counter
 	 */
@@ -57,7 +58,7 @@ public class GUIComponentOffline extends GuiAnimationComponent implements Action
 
 	}
 	
-	float speedDown = 1;
+	int speedDown = 1;
 	/**
 	 * Method that initializes the imageicons for the specific machines
 	 * based on the MachineType enum
@@ -93,7 +94,7 @@ public class GUIComponentOffline extends GuiAnimationComponent implements Action
 	 */
 	public void doAnimate()
 	{
-		if(!broken){
+		if(!glassBroken&&!machineBroken){
 			if (roundCounter < speedDown)
 			{
 				setIcon(imageicons.get(counter));
@@ -182,12 +183,12 @@ public class GUIComponentOffline extends GuiAnimationComponent implements Action
 				animationState = AnimationState.ANIMATING;
 				return;
 			}
-			if (event == TEvent.WORKSTATION_DO_LOAD_GLASS)
+			else if (event == TEvent.WORKSTATION_DO_LOAD_GLASS)
 			{
 				animationState = AnimationState.MOVING;
 				return;
 			}
-			if (event == TEvent.WORKSTATION_RELEASE_GLASS)
+			else if (event == TEvent.WORKSTATION_RELEASE_GLASS)
 			{
 				//added by monroe
 				//animationState = AnimationState.DONE;
@@ -198,42 +199,65 @@ public class GUIComponentOffline extends GuiAnimationComponent implements Action
 				nextComponent.addPart(part);
 				return;
 			}
-			if (event == TEvent.GLASS_BREAK_OFFLINE)
+			else if (event == TEvent.GLASS_BREAK_OFFLINE)
 			{
-				if(!broken && part!=null && animationState ==AnimationState.ANIMATING)
+				if(!glassBroken && part!=null && animationState ==AnimationState.ANIMATING)
 				{
 					part.setIcon(new ImageIcon("imageicons/glassImage_BROKEN.png"));
-					broken = true;
+					glassBroken = true;
 				}
+				return;
 			}
-			if ( event==TEvent.ROMOVE_GLASS_OFFLINE )
+			else if ( event==TEvent.ROMOVE_GLASS_OFFLINE )
 			{
-				if(broken)
+				if(glassBroken)
 				{
 					setIcon(imageIcons.get(0));
 					part.setIcon(new ImageIcon());
 					part = null;
-					broken = false;
+					glassBroken = false;
 					animationState =AnimationState.IDLE;
+					return;
 				}
 				
 			}
+			else if (event == TEvent.WORKSTATION_BROKEN)
+			{
+				if(!machineBroken && part!=null && animationState ==AnimationState.ANIMATING)
+				{
+					machineBroken = true;
+					return;
+				}
+				
+			}
+			else if (event == TEvent.WORKSTATION_FIXED)
+			{
+				if(machineBroken)
+				{
+					setIcon(imageicons.get(0));
+					part.setIcon(new ImageIcon());
+					part = null;
+					machineBroken = false;
+					animationState =AnimationState.IDLE;
+					return;
+				}
+			}
+			
 
 		}
 		else if (event == TEvent.WORKSTATION_OFFLINE_CHANGE_SPEED)
 		{
-				if(channel == this.channel)
-				{
-					animationChangeSpeed(((Integer)args[0]).intValue());
-				}
+			if(channel == this.channel)
+			{
+				animationChangeSpeed(((Integer)args[0]).intValue());
+			}
 			
 		}
 		
 	}
 	public void animationChangeSpeed(int speed)
 	{
-		float speedup = speed;
-		speedDown = 10/speedup;
+		speedDown = 2*10/speed;
 		
 	}
 }

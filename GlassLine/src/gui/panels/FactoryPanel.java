@@ -121,9 +121,9 @@ public class FactoryPanel extends JPanel
 		ConveyorFamily14 cf14 = new ConveyorFamily14("CF14", transducer);
 		TruckAgent truck = new TruckAgent("Truck", transducer);
 		
-		ConveyorFamilyOffline popup1 = new ConveyorFamilyOffline(5,transducer,TChannel.DRILL);
-		ConveyorFamilyOffline popup2 = new ConveyorFamilyOffline(6,transducer,TChannel.CROSS_SEAMER);
-		ConveyorFamilyOffline popup3 = new ConveyorFamilyOffline(7,transducer,TChannel.GRINDER);
+		ConveyorFamilyOffline popup1 = new ConveyorFamilyOffline(parent,5,transducer,TChannel.DRILL);
+		ConveyorFamilyOffline popup2 = new ConveyorFamilyOffline(parent,6,transducer,TChannel.CROSS_SEAMER);
+		ConveyorFamilyOffline popup3 = new ConveyorFamilyOffline(parent,7,transducer,TChannel.GRINDER);
 		//Linking all the agents
 		
 		binAgent.setNextCF(cutterCF);
