@@ -325,6 +325,7 @@ public class NonNormPanel extends JPanel implements ActionListener {
 					conveyorSlider.setPaintLabels(true);
 					conveyorSlider.setSnapToTicks(true);
 					conveyorSlider.setPaintTicks(true);
+					conveyorSlider.setValue(0);
 
 					gbc.anchor = GridBagConstraints.NORTHWEST;
 					gbc.weightx = 0;
@@ -372,6 +373,7 @@ public class NonNormPanel extends JPanel implements ActionListener {
 						table.put(5, new JLabel("5"));
 
 						conveyorSlider.setLabelTable(table);
+						conveyorSlider.setValue(0);
 						conveyorSlider.setMajorTickSpacing(1);
 						conveyorSlider.setPaintLabels(true);
 						conveyorSlider.setSnapToTicks(true);

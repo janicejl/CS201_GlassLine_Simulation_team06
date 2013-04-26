@@ -217,7 +217,7 @@ public class GUIComponentOffline extends GuiAnimationComponent implements Action
 			{
 				if(glassBroken)
 				{
-					setIcon(imageIcons.get(0));
+					setIcon(imageicons.get(0));
 					part.setIcon(new ImageIcon());
 					part = null;
 					glassBroken = false;

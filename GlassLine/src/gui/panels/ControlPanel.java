@@ -87,7 +87,7 @@ public class ControlPanel extends JPanel implements TReceiver
 	/**
 	 * A panel for printing backend messages.
 	 */
-	TracePanel tracePanel;
+	public TracePanel tracePanel;
 
 	//test
 	public final static Dimension size = new Dimension(400, 880);

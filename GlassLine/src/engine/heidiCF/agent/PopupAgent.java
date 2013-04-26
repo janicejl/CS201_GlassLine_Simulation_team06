@@ -13,6 +13,7 @@ import engine.agent.Agent;
 import engine.heidiCF.interfaces.*;
 import engine.agent.shared.Interfaces.*;
 import gui.drivers.FactoryFrame;
+import gui.panels.ControlPanel;
 
 
 import transducer.TChannel;
@@ -68,9 +69,11 @@ public class PopupAgent extends Agent implements Popup{
 	ConveyorFamily nextCF;
 	Conveyor conveyor;
 	Integer myIndex;
-	public PopupAgent(FactoryFrame ff,Integer index, Transducer t,TChannel channelType)//ArrayList<Robot> inputRobots
+	ControlPanel cp;
+	public PopupAgent(ControlPanel cp, FactoryFrame ff,Integer index, Transducer t,TChannel channelType)//ArrayList<Robot> inputRobots
 	{		
 		super("popupAgent");
+		this.cp =cp;
 		factoryFrame =ff;
 		myIndex = index;
 		glasses = Collections.synchronizedList(new ArrayList<MyGlass>());
@@ -152,6 +155,7 @@ public class PopupAgent extends Agent implements Popup{
 					if(duration>speedDown*expectationTime*factoryFrame.getTimerDelay()*40)
 					{
 						System.err.println("Detected a broken machine: "+myChannel+" index: "+i);
+						cp.getTracePanel().print("Detected a broken machine: machine channel: "+myChannel+" index: "+i+"\n",this);
 						robots.get(i).startTime =0;
 						//System.exit(0);
 					}
@@ -675,6 +679,7 @@ public class PopupAgent extends Agent implements Popup{
 				else if (event ==TEvent.POPUP_JAM)
 				{
 					if(!popupJam){
+						cp.tracePanel.print("Popup is jammed: Channel: "+myChannel+" conveyor is stopped.\n",this);
 						popupJam=true;
 						conveyor.msgIamJammed();
 					}
@@ -683,6 +688,7 @@ public class PopupAgent extends Agent implements Popup{
 				{
 					if(popupJam)
 					{
+						cp.tracePanel.print("Popup 's jamming issue is fixed: Channel: "+myChannel+" conveyor is resumed.\n",this);
 						popupJam=false;
 						conveyor.msgIamUnJammed();
 					}
@@ -725,8 +731,8 @@ public class PopupAgent extends Agent implements Popup{
 				robots.get(tempIndex).status = RobotStatus.Fixing;
 			}
 			else if (event ==TEvent.WORKSTATION_FIXED){
-				
 				int tempIndex= ((Integer) (args[0])).intValue();
+				cp.getTracePanel().print("Workstation is fixed : machine channel: "+myChannel+" index: "+tempIndex+"\n",this);
 				robots.get(tempIndex).status = RobotStatus.Fixing;
 			}
 			else if (event == TEvent.WORKSTATION_OFFLINE_CHANGE_SPEED)
