@@ -67,11 +67,11 @@ public class MachineAgent extends Agent implements Machine {
 	public boolean pickAndExecuteAnAction() {
 	
 		if (glass != null) {
-			if (status == MachineState.NotProcessed) {
+			if (status == MachineState.NotProcessed && isBroken == false) {
 				processGlass();
 				return true;
 			}
-			if (nextFree == true) {
+			if (nextFree == true && isBroken == false) {
 				if (status == MachineState.DoneProcessing) {
 					releaseGlass();
 					return true;

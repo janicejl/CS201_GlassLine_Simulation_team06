@@ -90,7 +90,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			startConveyor();
 			
 		if (status == ConveyorStatus.GlassAtEnd)  {
-			if (nextFree == true && broken == false) {
+			if (nextFree == true && broken == false && glassList.size() != 0) {
 				passToMachine();
 				return true;
 			}
@@ -193,8 +193,13 @@ public class ConveyorAgent extends Agent implements Conveyor {
 
 	//Actions
 	private void passToMachine() {
+		Glass g;
+		if (glassList.size() != 0) {
+			g = glassList.get(0);
+		} else {
+			return;
+		}
 		nextFree = false;
-		Glass g = glassList.get(0);
 		synchronized (glassList) {
 			glassList.remove(0);
 		}
