@@ -38,11 +38,16 @@ public class NonNormPanel extends JPanel implements ActionListener {
 	JPanel bottomPanel = new JPanel();
 
 	GUITruck truck;
+	
+	List<Boolean> conveyorOn = new ArrayList<Boolean>();
 
 	public NonNormPanel(ControlPanel c, Transducer t) {
 		parent = c;
 		transducer = t;
 
+		for(int i = 0; i < 15; i++) {
+			conveyorOn.add(new Boolean(true));
+		}
 		this.setBackground(new Color(238, 238, 238));
 
 		nonNormSelector = new JComboBox();
@@ -89,8 +94,32 @@ public class NonNormPanel extends JPanel implements ActionListener {
 					final JSlider conveyorSlider = new JSlider(0, 14);
 					final JButton turnOffConveyor = new JButton("Turn off");
 					final JButton turnOnConveyor = new JButton("Turn on");
+					
+					class SliderListener implements ChangeListener {
+						public void stateChanged(ChangeEvent e) {
+							JSlider source = (JSlider)e.getSource();
+							if(conveyorOn.get((int)source.getValue())) {
+								System.out.println("buh");
+								bottomPanel.remove(turnOnConveyor);
+								bottomPanel.add(turnOffConveyor);
+								repaint();
+								revalidate();
+							}
+							else {
+								System.out.println("cuh");
+								bottomPanel.remove(turnOffConveyor);
+								bottomPanel.add(turnOnConveyor);
+								repaint();
+								revalidate();
+							}
+						}
+					}
+					conveyorSlider.addChangeListener(new SliderListener());
+					
+					
 					turnOffConveyor.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent ae) {
+							conveyorOn.set(conveyorSlider.getValue(), false);
 							turnOffConveyor(conveyorSlider.getValue());
 							bottomPanel.remove(turnOffConveyor);
 							bottomPanel.add(turnOnConveyor);
@@ -102,6 +131,7 @@ public class NonNormPanel extends JPanel implements ActionListener {
 
 					turnOnConveyor.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent ae) {
+							conveyorOn.set(conveyorSlider.getValue(), true);
 							turnOnConveyor(conveyorSlider.getValue());
 							bottomPanel.remove(turnOnConveyor);
 							bottomPanel.add(turnOffConveyor);
