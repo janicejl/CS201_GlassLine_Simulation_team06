@@ -33,7 +33,7 @@ public class GUIComponentOffline extends GuiAnimationComponent implements Action
 	Integer popUpIndex;
 
 	TChannel channel;
-
+	boolean broken=false;
 	/**
 	 * Frame counter
 	 */
@@ -93,29 +93,30 @@ public class GUIComponentOffline extends GuiAnimationComponent implements Action
 	 */
 	public void doAnimate()
 	{
-
-		if (roundCounter < speedDown)
-		{
-			setIcon(imageicons.get(counter));
-			if(counter<imageicons.size()-1)
-				counter++;
-			else if (counter ==imageicons.size()-1)
+		if(!broken){
+			if (roundCounter < speedDown)
 			{
-				counter = 0;
-				roundCounter++;
+				setIcon(imageicons.get(counter));
+				if(counter<imageicons.size()-1)
+					counter++;
+				else if (counter ==imageicons.size()-1)
+				{
+					counter = 0;
+					roundCounter++;
+				}
 			}
-		}
-		else
-		{
-
-			setIcon(imageicons.get(0));
-			counter = 0;
-			roundCounter=0;
-
-			Object[] args = new Object[1];
-			args[0] = index;
-			animationState = GuiAnimationComponent.AnimationState.DONE;
-			transducer.fireEvent(channel, TEvent.WORKSTATION_GUI_ACTION_FINISHED, args);
+			else
+			{
+	
+				setIcon(imageicons.get(0));
+				counter = 0;
+				roundCounter=0;
+	
+				Object[] args = new Object[1];
+				args[0] = index;
+				animationState = GuiAnimationComponent.AnimationState.DONE;
+				transducer.fireEvent(channel, TEvent.WORKSTATION_GUI_ACTION_FINISHED, args);
+			}
 		}
 	}
 
@@ -196,6 +197,26 @@ public class GUIComponentOffline extends GuiAnimationComponent implements Action
 
 				nextComponent.addPart(part);
 				return;
+			}
+			if (event == TEvent.GLASS_BREAK_OFFLINE)
+			{
+				if(!broken && part!=null && animationState ==AnimationState.ANIMATING)
+				{
+					part.setIcon(new ImageIcon("imageicons/glassImage_BROKEN.png"));
+					broken = true;
+				}
+			}
+			if ( event==TEvent.ROMOVE_GLASS_OFFLINE )
+			{
+				if(broken)
+				{
+					setIcon(imageIcons.get(0));
+					part.setIcon(new ImageIcon());
+					part = null;
+					broken = false;
+					animationState =AnimationState.IDLE;
+				}
+				
 			}
 
 		}
