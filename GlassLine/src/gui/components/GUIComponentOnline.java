@@ -333,8 +333,7 @@ public class GUIComponentOnline extends GuiAnimationComponent implements ActionL
 	public void eventFired(TChannel channel, TEvent event, Object[] args)
 	{
 
-		if (channel.toString().equals(this.channel))
-			;
+		if (channel.equals(this.channel))
 		{
 			if (event == TEvent.WORKSTATION_DO_ACTION)
 			{
@@ -344,6 +343,12 @@ public class GUIComponentOnline extends GuiAnimationComponent implements ActionL
 			{
 				animationState = AnimationState.DONE;
 				releasePart = true;
+			}
+			if (event == TEvent.WORKSTATION_ENABLE_ONLINE) {
+				if (guiPart != null) {
+					guiPart.setIcon(new ImageIcon());
+				}
+				guiPart = null;
 			}
 		}
 
