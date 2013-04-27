@@ -1,6 +1,8 @@
 
 package gui.components;
 
+import gui.components.GuiAnimationComponent.AnimationState;
+
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
@@ -27,6 +29,10 @@ public class GUIBreakout extends GuiAnimationComponent
 
 	ConveyorDirections direction = ConveyorDirections.UP;
 
+	ImageIcon brokenIcon;
+	ImageIcon brokenGlassIcon;
+	boolean disable=false;
+
 	/**
 	 * Constructor for GUIBreakout
 	 */
@@ -37,6 +43,8 @@ public class GUIBreakout extends GuiAnimationComponent
 		setSize(getIcon().getIconWidth(), getIcon().getIconHeight());
 		transducer = t;
 		transducer.register(this, TChannel.BREAKOUT);
+		brokenIcon = new ImageIcon("imageicons/BreakoutBroken.png");
+		brokenGlassIcon = new ImageIcon("imageicons/glassImage_BROKEN.png");
 	}
 
 	/**
@@ -92,7 +100,10 @@ public class GUIBreakout extends GuiAnimationComponent
 	public void addPart(GUIGlass part)
 	{
 		this.guiPart = part;
-		guiPart.setIcon(new ImageIcon("imageicons/glassImage_BREAKOUT.png"));
+		if(disable)
+			guiPart.setIcon(brokenGlassIcon);
+		else
+			guiPart.setIcon(new ImageIcon("imageicons/glassImage_BREAKOUT.png"));
 		animationState = AnimationState.MOVING;
 	}
 
@@ -177,9 +188,7 @@ public class GUIBreakout extends GuiAnimationComponent
 	public void eventFired(TChannel channel, TEvent event, Object[] args)
 	{
 
-		if (channel.toString().equals(this.channel))
-			;
-		{
+
 			if (event == TEvent.WORKSTATION_DO_ACTION)
 			{
 				animationState = AnimationState./*MOVING*/ANIMATING;//monroe changed
@@ -188,7 +197,36 @@ public class GUIBreakout extends GuiAnimationComponent
 			{
 				animationState = AnimationState.DONE;
 			}
-		}
+			if(event == TEvent.WORKSTATION_DISABLE_ONLINE)
+			{
+				if(animationState!=AnimationState.DONE)
+				{	
+					disable = true;
+					if(guiPart!=null)
+					{
+						guiPart.setIcon(brokenGlassIcon);
+					}
+					else 
+					{
+						setIcon(brokenIcon);
+					}
+				}
+				
+			}
+			if (event == TEvent.WORKSTATION_ENABLE_ONLINE) {
+				disable = false;
+				if (guiPart!=null) {
+					guiPart.setIcon(new ImageIcon());
+					guiPart = null;
+					animationState = AnimationState.IDLE;
+					setIcon(imageIcons.get(0));
+				}
+				else {
+					setIcon(imageIcons.get(0));
+				}
+				
+			}
+		
 
 	}
 }

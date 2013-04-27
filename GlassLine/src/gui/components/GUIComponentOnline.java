@@ -34,6 +34,11 @@ public class GUIComponentOnline extends GuiAnimationComponent implements ActionL
 	int imageCounter = 0;
 
 	ImageIcon myIcon;
+	
+	ImageIcon brokenGlassIcon;
+	
+	boolean disable=false;
+
 	/**
 	 * Image for Fire truck
 	 */
@@ -68,6 +73,8 @@ public class GUIComponentOnline extends GuiAnimationComponent implements ActionL
 	MachineType type;
 
 	ConveyorDirections direction;
+	
+	ImageIcon brokenIcon;
 
 	public void setDirection(ConveyorDirections direction)
 	{
@@ -85,6 +92,7 @@ public class GUIComponentOnline extends GuiAnimationComponent implements ActionL
 		transducer = t;
 		initializeImages();
 		targetPos = new Point(this.getCenterX(), this.getCenterY());
+		brokenGlassIcon = new ImageIcon("imageicons/glassImage_BROKEN.png");
 
 	}
 
@@ -119,6 +127,7 @@ public class GUIComponentOnline extends GuiAnimationComponent implements ActionL
 		{
 			imageicons = (ArrayList<ImageIcon>)ImageIcons.getIconList("cutter");
 			myIcon = new ImageIcon("imageicons/glassImage_CUTTER.png");
+			brokenIcon = new ImageIcon("imageicons/CutterBroken.png");
 			channel = TChannel.CUTTER;
 			transducer.register(this, TChannel.CUTTER);
 		}
@@ -126,6 +135,7 @@ public class GUIComponentOnline extends GuiAnimationComponent implements ActionL
 		{
 			imageicons = (ArrayList<ImageIcon>)ImageIcons.getIconList("oven");
 			myIcon = new ImageIcon("imageicons/glassImage_OVEN.png");
+			brokenIcon = new ImageIcon("imageicons/ovenBroken.png");
 			channel = TChannel.OVEN;
 			transducer.register(this, TChannel.OVEN);
 		}
@@ -133,6 +143,7 @@ public class GUIComponentOnline extends GuiAnimationComponent implements ActionL
 		{
 			imageicons = (ArrayList<ImageIcon>)ImageIcons.getIconList("uvLamp");
 			myIcon = new ImageIcon("imageicons/glassImage_UVLAMP.png");
+			brokenIcon = new ImageIcon("imageicons/uvlightBroken.png");
 			channel = TChannel.UV_LAMP;
 			transducer.register(this, TChannel.UV_LAMP);
 		}
@@ -140,6 +151,7 @@ public class GUIComponentOnline extends GuiAnimationComponent implements ActionL
 		{
 			imageicons = (ArrayList<ImageIcon>)ImageIcons.getIconList("washer");
 			myIcon = new ImageIcon("imageicons/glassImage_WASHER.png");
+			brokenIcon = new ImageIcon("imageicons/washerBroken.png");
 			channel = TChannel.WASHER;
 			transducer.register(this, TChannel.WASHER);
 		}
@@ -147,6 +159,7 @@ public class GUIComponentOnline extends GuiAnimationComponent implements ActionL
 		{
 			imageicons = (ArrayList<ImageIcon>)ImageIcons.getIconList("paint");
 			myIcon = new ImageIcon("imageicons/glassImage_PAINT.png");
+			brokenIcon = new ImageIcon("imageicons/paintBroken.png");
 			channel = TChannel.PAINTER;
 			transducer.register(this, TChannel.PAINTER);
 		}
@@ -247,8 +260,14 @@ public class GUIComponentOnline extends GuiAnimationComponent implements ActionL
 	public void addPart(GUIGlass part)
 	{
 		this.guiPart = part;
-		guiPart.setIcon(myIcon);
+		if(disable)
+			guiPart.setIcon(brokenGlassIcon);
+		else
+		{
+			guiPart.setIcon(myIcon);
+		}
 		animationState = AnimationState.MOVING;
+		
 	}
 
 	/**
@@ -344,11 +363,34 @@ public class GUIComponentOnline extends GuiAnimationComponent implements ActionL
 				animationState = AnimationState.DONE;
 				releasePart = true;
 			}
-			if (event == TEvent.WORKSTATION_ENABLE_ONLINE) {
-				if (guiPart != null) {
-					guiPart.setIcon(new ImageIcon());
+			if(event == TEvent.WORKSTATION_DISABLE_ONLINE)
+			{
+				if(animationState!=AnimationState.DONE)
+				{	
+					disable = true;
+					if(guiPart!=null)
+					{
+						guiPart.setIcon(brokenGlassIcon);
+					}
+					else 
+					{
+						setIcon(brokenIcon);
+					}
 				}
-				guiPart = null;
+				
+			}
+			if (event == TEvent.WORKSTATION_ENABLE_ONLINE) {
+				disable = false;
+				if (guiPart!=null) {
+					guiPart.setIcon(new ImageIcon());
+					guiPart = null;
+					animationState = AnimationState.IDLE;
+					setIcon(imageicons.get(0));
+				}
+				else {
+					setIcon(imageicons.get(0));
+				}
+				
 			}
 		}
 

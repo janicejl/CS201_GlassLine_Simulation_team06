@@ -1,6 +1,8 @@
 
 package gui.components;
 
+import gui.components.GuiAnimationComponent.AnimationState;
+
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
@@ -30,6 +32,13 @@ public class GUIManualBreakout extends GuiAnimationComponent
 	ConveyorDirections direction = ConveyorDirections.UP;
 
 	MachineType type;
+	
+	ImageIcon brokenIcon;
+	
+	ImageIcon brokenGlassIcon;
+	boolean disable=false;
+
+
 
 	/**
 	 * Constructor for GUIManualBreakout
@@ -43,6 +52,8 @@ public class GUIManualBreakout extends GuiAnimationComponent
 		type = MachineType.MANUAL_BREAKOUT;
 		transducer = t;
 		transducer.register(this, TChannel.MANUAL_BREAKOUT);
+		brokenIcon = new ImageIcon("imageicons/manualBreakoutBroken.png");
+		brokenGlassIcon = new ImageIcon("imageicons/glassImage_BROKEN.png");
 
 	}
 
@@ -111,6 +122,8 @@ public class GUIManualBreakout extends GuiAnimationComponent
 	public void addPart(GUIGlass part)
 	{
 		this.guiPart = part;
+		if(disable)
+			guiPart.setIcon(brokenGlassIcon);
 		animationState = AnimationState.MOVING;
 	}
 
@@ -196,9 +209,7 @@ public class GUIManualBreakout extends GuiAnimationComponent
 	public void eventFired(TChannel channel, TEvent event, Object[] args)
 	{
 
-		if (channel.toString().equals(this.channel))
-			;
-		{
+	
 			if (event == TEvent.WORKSTATION_DO_ACTION)
 			{
 				animationState = AnimationState./*MOVING*/ANIMATING;//monroe changed
@@ -207,7 +218,36 @@ public class GUIManualBreakout extends GuiAnimationComponent
 			{
 				animationState = AnimationState.DONE;
 			}
-		}
+			if(event == TEvent.WORKSTATION_DISABLE_ONLINE)
+			{
+				if(animationState!=AnimationState.DONE)
+				{	
+					disable = true;
+					if(guiPart!=null)
+					{
+						guiPart.setIcon(brokenGlassIcon);
+					}
+					else 
+					{
+						setIcon(brokenIcon);
+					}
+				}
+				
+			}
+			if (event == TEvent.WORKSTATION_ENABLE_ONLINE) {
+				disable = false;
+				if (guiPart!=null) {
+					guiPart.setIcon(new ImageIcon());
+					guiPart = null;
+					animationState = AnimationState.IDLE;
+					setIcon(imageIcons.get(0));
+				}
+				else {
+					setIcon(imageIcons.get(0));
+				}
+				
+			}
+		
 
 	}
 }
