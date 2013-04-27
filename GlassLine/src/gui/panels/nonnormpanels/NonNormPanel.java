@@ -198,11 +198,11 @@ public class NonNormPanel extends JPanel implements ActionListener {
 					gbc.gridx = 0;
 					gbc.gridy = 0;
 					gbc.gridwidth = 4;
-					bottomPanel.add(new JLabel("Check Box to Disable. Uncheck to Fix"), gbc);
+					bottomPanel.add(new JLabel("Check Box to Stop. Uncheck to Fix"), gbc);
 					gbc.ipadx = 5;
 					gbc.gridwidth = 4;
 					gbc.gridy++;
-					bottomPanel.add(new JLabel("Workstations"),gbc);
+					bottomPanel.add(new JLabel("Conveyor"),gbc);
 					
 					JPanel checkBoxPanel = new JPanel();
 					checkBoxPanel.setBackground(new Color(238,238,238));
@@ -833,18 +833,33 @@ public class NonNormPanel extends JPanel implements ActionListener {
 		transducer.fireEvent(TChannel.POPUP, TEvent.POPUP_UNJAM, newArgs);
 	}
 
-	public void disableWorkStation(int index) {
+	public void disableWorkStation(int i) {
 		Integer[] newArgs = new Integer[1];
-		newArgs[0] = (Integer) (index);
-		transducer.fireEvent(TChannel.POPUP,
-				TEvent.WORKSTATION_DISABLE_OFFLINE, newArgs);
+		if(i==0||i==2||i==4)
+			newArgs[0] = (Integer) 0;
+		else
+			newArgs[0] = (Integer) 1;
+		if(i==0||i==1)
+			transducer.fireEvent(TChannel.DRILL,TEvent.WORKSTATION_DISABLE_OFFLINE,newArgs);
+		else if (i==2||i==3)
+			transducer.fireEvent(TChannel.CROSS_SEAMER,TEvent.WORKSTATION_DISABLE_OFFLINE,newArgs);
+		else if (i==4||i==5)
+			transducer.fireEvent(TChannel.GRINDER,TEvent.WORKSTATION_DISABLE_OFFLINE,newArgs);
+
 	}
 
-	public void enableWorkStation(int index) {
+	public void enableWorkStation(int i) {
 		Integer[] newArgs = new Integer[1];
-		newArgs[0] = (Integer) (index);
-		transducer.fireEvent(TChannel.POPUP, TEvent.WORKSTATION_ENABLE_OFFLINE,
-				newArgs);
+		if(i==0||i==2||i==4)
+			newArgs[0] = (Integer) 0;
+		else
+			newArgs[0] = (Integer) 1;
+		if(i==0||i==1)
+			transducer.fireEvent(TChannel.DRILL,TEvent.WORKSTATION_ENABLE_OFFLINE,newArgs);
+		else if (i==2||i==3)
+			transducer.fireEvent(TChannel.CROSS_SEAMER,TEvent.WORKSTATION_ENABLE_OFFLINE,newArgs);
+		else if (i==4||i==5)
+			transducer.fireEvent(TChannel.GRINDER,TEvent.WORKSTATION_ENABLE_OFFLINE,newArgs);
 	}
 	
 	public void breakGlassOffline(int i)
