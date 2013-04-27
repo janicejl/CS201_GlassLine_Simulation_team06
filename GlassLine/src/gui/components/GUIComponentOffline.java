@@ -42,6 +42,7 @@ public class GUIComponentOffline extends GuiAnimationComponent implements Action
 	int roundCounter=0;
 
 	ImageIcon myIcon;
+	ImageIcon badIcon;
 	/**
 	 * List of icons for animations
 	 */
@@ -70,6 +71,8 @@ public class GUIComponentOffline extends GuiAnimationComponent implements Action
 		{
 			imageicons = (ArrayList<ImageIcon>)ImageIcons.getIconList("crossSeamer");
 			myIcon = new ImageIcon("imageicons/glassImage_CROSSSEAMER.png");
+			badIcon = new ImageIcon("imageicons/crossSeamerBroken.png");
+			
 			channel = TChannel.CROSS_SEAMER;
 			transducer.register(this, TChannel.CROSS_SEAMER);
 		}
@@ -78,6 +81,7 @@ public class GUIComponentOffline extends GuiAnimationComponent implements Action
 		{
 			imageicons = (ArrayList<ImageIcon>)ImageIcons.getIconList("drill");
 			myIcon = new ImageIcon("imageicons/glassImage_DRILL.png");
+			badIcon = new ImageIcon("imageicons/drillImageBroken.png");
 			channel = TChannel.DRILL;
 			transducer.register(this, TChannel.DRILL);
 
@@ -86,6 +90,7 @@ public class GUIComponentOffline extends GuiAnimationComponent implements Action
 		{
 			imageicons = (ArrayList<ImageIcon>)ImageIcons.getIconList("grinder");
 			myIcon = new ImageIcon("imageicons/glassImage_GRINDER.png");
+			badIcon = new ImageIcon("imageicons/grinderImageBroken.png");
 			channel = TChannel.GRINDER;
 			transducer.register(this, TChannel.GRINDER);
 		}
@@ -230,6 +235,7 @@ public class GUIComponentOffline extends GuiAnimationComponent implements Action
 			{
 				if(!machineBroken && part!=null && animationState ==AnimationState.ANIMATING)
 				{
+					
 					machineBroken = true;
 					return;
 				}
@@ -246,6 +252,17 @@ public class GUIComponentOffline extends GuiAnimationComponent implements Action
 					animationState =AnimationState.IDLE;
 					return;
 				}
+			}
+			else if (event == TEvent.WORKSTATION_DISABLE_OFFLINE)
+			{
+				if(animationState == AnimationState.IDLE)
+				{
+					setIcon(badIcon);
+				}
+			}
+			else if (event == TEvent.WORKSTATION_ENABLE_OFFLINE)
+			{
+				setIcon(imageicons.get(0));
 			}
 			
 
