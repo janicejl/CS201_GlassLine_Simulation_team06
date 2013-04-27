@@ -91,92 +91,251 @@ public class NonNormPanel extends JPanel implements ActionListener {
 					bottomPanel.setLayout(new GridBagLayout());
 					GridBagConstraints gbc = new GridBagConstraints();
 
-					final JSlider conveyorSlider = new JSlider(0, 14);
-					final JButton turnOffConveyor = new JButton("Turn off");
-					final JButton turnOnConveyor = new JButton("Turn on");
+					final List<JCheckBox> workstation = new ArrayList<JCheckBox>();
 					
-					class SliderListener implements ChangeListener {
-						public void stateChanged(ChangeEvent e) {
-							JSlider source = (JSlider)e.getSource();
-							if(conveyorOn.get((int)source.getValue())) {
-								bottomPanel.remove(turnOnConveyor);
-								bottomPanel.add(turnOffConveyor);
-								repaint();
-								revalidate();
+					for(int i = 0; i < 15; i++) {
+						JCheckBox temp = new JCheckBox();
+						temp.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent ae) {
+								AbstractButton ab = (AbstractButton) ae.getSource();
+								//0,2,3,8,10,11,13
+								for(int i = 0; i < 15; i++) {
+									if(ab == (AbstractButton) workstation.get(i)) {
+										
+										
+										if(ab.getModel().isSelected()) {
+											turnOffConveyor(i);
+										}
+										else {
+											turnOnConveyor(i);
+										}
+									}
+								}							
 							}
-							else {
-								bottomPanel.remove(turnOffConveyor);
-								bottomPanel.add(turnOnConveyor);
-								repaint();
-								revalidate();
-							}
-						}
+						});
+						
+						workstation.add(temp);
 					}
-					conveyorSlider.addChangeListener(new SliderListener());
 					
 					
-					turnOffConveyor.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent ae) {
-							conveyorOn.set(conveyorSlider.getValue(), false);
-							turnOffConveyor(conveyorSlider.getValue());
-							bottomPanel.remove(turnOffConveyor);
-							bottomPanel.add(turnOnConveyor);
-							repaint();
-							revalidate();
-						}
-
-					});
-
-					turnOnConveyor.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent ae) {
-							conveyorOn.set(conveyorSlider.getValue(), true);
-							turnOnConveyor(conveyorSlider.getValue());
-							bottomPanel.remove(turnOnConveyor);
-							bottomPanel.add(turnOffConveyor);
-							repaint();
-							revalidate();
-						}
-
-					});
-
-					Hashtable<Integer, JLabel> table = new Hashtable<Integer, JLabel>();
-					table.put(0, new JLabel("0"));
-					table.put(1, new JLabel("1"));
-					table.put(2, new JLabel("2"));
-					table.put(3, new JLabel("3"));
-					table.put(4, new JLabel("4"));
-					table.put(5, new JLabel("5"));
-					table.put(6, new JLabel("6"));
-					table.put(7, new JLabel("7"));
-					table.put(8, new JLabel("8"));
-					table.put(9, new JLabel("9"));
-					table.put(10, new JLabel("10"));
-					table.put(11, new JLabel("11"));
-					table.put(12, new JLabel("12"));
-					table.put(13, new JLabel("13"));
-					table.put(14, new JLabel("14"));
-
-					conveyorSlider.setLabelTable(table);
-					conveyorSlider.setMinorTickSpacing(1);
-					conveyorSlider.setPaintLabels(true);
-					conveyorSlider.setPaintTicks(true);
-					conveyorSlider.setSnapToTicks(true);
-
-					gbc.anchor = GridBagConstraints.NORTHWEST;
-					gbc.weightx = 1;
-					gbc.weighty = 5;
+					
+					JPanel panel0 = new JPanel();
+					panel0.setBackground(new Color(238,238,238));
+					panel0.add(new JLabel("0"));
+					panel0.add(workstation.get(0));
+					
+					JPanel panel1 = new JPanel();
+					panel1.setBackground(new Color(238,238,238));
+					panel1.add(new JLabel("1"));
+					panel1.add(workstation.get(1));
+					
+					JPanel panel2 = new JPanel();
+					panel2.setBackground(new Color(238,238,238));
+					panel2.add(new JLabel("2"));
+					panel2.add(workstation.get(2));
+					
+					JPanel panel3 = new JPanel();
+					panel3.setBackground(new Color(238,238,238));
+					panel3.add(new JLabel("3"));
+					panel3.add(workstation.get(3));
+					
+					JPanel panel4 = new JPanel();
+					panel4.setBackground(new Color(238,238,238));
+					panel4.add(new JLabel("4"));
+					panel4.add(workstation.get(4));
+					
+					JPanel panel5 = new JPanel();
+					panel5.setBackground(new Color(238,238,238));
+					panel5.add(new JLabel("5"));
+					panel5.add(workstation.get(5));
+					
+					JPanel panel6 = new JPanel();
+					panel6.setBackground(new Color(238,238,238));
+					panel6.add(new JLabel("6"));
+					panel6.add(workstation.get(6));
+					
+					JPanel panel7 = new JPanel();
+					panel7.setBackground(new Color(238,238,238));
+					panel7.add(new JLabel("7"));
+					panel7.add(workstation.get(7));
+					
+					JPanel panel8 = new JPanel();
+					panel8.setBackground(new Color(238,238,238));
+					panel8.add(new JLabel("8"));
+					panel8.add(workstation.get(8));
+					
+					JPanel panel9 = new JPanel();
+					panel9.setBackground(new Color(238,238,238));
+					panel9.add(new JLabel("9"));
+					panel9.add(workstation.get(9));
+					
+					JPanel panel10 = new JPanel();
+					panel10.setBackground(new Color(238,238,238));
+					panel10.add(new JLabel("10"));
+					panel10.add(workstation.get(10));
+					
+					JPanel panel11 = new JPanel();
+					panel11.setBackground(new Color(238,238,238));
+					panel11.add(new JLabel("11"));
+					panel11.add(workstation.get(11));
+					
+					JPanel panel12 = new JPanel();
+					panel12.setBackground(new Color(238,238,238));
+					panel12.add(new JLabel("12"));
+					panel12.add(workstation.get(12));
+					
+					JPanel panel13 = new JPanel();
+					panel13.setBackground(new Color(238,238,238));
+					panel13.add(new JLabel("13"));
+					panel13.add(workstation.get(13));
+					
+					JPanel panel14 = new JPanel();
+					panel14.setBackground(new Color(238,238,238));
+					panel14.add(new JLabel("14"));
+					panel14.add(workstation.get(14));
+				
+					gbc.weighty = 2;
 					gbc.gridx = 0;
 					gbc.gridy = 0;
-					bottomPanel.add(new JLabel("Valid Conveyor Numbers: 0-14"));
-					gbc.gridy = 1;
-					gbc.fill = 2;
-					bottomPanel.add(conveyorSlider, gbc);
+					gbc.gridwidth = 4;
+					bottomPanel.add(new JLabel("Check Box to Disable. Uncheck to Fix"), gbc);
 					gbc.ipadx = 5;
-					gbc.gridx++;
-					gbc.gridy = 0;
-					bottomPanel.add(turnOffConveyor);
+					gbc.gridwidth = 4;
+					gbc.gridy++;
+					bottomPanel.add(new JLabel("Workstations"),gbc);
+					
+					JPanel checkBoxPanel = new JPanel();
+					checkBoxPanel.setBackground(new Color(238,238,238));
+					checkBoxPanel.setLayout(new GridBagLayout());
+					GridBagConstraints gbc2 = new GridBagConstraints();
+
+					gbc2.gridx = 0;
+					gbc2.gridy = 0;
+					checkBoxPanel.add(panel0, gbc2);
+					gbc2.gridy++;
+					checkBoxPanel.add(panel1, gbc2);
+					gbc2.gridy++;
+					checkBoxPanel.add(panel2, gbc2);
+					gbc2.gridy++;
+					checkBoxPanel.add(panel3, gbc2);
+					gbc2.gridy++;
+					checkBoxPanel.add(panel4, gbc2);
+					gbc2.gridy++;
+					checkBoxPanel.add(panel5, gbc2);
+					gbc2.gridy++;
+					checkBoxPanel.add(panel6, gbc2);
+					gbc2.gridy=0;
+					gbc2.gridx++;
+					checkBoxPanel.add(panel7, gbc2);
+					gbc2.gridy++;
+					checkBoxPanel.add(panel8, gbc2);
+					gbc2.gridy++;
+					checkBoxPanel.add(panel9, gbc2);
+					gbc2.gridy++;
+					checkBoxPanel.add(panel10, gbc2);
+					gbc2.gridy++;
+					checkBoxPanel.add(panel11, gbc2);
+					gbc2.gridy++;
+					checkBoxPanel.add(panel12, gbc2);
+					gbc2.gridy++;
+					checkBoxPanel.add(panel13, gbc2);
+					gbc2.gridy++;
+					checkBoxPanel.add(panel14, gbc2);
+					gbc.gridy++;
+					bottomPanel.add(checkBoxPanel, gbc);
+					
 					repaint();
 					revalidate();
+//					bottomPanel.removeAll();
+//					bottomPanel.setLayout(new GridBagLayout());
+//					GridBagConstraints gbc = new GridBagConstraints();
+//
+//					final JSlider conveyorSlider = new JSlider(0, 14);
+//					final JButton turnOffConveyor = new JButton("Turn off");
+//					final JButton turnOnConveyor = new JButton("Turn on");
+//					
+//					class SliderListener implements ChangeListener {
+//						public void stateChanged(ChangeEvent e) {
+//							JSlider source = (JSlider)e.getSource();
+//							if(conveyorOn.get((int)source.getValue())) {
+//								bottomPanel.remove(turnOnConveyor);
+//								bottomPanel.add(turnOffConveyor);
+//								repaint();
+//								revalidate();
+//							}
+//							else {
+//								bottomPanel.remove(turnOffConveyor);
+//								bottomPanel.add(turnOnConveyor);
+//								repaint();
+//								revalidate();
+//							}
+//						}
+//					}
+//					conveyorSlider.addChangeListener(new SliderListener());
+//					
+//					
+//					turnOffConveyor.addActionListener(new ActionListener() {
+//						public void actionPerformed(ActionEvent ae) {
+//							conveyorOn.set(conveyorSlider.getValue(), false);
+//							turnOffConveyor(conveyorSlider.getValue());
+//							bottomPanel.remove(turnOffConveyor);
+//							bottomPanel.add(turnOnConveyor);
+//							repaint();
+//							revalidate();
+//						}
+//
+//					});
+//
+//					turnOnConveyor.addActionListener(new ActionListener() {
+//						public void actionPerformed(ActionEvent ae) {
+//							conveyorOn.set(conveyorSlider.getValue(), true);
+//							turnOnConveyor(conveyorSlider.getValue());
+//							bottomPanel.remove(turnOnConveyor);
+//							bottomPanel.add(turnOffConveyor);
+//							repaint();
+//							revalidate();
+//						}
+//
+//					});
+//
+//					Hashtable<Integer, JLabel> table = new Hashtable<Integer, JLabel>();
+//					table.put(0, new JLabel("0"));
+//					table.put(1, new JLabel("1"));
+//					table.put(2, new JLabel("2"));
+//					table.put(3, new JLabel("3"));
+//					table.put(4, new JLabel("4"));
+//					table.put(5, new JLabel("5"));
+//					table.put(6, new JLabel("6"));
+//					table.put(7, new JLabel("7"));
+//					table.put(8, new JLabel("8"));
+//					table.put(9, new JLabel("9"));
+//					table.put(10, new JLabel("10"));
+//					table.put(11, new JLabel("11"));
+//					table.put(12, new JLabel("12"));
+//					table.put(13, new JLabel("13"));
+//					table.put(14, new JLabel("14"));
+//
+//					conveyorSlider.setLabelTable(table);
+//					conveyorSlider.setMinorTickSpacing(1);
+//					conveyorSlider.setPaintLabels(true);
+//					conveyorSlider.setPaintTicks(true);
+//					conveyorSlider.setSnapToTicks(true);
+//
+//					gbc.anchor = GridBagConstraints.NORTHWEST;
+//					gbc.weightx = 1;
+//					gbc.weighty = 5;
+//					gbc.gridx = 0;
+//					gbc.gridy = 0;
+//					bottomPanel.add(new JLabel("Valid Conveyor Numbers: 0-14"));
+//					gbc.gridy = 1;
+//					gbc.fill = 2;
+//					bottomPanel.add(conveyorSlider, gbc);
+//					gbc.ipadx = 5;
+//					gbc.gridx++;
+//					gbc.gridy = 0;
+//					bottomPanel.add(turnOffConveyor);
+//					repaint();
+//					revalidate();
 
 				} else if (selected.equals("Inline Workstation Break/Restart")) {
 					bottomPanel.removeAll();
