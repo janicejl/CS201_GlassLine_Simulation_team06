@@ -150,8 +150,8 @@ public class ConShuttle extends Agent implements ConveyorFamily
 		{
 			if(args[0].equals(number[0] *2))//if second sensor
 			{
-				released = true;
-				stateChanged();
+				//released = true;
+				//stateChanged();
 			}
 //			if(args[0].equals(number[0] *2+1))//if second sensor
 //			{
@@ -163,10 +163,26 @@ public class ConShuttle extends Agent implements ConveyorFamily
 		if(channel == TChannel.SENSOR & event == TEvent.SENSOR_GUI_PRESSED) {
 			if(args[0].equals(number[0] *2+1))//if second sensor
 			{
+				released = true;
 				glass.get(0).status = Status.send;
 				stateChanged();
 			}
 		}
+		
+		/*if(channel == TChannel.CONVEYOR & event == TEvent.CONVEYOR_BREAK)
+		{
+			if(args[0].equals(number[0]))
+			{
+				msgOverRideStop();
+			}
+		}
+		if(channel == TChannel.CONVEYOR & event == TEvent.CONVEYOR_FIX)
+		{
+			if(args[0].equals(number[0]))
+			{
+				msgOverRideStart();
+			}
+		}*/
 	}
 	
 	public void setConveyor(ConveyorFamily c)
