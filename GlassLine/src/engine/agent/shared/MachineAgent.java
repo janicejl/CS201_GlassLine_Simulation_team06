@@ -113,7 +113,9 @@ public class MachineAgent extends Agent implements Machine {
 			
 			if (event == TEvent.WORKSTATION_ENABLE_ONLINE) {
 				isBroken = false;
-				conveyor.msgSpaceAvailable();
+				if (glass == null) {
+					conveyor.msgSpaceAvailable();
+				}
 				stateChanged();
 			}
 		}

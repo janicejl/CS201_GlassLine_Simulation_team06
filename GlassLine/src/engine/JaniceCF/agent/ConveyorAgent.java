@@ -87,10 +87,13 @@ public class ConveyorAgent extends Agent implements Conveyor {
 				&& status == ConveyorStatus.Nothing
 				&& started == false
 				&& broken == false)
+		{	
 			startConveyor();
+			return true;
+		}
 			
 		if (status == ConveyorStatus.GlassAtEnd)  {
-			if (nextFree == true && broken == false && glassList.size() != 0) {
+			if (nextFree == true && broken == false) {
 				passToMachine();
 				return true;
 			}
@@ -184,7 +187,10 @@ public class ConveyorAgent extends Agent implements Conveyor {
 			{
 				if(status==ConveyorStatus.GlassAtEnd && broken == false)
 					startConveyor();
+				return;
 			}
+			
+
 		}
 		
 		
@@ -197,6 +203,7 @@ public class ConveyorAgent extends Agent implements Conveyor {
 		if (glassList.size() != 0) {
 			g = glassList.get(0);
 		} else {
+			status = ConveyorStatus.Nothing;
 			return;
 		}
 		nextFree = false;
