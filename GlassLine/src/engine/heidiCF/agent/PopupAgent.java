@@ -706,11 +706,13 @@ public class PopupAgent extends Agent implements Popup{
 				
 				int tempIndex= ((Integer) (args[0])).intValue();
 				robots.get(tempIndex).status = RobotStatus.Fixing;
+				stateChanged();
 			}
 			else if (event ==TEvent.WORKSTATION_FIXED){
 				int tempIndex= ((Integer) (args[0])).intValue();
 				cp.getTracePanel().print("Workstation is fixed : machine channel: "+myChannel+" index: "+tempIndex+"\n",this);
 				robots.get(tempIndex).status = RobotStatus.Fixing;
+				stateChanged();
 			}
 			else if (event == TEvent.WORKSTATION_OFFLINE_CHANGE_SPEED)
 			{

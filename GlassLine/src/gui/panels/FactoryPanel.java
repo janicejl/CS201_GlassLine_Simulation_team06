@@ -103,23 +103,23 @@ public class FactoryPanel extends JPanel
 		//Initializing Agents
 		binAgent = new BinAgent(transducer);
 		ConveyorFamilyOnlineMachine cutterCF = new ConveyorFamilyOnlineMachine(0, TChannel.CUTTER, transducer);
-		MachineAgent cutter = new MachineAgent(TChannel.CUTTER, transducer, 0);
+		MachineAgent cutter = new MachineAgent(cPanel,TChannel.CUTTER, transducer, 0);
 		ConShuttle shuttleConBL = new ConShuttle("ShuttleConBL", transducer, 1); 
 		ConveyorFamilyOnlineMachine breakoutCF = new ConveyorFamilyOnlineMachine(2, TChannel.BREAKOUT, transducer);
-		MachineAgent breakout = new MachineAgent(TChannel.BREAKOUT, transducer, 2);
+		MachineAgent breakout = new MachineAgent(cPanel,TChannel.BREAKOUT, transducer, 2);
 		ConveyorFamilyOnlineMachine manualBreakoutCF = new ConveyorFamilyOnlineMachine(3, TChannel.MANUAL_BREAKOUT, transducer);
-		MachineAgent manualBreakout = new MachineAgent(TChannel.MANUAL_BREAKOUT, transducer, 3);
+		MachineAgent manualBreakout = new MachineAgent(cPanel,TChannel.MANUAL_BREAKOUT, transducer, 3);
 		ConShuttle shuttleConTL = new ConShuttle("ShuttleConTL",transducer,4);
 		ConveyorFamilyOnlineMachine washerCF = new ConveyorFamilyOnlineMachine(8, TChannel.WASHER, transducer);
-		MachineAgent washer = new MachineAgent(TChannel.WASHER, transducer, 8);
+		MachineAgent washer = new MachineAgent(cPanel,TChannel.WASHER, transducer, 8);
 		ConShuttle shuttleConTR = new ConShuttle("ShuttleConTR",transducer, 9);
 		ConveyorFamilyOnlineMachine painterCF = new ConveyorFamilyOnlineMachine(10, TChannel.PAINTER, transducer);
-		MachineAgent painter = new MachineAgent(TChannel.PAINTER, transducer, 10);
+		MachineAgent painter = new MachineAgent(cPanel,TChannel.PAINTER, transducer, 10);
 		ConveyorFamilyOnlineMachine uvCF = new ConveyorFamilyOnlineMachine(11, TChannel.UV_LAMP, transducer);
-		MachineAgent uv = new MachineAgent(TChannel.UV_LAMP, transducer, 11);
+		MachineAgent uv = new MachineAgent(cPanel,TChannel.UV_LAMP, transducer, 11);
 		ConShuttle shuttleConBR = new ConShuttle("ShuttleConBR",transducer, 12);
 		ConveyorFamilyOnlineMachine ovenCF = new ConveyorFamilyOnlineMachine(13, TChannel.OVEN, transducer);
-		MachineAgent oven = new MachineAgent(TChannel.OVEN, transducer, 13);
+		MachineAgent oven = new MachineAgent(cPanel,TChannel.OVEN, transducer, 13);
 		ConveyorFamily14 cf14 = new ConveyorFamily14("CF14", transducer);
 		truck = new TruckAgent("Truck", transducer);
 		

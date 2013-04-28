@@ -8,6 +8,7 @@ import engine.JaniceCF.interfaces.Popup;
 import engine.agent.Agent;
 import engine.agent.shared.Interfaces.ConveyorFamily;
 import engine.agent.shared.Interfaces.Machine;
+import gui.panels.ControlPanel;
 
 public class MachineAgent extends Agent implements Machine {
 
@@ -28,9 +29,12 @@ public class MachineAgent extends Agent implements Machine {
 	
 	Glass glass;
 	
+	ControlPanel cp;
 	
-	public MachineAgent(TChannel channel, Transducer transducer, int index) {
+	public MachineAgent(ControlPanel cp, TChannel channel, Transducer transducer, int index) {
 		super(channel.toString(), transducer);
+		
+		this.cp = cp;
 		
 		transducer.register(this, channel);
 		
@@ -107,6 +111,7 @@ public class MachineAgent extends Agent implements Machine {
 			//FOR V2
 			if (event == TEvent.WORKSTATION_DISABLE_ONLINE) {
 				isBroken = true;
+				cp.tracePanel.print("Inline workstation breaks: "+channel+"\n",this);
 				conveyor.msgMachineDisabled();
 				stateChanged();
 			}
